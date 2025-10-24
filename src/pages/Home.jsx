@@ -1,9 +1,14 @@
-import HeroSlider from "../components/HeroSlider";
-import RoomsSection from "../components/RoomsSection";
-import { SLIDES, ROOMS } from "../data";
-export default function Home({ labels, goto }) {
-  return (<>
-    <HeroSlider images={SLIDES} title={labels.hero.title} ctaLabel={labels.hero.cta} onCta={() => goto("reserve")} />
-    <RoomsSection title={labels.roomsTitle} rooms={ROOMS} onReserve={() => goto("reserve")} />
-  </>);
+import { Container } from "../theme.jsx";
+
+export default function Home() {
+  return (
+    <section id="home" className="pt-24">
+      <Container className="py-12">
+        <h1 className="text-2xl md:text-3xl font-serif mb-4">Chambres d’hôtes de charme</h1>
+        <p className="max-w-2xl opacity-80">
+          Présentation rapide de la maison… (tu mettras ton texte ici).
+        </p>
+      </Container>
+    </section>
+  );
 }
