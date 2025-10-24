@@ -1,15 +1,24 @@
 export default function Gallery() {
-  return (
-    <section id="galerie" className="scroll-mt-20 max-w-6xl mx-auto px-4 py-16">
-      <h2 className="text-2xl font-semibold">Galerie</h2>
-      <p className="mt-2 text-gray-600">
-        Quelques vues (placeholders). On remplacera par tes vraies photos.
-      </p>
+  const imgs = [1,2,3,4,5,6].map(
+    (i) =>
+      `https://images.unsplash.com/photo-1554995207-c18c203602cb?w=800&q=80&auto=format&fit=crop&ix=${i}`
+  );
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {[1, 2, 3, 4, 5, 6].map((i) => (
-          <div key={i} className="aspect-[4/3] bg-gray-200 rounded-xl" />
-        ))}
+  return (
+    <section id="gallery" className="py-16 bg-white">
+      <div className="container-p">
+        <h2 className="text-2xl font-semibold mb-8">Galerie</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          {imgs.map((src, i) => (
+            <img
+              key={i}
+              src={src}
+              alt=""
+              className="rounded-xl object-cover aspect-[4/3]"
+              loading="lazy"
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
