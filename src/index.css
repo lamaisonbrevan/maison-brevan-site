@@ -1,11 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+// src/main.jsx
+import React from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App.jsx";
+import "./index.css";         // ⬅️ indispensable pour charger Tailwind
 
-:root { --header-height: 64px; }
-html, body, #root { height: 100%; }
-
-.link { @apply underline underline-offset-4 decoration-stone-400 hover:decoration-stone-800 transition; }
-.btn { @apply inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-stone-300 hover:border-stone-800 hover:bg-stone-100 transition; }
-.btn-primary { @apply inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-stone-900 text-white hover:bg-stone-800 transition; }
-.container-p { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
