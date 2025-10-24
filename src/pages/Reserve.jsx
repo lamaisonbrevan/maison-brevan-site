@@ -1,22 +1,48 @@
 export default function Reserve() {
-  return (
-    <section id="reserver" className="scroll-mt-20 max-w-3xl mx-auto px-4 py-16">
-      <h2 className="text-2xl font-semibold">Réserver</h2>
-      <p className="mt-2 text-gray-600">
-        Intégrez ici votre moteur de réservation (ou un lien externe).
-      </p>
+  const rooms = [
+    {
+      title: "Les Tonneaux",
+      price: "165€",
+      img: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1200&q=80&auto=format&fit=crop",
+    },
+    {
+      title: "Jardin Secret",
+      price: "155€",
+      img: "https://images.unsplash.com/photo-1560067174-8947b3b5a2c6?w=1200&q=80&auto=format&fit=crop",
+    },
+    {
+      title: "Atelier",
+      price: "155€",
+      img: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=1200&q=80&auto=format&fit=crop",
+    },
+  ];
 
-      <div className="mt-6 rounded-2xl border p-4 bg-white">
-        <p className="text-sm text-gray-500">
-          Exemple (placeholder) : formulaire, calendrier, lien vers la
-          plateforme, etc.
-        </p>
-        <a
-          href="#"
-          className="mt-4 inline-flex items-center rounded-xl border px-4 py-2 text-sm font-medium shadow-sm hover:shadow transition"
-        >
-          Réserver maintenant
-        </a>
+  return (
+    <section id="reserve" className="py-16 bg-stone-50">
+      <div className="container-p">
+        <h2 className="text-2xl font-semibold mb-8">Nos chambres</h2>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {rooms.map((r, i) => (
+            <article
+              key={i}
+              className="bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm"
+            >
+              <img src={r.img} alt="" className="w-full h-48 object-cover" />
+              <div className="p-4 space-y-3">
+                <h3 className="font-medium">{r.title}</h3>
+                <p className="text-sm text-stone-600">
+                  À partir de <span className="font-semibold">{r.price}</span> / nuit
+                </p>
+                <a
+                  href="#"
+                  className="btn w-full justify-center"
+                >
+                  Réserver
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );
