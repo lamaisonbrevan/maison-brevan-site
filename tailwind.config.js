@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,jsx}"],
+  // tailwind.config.js
+content: ["./index.html", "./src/**/*.{js,jsx}"],
   theme: {
     extend: {
       colors: { ink: "#1a1a1a", sand: "#e7e0d8", clay: "#c8b8a5" },
