@@ -1,28 +1,48 @@
 export default function Header({ route, goto }) {
-  const NAV = [
-    { key: "home",    label: "Accueil"  },
-    { key: "galerie", label: "Galerie"  },
-    { key: "reserve", label: "Réserver" },
-  ];
+  const link = (name, label) => (
+    <a
+      href={`#${name}`}
+      onClick={(e) => {
+        e.preventDefault();
+        goto(name);
+      }}
+      className={
+        "transition-colors " +
+        (route === name ? "text-black" : "text-gray-500 hover:text-black")
+      }
+    >
+      {label}
+    </a>
+  );
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-white/70 backdrop-blur border-b">
-      <nav className="mx-auto max-w-6xl px-4 h-14 flex items-center justify-between">
-        <div className="font-semibold tracking-wide">LA MAISON BREVAN</div>
-        <div className="flex items-center gap-6">
-          {NAV.map((n) => (
-            <button
-              key={n.key}
-              onClick={() => goto(n.key)}
-              className={`text-sm ${route === n.key ? "font-semibold underline underline-offset-4" : "opacity-80 hover:opacity-100"}`}
-            >
-              {n.label}
-            </button>
-          ))}
-          <span aria-hidden className="text-gray-300">|</span>
-          <span className="text-sm">FR</span>
-        </div>
-      </nav>
+    <header className="fixed top-0 inset-x-0 z-50 bg-white/70 backdrop-blur border-b">
+      <div className="max-w-6xl mx-auto h-14 px-4 flex items-center justify-between">
+        <a
+          href="#home"
+          onClick={(e) => {
+            e.preventDefault();
+            goto("home");
+          }}
+          className="text-sm font-semibold tracking-widest"
+        >
+          LA MAISON BREVAN
+        </a>
+
+        <nav className="flex items-center gap-6 text-sm">
+          {link("home", "Accueil")}
+          {link("galerie", "Galerie")}
+          {link("reserver", "Réserver")}
+          <span className="text-gray-300 select-none">|</span>
+          <button
+            className="text-gray-500 hover:text-black"
+            title="Langue"
+            onClick={() => alert("FR uniquement pour l’instant")}
+          >
+            FR
+          </button>
+        </nav>
+      </div>
     </header>
   );
 }
