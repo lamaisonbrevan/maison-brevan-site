@@ -1,12 +1,12 @@
-import { Container } from "../theme";
-import { GALLERY } from "../data";
+import { Container } from "../theme.jsx";
+
 export default function Gallery() {
   return (
-    <section className="py-12">
-      <Container>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {GALLERY.map((url) => (<img key={url} src={url} alt="" className="rounded-xl object-cover w-full h-64" />))}
-        </div>
+    <section id="galerie" className="pt-24">
+      <Container className="py-12">
+        <h2 className="text-xl md:text-2xl font-serif mb-4">Galerie</h2>
+        <p className="opacity-80 mb-6">Ici on mettra un slider/une grille d’images.</p>
+        {/* place tes images ici */}
       </Container>
     </section>
   );
