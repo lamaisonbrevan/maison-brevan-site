@@ -1,14 +1,29 @@
-import { useState, useEffect, useCallback } from "react";
-const ALLOWED = ["home", "gallery", "reserve"];
-export function useHashRouter(defaultRoute = "home") {
-  const getRoute = () => { const h = (window.location.hash || "#home").replace("#", ""); return ALLOWED.includes(h) ? h : defaultRoute; };
-  const [route, setRoute] = useState(getRoute());
-  useEffect(() => { const handler = () => setRoute(getRoute()); window.addEventListener("hashchange", handler); return () => window.removeEventListener("hashchange", handler); }, []);
-  const goto = useCallback((r) => { const safe = ALLOWED.includes(r) ? r : defaultRoute; if (window.location.hash !== `#${safe}`) { window.location.hash = safe; } else { window.scrollTo({ top: 0, behavior: "smooth" }); } }, []);
+import { useEffect, useState, useCallback } from "react";
+
+const ALLOWED = ["home", "galerie", "reserve"];
+
+export default function useHashRouter(defaultRoute = "home") {
+  const [route, setRoute] = useState(defaultRoute);
+
+  const apply = useCallback(() => {
+    let h = (window.location.hash || "#home").replace("#", "");
+    if (h === "reserver") h = "reserve"; // alias
+    setRoute(ALLOWED.includes(h) ? h : "home");
+  }, []);
+
+  useEffect(() => {
+    apply();
+    window.addEventListener("hashchange", apply);
+    return () => window.removeEventListener("hashchange", apply);
+  }, [apply]);
+
+  const goto = useCallback((p) => {
+    if (p === "reserver") p = "reserve";
+    if (!ALLOWED.includes(p)) p = "home";
+    if (window.location.hash !== `#${p}`) window.location.hash = `#${p}`;
+    const el = document.getElementById(p);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
+
   return { route, goto };
-}
-export default function Router({ routes, defaultRoute = "home" }) {
-  const { route } = useHashRouter(defaultRoute);
-  const Page = routes[route] || routes[defaultRoute];
-  return <Page />;
 }
