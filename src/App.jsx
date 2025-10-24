@@ -3,6 +3,7 @@ import Header from "./components/Header.jsx";
 import Home from "./pages/Home.jsx";
 import Gallery from "./pages/Gallery.jsx";
 import Reserve from "./pages/Reserve.jsx";
+import Reserve from "./pages/Reserve.jsx";
 
 export default function App() {
   const { route, goto } = useHashRouter("home");
