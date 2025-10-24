@@ -1,18 +1,31 @@
-import { useEffect, useState } from "react";
-export default function HeroSlider({ images = [], title = "", ctaLabel = "", onCta }) {
-  const [i, setI] = useState(0);
-  useEffect(() => { const id = setInterval(() => setI((p) => (p + 1) % images.length), 4500); return () => clearInterval(id); }, [images.length]);
+// src/components/HeroSlider.jsx
+import { ui } from "../theme";
+
+const HERO =
+  "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=2000&auto=format&fit=crop"; // mets ici ta photo
+
+export default function HeroSlider() {
   return (
-    <section className="relative h-[60vh] min-h-[380px]">
-      {images.map((url, idx) => (
-        <div key={url} className="absolute inset-0 transition-opacity duration-700" style={{backgroundImage:`url(${url})`, backgroundSize:"cover", backgroundPosition:"center", opacity: idx===i?1:0}} />
-      ))}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-black/0" />
-      <div className="container-p relative z-10 h-full flex items-end pb-10">
-        <div className="text-white">
-          <h1 className="font-serif text-3xl sm:text-4xl mb-4 drop-shadow">{title}</h1>
-          {ctaLabel && (<button onClick={onCta} className="btn-primary">{ctaLabel}</button>)}
-        </div>
+    <section id="home" className="relative h-[90vh] min-h-[560px] w-full">
+      {/* Image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${HERO})` }}
+        aria-hidden="true"
+      />
+
+      {/* Overlay très clair */}
+      <div className="absolute inset-0 bg-white/70" aria-hidden="true" />
+
+      {/* Texte centré bas */}
+      <div className="absolute inset-0 flex flex-col items-center justify-end pb-24 text-center">
+        <h1 className="mb-5 text-[14px] tracking-[0.4em] uppercase text-black/70">
+          Chambres d’hôtes de charme
+        </h1>
+
+        <a href="#reserve" className={ui.btn}>
+          Voir les disponibilités
+        </a>
       </div>
     </section>
   );
