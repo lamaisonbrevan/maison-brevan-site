@@ -1,18 +1,137 @@
-export const SLIDES = [
- "https://images.unsplash.com/photo-1521783593447-5702fcdacb63?q=80&w=1600&auto=format&fit=crop",
- "https://images.unsplash.com/photo-1505691723518-36a5ac3b2d35?q=80&w=1600&auto=format&fit=crop",
- "https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=1600&auto=format&fit=crop",
-];
-export const GALLERY = [
- "https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1200&auto=format&fit=crop",
- "https://images.unsplash.com/photo-1520881363902-a0ff4e722963?q=80&w=1200&auto=format&fit=crop",
- "https://images.unsplash.com/photo-1521783593447-5702fcdacb63?q=80&w=1200&auto=format&fit=crop",
- "https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=1200&auto=format&fit=crop",
- "https://images.unsplash.com/photo-1540518614846-7eded433c457?q=80&w=1200&auto=format&fit=crop",
- "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1200&auto=format&fit=crop",
-];
+// src/data.js
+export const SITE = {
+  name: "La Maison Brevan",
+  slogan: "Chambres d’hôtes de charme",
+  pitch:
+    "Une maison chaleureuse aux portes du canal de Nantes à Brest. Calme, lumière et authenticité.",
+  phone: "+33 7 62 57 69 58",
+  email: "contact@lamaisonbrevan.fr",
+  address: "29 Grand Rue, 29150 Châteaulin",
+  // Remplace ce lien par ton vrai lien de réservation dès que tu l'as
+  reservationUrl: "https://secure.reservit.com/",
+};
+
 export const ROOMS = [
- { slug:"tonneaux", name:"Les Tonneaux", size:"24 m²", bed:"Lit queen‑size", features:["Baignoire","Produits d'accueil naturels"], priceFrom:165, image:"https://images.unsplash.com/photo-1600585154340-1e4ce9a02ea1?q=80&w=1600&auto=format&fit=crop" },
- { slug:"jardin-secret", name:"Jardin Secret", size:"20 m²", bed:"Lit queen‑size", features:["Terrasse privée","Petit‑déjeuner en chambre"], priceFrom:145, image:"https://images.unsplash.com/photo-1505691723518-36a5ac3b2d35?q=80&w=1600&auto=format&fit=crop" },
- { slug:"atelier", name:"Atelier", size:"22 m²", bed:"Lit queen‑size", features:["Douche italienne","Briques & métal"], priceFrom:155, image:"https://images.unsplash.com/photo-1560448075-bb4caa6c0f11?q=80&w=1600&auto=format&fit=crop" },
+  {
+    slug: "cheminee",
+    name: "La chambre cheminée",
+    priceFrom: 110,
+    size: 25,
+    features: [
+      "Cheminée foyer gaz",
+      "Produits d’accueil naturels",
+      "Petit-déjeuner en chambre",
+      "Lit king size",
+      "Douche italienne",
+      "Sèche-cheveux",
+      "Miroir grossissant",
+      "Wi-Fi haut débit",
+      "TV QLED 55\"",
+      "Canal+"
+    ],
+    images: [
+      "/images/chambres/cheminee-01.jpg",
+      "/images/chambres/cheminee-02.jpg",
+      "/images/chambres/cheminee-03.jpg",
+    ],
+  },
+  {
+    slug: "baignoire",
+    name: "La chambre baignoire",
+    priceFrom: 110,
+    size: 25,
+    features: [
+      "Produits d’accueil naturels",
+      "Petit-déjeuner en chambre",
+      "Lit king size",
+      "Douche italienne",
+      "Baignoire",
+      "Sèche-cheveux",
+      "Miroir grossissant",
+      "Wi-Fi haut débit",
+      "TV QLED 55\"",
+      "Canal+"
+    ],
+    images: [
+      "/images/chambres/baignoire-01.jpg",
+      "/images/chambres/baignoire-02.jpg",
+      "/images/chambres/baignoire-03.jpg",
+    ],
+  },
+  {
+    slug: "pierres-bleues",
+    name: "La chambre pierres bleues",
+    priceFrom: 100,
+    size: 20,
+    features: [
+      "Produits d’accueil naturels",
+      "Petit-déjeuner en chambre",
+      "Lit king size",
+      "Douche italienne",
+      "Sèche-cheveux",
+      "Miroir grossissant",
+      "Wi-Fi haut débit",
+      "TV QLED 55\"",
+      "Canal+"
+    ],
+    images: [
+      "/images/chambres/pierres-bleues-01.jpg",
+      "/images/chambres/pierres-bleues-02.jpg",
+      "/images/chambres/pierres-bleues-03.jpg",
+    ],
+  },
+  {
+    slug: "ensoleillee",
+    name: "La plus ensoleillée",
+    priceFrom: 90,
+    size: 18,
+    features: [
+      "Produits d’accueil naturels",
+      "Petit-déjeuner en chambre",
+      "Lit king size",
+      "Douche italienne",
+      "Sèche-cheveux",
+      "Miroir grossissant",
+      "Wi-Fi haut débit",
+      "TV QLED 50\"",
+      "Canal+"
+    ],
+    images: [
+      "/images/chambres/ensoleillee-01.jpg",
+      "/images/chambres/ensoleillee-02.jpg",
+      "/images/chambres/ensoleillee-03.jpg",
+    ],
+  },
+  {
+    slug: "petite",
+    name: "La plus petite",
+    priceFrom: 90,
+    size: 16,
+    features: [
+      "Produits d’accueil naturels",
+      "Petit-déjeuner en chambre",
+      "Lit king size",
+      "Douche italienne",
+      "Sèche-cheveux",
+      "Miroir grossissant",
+      "Wi-Fi haut débit",
+      "TV QLED 55\"",
+      "Canal+"
+    ],
+    images: [
+      "/images/chambres/petite-01.jpg",
+      "/images/chambres/petite-02.jpg",
+      "/images/chambres/petite-03.jpg",
+    ],
+  },
+];
+
+// Images de la galerie générale (remplace/complète librement)
+export const GALLERY = [
+  "/images/galerie/01.jpg",
+  "/images/galerie/02.jpg",
+  "/images/galerie/03.jpg",
+  "/images/galerie/04.jpg",
+  "/images/galerie/05.jpg",
+  "/images/galerie/06.jpg",
 ];
