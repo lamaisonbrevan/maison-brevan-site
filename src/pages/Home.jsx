@@ -1,22 +1,32 @@
-export default function Home() {
-  return (
-    <section id="home" className="min-h-[70vh] relative flex items-end">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1600&q=80&auto=format&fit=crop')",
-        }}
-        aria-hidden="true"
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/50" aria-hidden="true" />
+// src/pages/home.jsx (extrait)
+import { ROOMS, SITE } from "../data";
 
-      <div className="container-p relative py-24 text-white">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif mb-6">
-          Chambres d’hôtes de charme
-        </h1>
-        <a href="#reserve" className="btn-primary">Voir les disponibilités</a>
-      </div>
-    </section>
-  );
-}
+<section className="container-p my-16">
+  <h2 className="text-2xl font-semibold mb-6">Nos chambres</h2>
+  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {ROOMS.map((room) => (
+      <article key={room.id} className="rounded-2xl border p-3">
+        <div className="aspect-[4/3] overflow-hidden rounded-xl mb-3">
+          <img
+            src={room.cover}
+            alt={room.name}
+            className="w-full h-full object-cover"
+            loading="lazy"
+          />
+        </div>
+        <h3 className="font-medium">{room.name}</h3>
+        <p className="text-sm text-stone-600">
+          À partir de <strong>{room.priceFrom}€</strong> / nuit — {room.size} m²
+        </p>
+        <a
+          href={SITE.bookingUrl}
+          className="btn-primary mt-3 inline-block"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Réserver
+        </a>
+      </article>
+    ))}
+  </div>
+</section>
