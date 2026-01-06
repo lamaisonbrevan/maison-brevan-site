@@ -1,0 +1,12 @@
+<!--
+  Outline Wi‑Fi icon for amenities.  Three concentric arcs and a
+  central dot represent the wireless signal.  A 24×24 viewBox with
+  stroke width 2 ensures consistency with other icons.  Using
+  currentColor allows the icon to match the surrounding text colour.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <path d="M2.5 8.5a12.8 12.8 0 0 1 19 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <path d="M5.5 12.5a8.5 8.5 0 0 1 13 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <path d="M8.5 16.5a4.5 4.5 0 0 1 7 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="12" cy="20" r="1" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

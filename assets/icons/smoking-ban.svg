@@ -1,0 +1,18 @@
+<!--
+  Outline no‑smoking icon for amenities.  This icon uses a 24×24
+  viewBox with a consistent stroke width of 2.  A circle contains
+  a small cigarette represented by a horizontal line and two
+  vertical lines for the burning end.  A diagonal bar crosses the
+  circle to indicate prohibition.  All strokes use currentColor.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- Circle -->
+  <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
+  <!-- Cigarette body -->
+  <line x1="7" y1="15" x2="17" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <!-- Lit end lines -->
+  <line x1="17" y1="15" x2="17" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <line x1="15" y1="15" x2="15" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <!-- Prohibition bar -->
+  <line x1="5" y1="19" x2="19" y2="5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+</svg>
