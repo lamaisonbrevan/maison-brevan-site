@@ -1,0 +1,14 @@
+<!--
+  Outline shower icon for amenities.
+  Using a 24×24 viewBox and a stroke width of 2, this icon depicts a
+  simple L‑shaped pipe with three falling droplets.  All strokes
+  use currentColor so the icon inherits the colour of adjacent text.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- Shower arm and head -->
+  <path d="M7 4v7h7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Droplets -->
+  <line x1="18" y1="11" x2="18" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <line x1="16" y1="12.5" x2="16" y2="15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <line x1="20" y1="12.5" x2="20" y2="15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+</svg>

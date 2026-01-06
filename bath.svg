@@ -1,0 +1,14 @@
+<!--
+  Outline bath (bathtub) icon for amenities.  This minimalist icon uses
+  a 24×24 viewBox and a stroke width of 2.  The tub is a simple
+  container with straight sides and a curved base, and two small
+  outline circles suggest feet.  All strokes use currentColor so
+  colours adapt to the surrounding context.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- Tub outline -->
+  <path d="M4 13h16v4a4 4 0 0 1 -4 4H8a4 4 0 0 1 -4 -4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <!-- Legs -->
+  <circle cx="8" cy="21" r="1" fill="none" stroke="currentColor" stroke-width="2"/>
+  <circle cx="16" cy="21" r="1" fill="none" stroke="currentColor" stroke-width="2"/>
+</svg>

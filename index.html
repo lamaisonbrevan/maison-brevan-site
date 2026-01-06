@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>La Maison Brevan</title><meta content="Chambres d’hôtes de charme à Châteaulin (Bretagne) — La Maison Brevan. Suites élégantes, matériaux naturels, accueil chaleureux." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;family=Playfair+Display:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="style.css" rel="stylesheet"/>
+<script defer="" src="lang.js"></script>
+<link href="assets/images/logo-symbol.png" rel="icon"/><meta content="La Maison Brevan" property="og:title"/><meta content="Chambres d’hôtes de charme à Châteaulin (Bretagne) — La Maison Brevan. Suites élégantes, matériaux naturels, accueil chaleureux." property="og:description"/><meta content="website" property="og:type"/><meta content="assets/images/logo-symbol.png" property="og:image"/><meta content="fr_FR" property="og:locale"/><meta content="summary_large_image" name="twitter:card"/><meta content="La Maison Brevan" name="twitter:title"/><meta content="Chambres d’hôtes de charme à Châteaulin (Bretagne) — La Maison Brevan. Suites élégantes, matériaux naturels, accueil chaleureux." name="twitter:description"/><meta content="assets/images/logo-symbol.png" name="twitter:image"/></head>
+<body>
+<!-- Header -->
+<!-- Site header with central badge and navigation -->
+<header class="site-header">
+  <!-- Removed hidden checkbox.  Mobile navigation is now controlled via
+       JavaScript and the `.open` class on the `.mobile-nav` element. -->
+
+<div class="nav-row">
+<div class="nav-left">
+<!-- Use full page links for reservation and gallery.  Add a
+             data-transition attribute so the script can animate the
+             page change with a smooth fade effect. -->
+<!-- Updated order and added "Autour de la maison" link.  Use data-transition on
+             the new page to allow the fade effect.  Maintain uppercase via CSS. -->
+<a data-i18n="nav.reserve" data-transition="" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE">réserver</a>
+<a data-i18n="nav.rooms" href="#chambres">chambres</a>
+<a data-i18n="nav.around" data-transition="" href="autour.html">autour de la maison</a>
+<a data-i18n="nav.gallery" data-transition="" href="gallery.html">galerie</a>
+<a data-i18n="nav.contact" href="#contact">contact</a>
+</div>
+    <!-- Badge linking back to the top of this page (home section).  On mobile
+         the badge will be centered between the menu and language selector. -->
+    <a class="site-title-badge" href="#home" onclick="scrollToTop(event)">
+      <img alt="Logo Maison Brevan" class="logo-symbol" decoding="async" loading="lazy" src="assets/images/logo-symbol.png"/>
+      <span>LA MAISON BREVAN</span>
+    </a>
+<!-- Language selector: shows current language flag and opens a dropdown on click -->
+<div class="nav-right">
+      <!-- Mobile navigation toggle for small screens.  This button calls the
+           global `toggleMobileNav()` helper defined in script.js to toggle
+           the `.open` class on the `.mobile-nav` element. -->
+      <button class="hamburger" aria-label="Menu" onclick="toggleMobileNav(event)">MENU</button>
+      <div class="lang-selector">
+        <!-- Dropdown language selector: show current language flag and reveal the list on click -->
+        <button id="current-lang" aria-label="Sélection de langue"><img src="assets/images/flags/fr.png" alt="FR"/></button>
+        <div id="lang-menu" class="lang-menu">
+          <button data-lang="fr" aria-label="Français"><img src="assets/images/flags/fr.png" alt="FR"/></button>
+          <button data-lang="en" aria-label="English"><img src="assets/images/flags/en.png" alt="EN"/></button>
+          <button data-lang="es" aria-label="Español"><img src="assets/images/flags/es.png" alt="ES"/></button>
+          <button data-lang="de" aria-label="Deutsch"><img src="assets/images/flags/de.png" alt="DE"/></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <nav class="mobile-nav">
+    <a data-i18n="nav.reserve" data-transition="" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE">réserver</a>
+    <a data-i18n="nav.rooms" href="#chambres">chambres</a>
+    <a data-i18n="nav.around" data-transition="" href="autour.html">autour de la maison</a>
+    <a data-i18n="nav.gallery" data-transition="" href="gallery.html">galerie</a>
+    <a data-i18n="nav.contact" href="#contact">contact</a>
+    <a data-i18n="nav.access" href="https://www.google.com/maps/place/29+Grand+Rue+29150+Châteaulin" target="_blank" rel="noopener noreferrer">plan d'accès</a>
+</nav>
+<!-- Removed standalone site-title badge: the badge is now placed inside
+     the navigation row so that it aligns between the menu and language selector.
+     See insertion below for details. -->
+</header>
+<!-- Page wrapper for page-turn effect.  All content except the
+       header and footer is wrapped in this div so that the page-turn
+       animation rotates only the main section. -->
+<div class="page-wrapper">
+<main id="main-content"><h1 class="visually-hidden">La Maison Brevan – chambres d’hôtes de charme à Châteaulin</h1>
+<!-- Hero Section -->
+<section class="hero" id="home"><img alt="Hero 1" decoding="async" fetchpriority="high" src="assets/images/hero/hero-01.jpg"/><img alt="Hero 2" decoding="async" loading="lazy" src="assets/images/hero/hero-02.jpg"/><img alt="Hero 3" decoding="async" loading="lazy" src="assets/images/hero/hero-03.jpg"/><img alt="Hero 4" decoding="async" loading="lazy" src="assets/images/hero/hero-04.jpg"/><img alt="Hero 5" decoding="async" loading="lazy" src="assets/images/hero/hero-05.jpg"/><img alt="Hero 6" decoding="async" loading="lazy" src="assets/images/hero/hero-06.jpg"/><img alt="Hero 7" decoding="async" loading="lazy" src="assets/images/hero/hero-07.jpg"/><img alt="Hero 8" decoding="async" loading="lazy" src="assets/images/hero/hero-08.jpg"/><img alt="Hero 9" decoding="async" loading="lazy" src="assets/images/hero/hero-09.jpg"/><div class="overlay"></div><div class="social-icons"><div class="dots"><button aria-label="Slide 1"></button><button aria-label="Slide 2"></button><button aria-label="Slide 3"></button><button aria-label="Slide 4"></button><button aria-label="Slide 5"></button><button aria-label="Slide 6"></button><button aria-label="Slide 7"></button><button aria-label="Slide 8"></button><button aria-label="Slide 9"></button></div><a aria-label="Instagram" href="#">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"></path></svg>
+</a><a aria-label="Facebook" href="#">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z"></path></svg>
+</a></div></section>
+<!-- Rooms Section -->
+<!-- The anchor for the rooms section used in the navigation is
+       implemented as a separate hidden element.  Placing the id on
+       this element instead of the section itself allows us to
+       offset the anchor with CSS so that the hero image from the
+       homepage is completely out of view when arriving at this
+       section.  See style.css for the .anchor-adjust class. -->
+<section class="rooms-section">
+<!-- Hidden anchor for navigation.  The negative top offset is
+         defined in CSS via the .anchor-adjust class to scroll past
+         the full hero height. -->
+<span aria-hidden="true" class="anchor-adjust" id="chambres"></span>
+<h2 class="accent-heading scroll-fade-up" data-i18n="section.roomsHeading">Nos chambres</h2>
+<p class="rooms-intro scroll-fade-up" data-i18n="section.roomsIntro">Matériaux naturels, literie haut de gamme, décoration sur mesure. Chaque chambre offre une atmosphère unique.</p>
+<div class="rooms-grid">
+<!-- Room cards -->
+<!-- Room 1: La chambre cheminée -->
+<!-- Remove the verbose French details list so the overlay uses the translated description and features paragraphs instead -->
+<div class="room-card">
+<div class="room-image">
+<div class="room-slider">
+<img alt="Suite Brévan 1" decoding="async" loading="lazy" src="assets/images/rooms/brevan/brevan-01.jpg"/><img alt="Suite Brévan 2" decoding="async" loading="lazy" src="assets/images/rooms/brevan/brevan-02.jpg"/><img alt="Suite Brévan 3" decoding="async" loading="lazy" src="assets/images/rooms/brevan/brevan-03.jpg"/><img alt="Suite Brévan 4" decoding="async" loading="lazy" src="assets/images/rooms/brevan/brevan-04.jpg"/><img alt="Suite Brévan 5" decoding="async" loading="lazy" src="assets/images/rooms/brevan/brevan-05.jpg"/></div>
+<div class="room-dots">
+<button aria-label="Slide 1"></button><button aria-label="Slide 2"></button><button aria-label="Slide 3"></button><button aria-label="Slide 4"></button><button aria-label="Slide 5"></button></div>
+</div><div class="room-header"><h3 data-i18n="room.brevan.name">Suite Brévan</h3><a class="price-tag" data-i18n="price.brevan" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE" data-transition="">à partir de 110€ / nuit</a></div>
+<!-- Updated name and description for Suite Minérale -->
+<p data-i18n="room.brevan.desc">Une suite élégante mêlant pierre naturelle et design contemporain. La baignoire intégrée et l’atmosphère feutrée en font un véritable cocon dédié à la détente et au confort.</p>
+<!-- Replace the features line with a bed icon and text -->
+<div class="bed-info">
+<img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/bed.svg"/>
+<span data-i18n="amenity.bed">Lit King‑size</span>
+</div>
+<!-- Hidden detailed description for the fireplace room.  This text is not
+             displayed on the card but will be picked up by the overlay script
+             to provide more context when the user clicks “Plus de détails”. -->
+<p class="detail-hidden" data-i18n="room.brevan.detail">Cette chambre dispose d’une grande cheminée à foyer gaz qui apporte chaleur et convivialité. Les murs en pierres apparentes et les poutres anciennes créent une atmosphère authentique. Une grande douche à l’italienne et un espace de 25 m² offrent tout le confort nécessaire. La literie haut de gamme garantit des nuits paisibles.</p>
+<div class="amenities">
+<div class="amenity"><img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/shower.svg"/><span data-i18n="amenity.shower">Grande douche italienne</span></div>
+<!-- Remove fireplace amenity for Suite Minérale -->
+<div class="amenity"><img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/wifi.svg"/><span data-i18n="amenity.wifi">Wifi gratuit</span></div>
+<div class="amenity"><img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/smoking-ban.svg"/><span data-i18n="amenity.nosmoking">Non fumeur</span></div>
+<div class="amenity"><img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/tv.svg"/><span data-i18n="amenity.tv">Télévision</span><span class="canal-label">CANAL+</span></div>
+</div>
+<div class="room-actions">
+<a class="room-reserve-btn" data-i18n="button.reserve" data-transition="" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE">réserver</a>
+</div>
+</div>
+<!-- Remove the verbose French details list so the overlay uses the translated description and features paragraphs instead -->
+<div class="room-card">
+<div class="room-image">
+<div class="room-slider">
+<!-- Images remplacées par les photos réelles de la chambre baignoire (6 premières du dossier) -->
+<img alt="L’Aulne 1" decoding="async" loading="lazy" src="assets/images/rooms/aulne/aulne-01.jpg"/><img alt="L’Aulne 2" decoding="async" loading="lazy" src="assets/images/rooms/aulne/aulne-02.jpg"/><img alt="L’Aulne 3" decoding="async" loading="lazy" src="assets/images/rooms/aulne/aulne-03.jpg"/><img alt="L’Aulne 4" decoding="async" loading="lazy" src="assets/images/rooms/aulne/aulne-04.jpg"/><img alt="L’Aulne 5" decoding="async" loading="lazy" src="assets/images/rooms/aulne/aulne-05.jpg"/></div>
+<!-- Updated price tag for La Canopée (100 €) -->
+<div class="room-dots">
+<button aria-label="Slide 1"></button><button aria-label="Slide 2"></button><button aria-label="Slide 3"></button><button aria-label="Slide 4"></button><button aria-label="Slide 5"></button></div>
+</div><div class="room-header"><h3 data-i18n="room.aulne.name">L’Aulne</h3><a class="price-tag" data-i18n="price.aulne" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE" data-transition="">à partir de 100€ / nuit</a></div>
+<!-- Updated name and description for La Canopée -->
+<p data-i18n="room.aulne.desc">Douce et lumineuse, La Canopée séduit par son esprit bohème et ses matières naturelles. Une chambre pleine de charme, propice au lâcher‑prise.</p>
+<!-- Replace the features line with a bed icon and text -->
+<div class="bed-info">
+<img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/bed.svg"/>
+<span data-i18n="amenity.bed">Lit King‑size</span>
+</div>
+<p class="detail-hidden" data-i18n="room.aulne.detail">Avec sa baignoire indépendante et sa douche à l’italienne, cette chambre est parfaite pour se détendre. Les tons ocres et les matériaux naturels créent une ambiance élégante. Les 25 m² offrent un espace généreux, avec un lit king‑size et un coin salon cosy.</p>
+<div class="amenities">
+<div class="amenity"><img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/shower.svg"/><span data-i18n="amenity.shower">Grande douche italienne</span></div>
+<div class="amenity"><img alt="Baignoire" decoding="async" loading="lazy" src="assets/icons/bath.svg"/><span data-i18n="amenity.bath">Baignoire</span></div>
+<div class="amenity"><img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/wifi.svg"/><span data-i18n="amenity.wifi">Wifi gratuit</span></div>
+<div class="amenity"><img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/smoking-ban.svg"/><span data-i18n="amenity.nosmoking">Non fumeur</span></div>
+<div class="amenity"><img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/tv.svg"/><span data-i18n="amenity.tv">Télévision</span><span class="canal-label">CANAL+</span></div>
+</div>
+<div class="room-actions">
+<a class="room-reserve-btn" data-i18n="button.reserve" data-transition="" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE">réserver</a>
+</div>
+</div>
+<!-- Remove the verbose French details list so the overlay uses the translated description and features paragraphs instead -->
+<div class="room-card">
+<div class="room-image">
+<div class="room-slider">
+<img alt="Avel 1" decoding="async" loading="lazy" src="assets/images/rooms/avel/avel-01.jpg"/><img alt="Avel 2" decoding="async" loading="lazy" src="assets/images/rooms/avel/avel-02.jpg"/><img alt="Avel 3" decoding="async" loading="lazy" src="assets/images/rooms/avel/avel-03.jpg"/><img alt="Avel 4" decoding="async" loading="lazy" src="assets/images/rooms/avel/avel-04.jpg"/><img alt="Avel 5" decoding="async" loading="lazy" src="assets/images/rooms/avel/avel-05.jpg"/></div>
+<!-- Updated price tag for La Brévan (95 €) -->
+<div class="room-dots">
+<button aria-label="Slide 1"></button><button aria-label="Slide 2"></button><button aria-label="Slide 3"></button><button aria-label="Slide 4"></button><button aria-label="Slide 5"></button></div>
+</div><div class="room-header"><h3 data-i18n="room.avel.name">Avel</h3><a class="price-tag" data-i18n="price.avel" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE" data-transition="">à partir de 100€ / nuit</a></div>
+<!-- Updated name and description for La Brévan -->
+<p data-i18n="room.avel.desc">Authentique et équilibrée, La Brévan reflète l’âme de la maison. Pierre, bois et volumes généreux composent une chambre chaleureuse et intemporelle.</p>
+<!-- Replace the features line with a bed icon and text -->
+<div class="bed-info">
+<img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/bed.svg"/>
+<span data-i18n="amenity.bed">Lit King‑size</span>
+</div>
+<p class="detail-hidden" data-i18n="room.avel.detail">Cette chambre met à l’honneur les pierres bleues de la région qui habillent ses murs. L’espace de 20 m² est optimisé pour le confort avec un lit king‑size et une grande douche. La décoration mêle bois et textiles naturels pour une ambiance sereine.</p>
+<div class="amenities">
+<div class="amenity"><img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/shower.svg"/><span data-i18n="amenity.shower">Grande douche italienne</span></div>
+<div class="amenity"><img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/wifi.svg"/><span data-i18n="amenity.wifi">Wifi gratuit</span></div>
+<div class="amenity"><img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/smoking-ban.svg"/><span data-i18n="amenity.nosmoking">Non fumeur</span></div>
+<div class="amenity"><img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/tv.svg"/><span data-i18n="amenity.tv">Télévision</span><span class="canal-label">CANAL+</span></div>
+</div>
+<div class="room-actions">
+<a class="room-reserve-btn" data-i18n="button.reserve" data-transition="" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE">réserver</a>
+</div>
+</div>
+<!-- Remove the verbose French details list so the overlay uses the translated description and features paragraphs instead -->
+<div class="room-card">
+<div class="room-image">
+<div class="room-slider">
+<img alt="Heol 1" decoding="async" loading="lazy" src="assets/images/rooms/heol/heol-01.jpg"/><img alt="Heol 2" decoding="async" loading="lazy" src="assets/images/rooms/heol/heol-02.jpg"/><img alt="Heol 3" decoding="async" loading="lazy" src="assets/images/rooms/heol/heol-03.jpg"/><img alt="Heol 4" decoding="async" loading="lazy" src="assets/images/rooms/heol/heol-04.jpg"/><img alt="Heol 5" decoding="async" loading="lazy" src="assets/images/rooms/heol/heol-05.jpg"/></div>
+<!-- Updated price tag for La Clairière (90 €) -->
+<div class="room-dots">
+<button aria-label="Slide 1"></button><button aria-label="Slide 2"></button><button aria-label="Slide 3"></button><button aria-label="Slide 4"></button><button aria-label="Slide 5"></button></div>
+</div><div class="room-header"><h3 data-i18n="room.heol.name">Heol</h3><a class="price-tag" data-i18n="price.heol" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE" data-transition="">à partir de 90€ / nuit</a></div>
+<!-- Updated name and description for La Clairière -->
+<p data-i18n="room.heol.desc">Claire et accueillante, La Clairière offre une atmosphère simple et élégante. Un refuge lumineux pour un séjour tout en douceur.</p>
+<!-- Replace the features line with a bed icon and text -->
+<div class="bed-info">
+<img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/bed.svg"/>
+<span data-i18n="amenity.bed">Lit King‑size</span>
+</div>
+<p class="detail-hidden" data-i18n="room.heol.detail">Baignée de lumière, cette chambre de 18 m² offre une atmosphère chaleureuse. Les grandes fenêtres laissent entrer le soleil et donnent sur le jardin. Le mobilier sur mesure et la literie king‑size assurent un séjour agréable.</p>
+<div class="amenities">
+<div class="amenity"><img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/shower.svg"/><span data-i18n="amenity.shower">Grande douche italienne</span></div>
+<div class="amenity"><img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/wifi.svg"/><span data-i18n="amenity.wifi">Wifi gratuit</span></div>
+<div class="amenity"><img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/smoking-ban.svg"/><span data-i18n="amenity.nosmoking">Non fumeur</span></div>
+<div class="amenity"><img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/tv.svg"/><span data-i18n="amenity.tv">Télévision</span><span class="canal-label">CANAL+</span></div>
+</div>
+<div class="room-actions">
+<a class="room-reserve-btn" data-i18n="button.reserve" data-transition="" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE">réserver</a>
+</div>
+</div>
+<!-- Remove the verbose French details list so the overlay uses the translated description and features paragraphs instead -->
+<div class="room-card">
+<div class="room-image">
+<div class="room-slider">
+<img alt="Linenn 1" decoding="async" loading="lazy" src="assets/images/rooms/linenn/linenn-01.jpg"/><img alt="Linenn 2" decoding="async" loading="lazy" src="assets/images/rooms/linenn/linenn-02.jpg"/><img alt="Linenn 3" decoding="async" loading="lazy" src="assets/images/rooms/linenn/linenn-03.jpg"/><img alt="Linenn 4" decoding="async" loading="lazy" src="assets/images/rooms/linenn/linenn-04.jpg"/><img alt="Linenn 5" decoding="async" loading="lazy" src="assets/images/rooms/linenn/linenn-05.jpg"/></div>
+<!-- Updated price tag for Le Cocon (85 €) -->
+<div class="room-dots">
+<button aria-label="Slide 1"></button><button aria-label="Slide 2"></button><button aria-label="Slide 3"></button><button aria-label="Slide 4"></button><button aria-label="Slide 5"></button></div>
+</div><div class="room-header"><h3 data-i18n="room.linenn.name">Linenn</h3><a class="price-tag" data-i18n="price.linenn" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE" data-transition="">à partir de 90€ / nuit</a></div>
+<!-- Updated name and description for Le Cocon -->
+<p data-i18n="room.linenn.desc">Intimiste et apaisante, Le Cocon porte bien son nom. Une chambre cosy, idéale pour une halte confortable et reposante.</p>
+<!-- Replace the features line with a bed icon and text -->
+<div class="bed-info">
+<img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/bed.svg"/>
+<span data-i18n="amenity.bed">Lit King‑size</span>
+</div>
+<p class="detail-hidden" data-i18n="room.linenn.detail">Cette chambre cosy de 16 m² est idéale pour une escapade intimiste. Malgré sa taille, elle offre un lit king‑size, une douche à l’italienne et des rangements ingénieux. La décoration soignée et l’éclairage doux créent un cocon reposant.</p>
+<div class="amenities">
+<div class="amenity"><img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/shower.svg"/><span data-i18n="amenity.shower">Grande douche italienne</span></div>
+<div class="amenity"><img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/wifi.svg"/><span data-i18n="amenity.wifi">Wifi gratuit</span></div>
+<div class="amenity"><img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/smoking-ban.svg"/><span data-i18n="amenity.nosmoking">Non fumeur</span></div>
+<div class="amenity"><img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/tv.svg"/><span data-i18n="amenity.tv">Télévision</span><span class="canal-label">CANAL+</span></div>
+</div>
+<div class="room-actions">
+<a class="room-reserve-btn" data-i18n="button.reserve" data-transition="" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE">réserver</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Check In/Out Section -->
+<section class="checkin-section">
+  <div class="checkin-wrapper">
+    <h2 data-i18n="section.checkHeading">Check&nbsp;In/Out</h2>
+    <div class="checkin-info">
+      <p data-i18n="section.checkLine1">Les chambres doivent être libérées à&nbsp;10h.</p>
+      <p data-i18n="section.checkLine2">Arrivée à&nbsp;partir de 16h00 jusqu'à&nbsp;20h30.</p>
+      <p data-i18n="section.checkLine3">Si vous devez arriver plus tard, prévenez‑nous&nbsp;;&nbsp;nous organiserons votre arrivée en fonction.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Services and Nota Bene Section -->
+<section class="services-section">
+  <div class="services-left scroll-fade-left">
+    <h2 data-i18n="section.servicesHeading">Services</h2>
+    <ul class="services-list">
+      <li>
+        <strong data-i18n="services.access.heading">Accès à la cour </strong>–
+        <span data-i18n="services.access.desc">Un accès direct à la cour intérieure, propice à la détente et à des instants de calme en toute discrétion.</span>
+      </li>
+      <li>
+        <strong data-i18n="services.cyclists.heading">Accueil des cyclistes </strong>–
+        <span data-i18n="services.cyclists.desc">Les cyclistes sont chaleureusement accueillis. Un espace sécurisé et dédié est prévu pour le stationnement des vélos, avec possibilité de recharge des batteries ainsi qu’un point de nettoyage à disposition.</span>
+      </li>
+      <li>
+        <strong data-i18n="services.breakfast.heading">Petit‑déjeuner </strong>–
+        <span data-i18n="services.breakfast.desc">Un service de petit‑déjeuner sur réservation est proposé, mettant à l’honneur une sélection soignée de produits locaux, choisis pour leur qualité et leur authenticité.</span>
+      </li>
+    </ul>
+    <h2 data-i18n="section.notaHeading">Nota Bene</h2>
+    <ul class="services-list">
+      <li>
+        <strong data-i18n="nota.animals.heading">Animaux </strong>–
+        <span data-i18n="nota.animals.desc">Afin de préserver le confort, l’harmonie et la quiétude des lieux, les animaux ne sont pas admis au sein de l’établissement.</span>
+      </li>
+      <li>
+        <strong data-i18n="nota.serenite.heading">Sérénité &amp; respect du calme </strong>–
+        <span data-i18n="nota.serenite.desc">Pour permettre à nos hôtes de profiter de la sérénité voulue pour les lieux, nous vous remercions de respecter le calme entre 22 h et 7 h du matin.</span>
+      </li>
+    </ul>
+  </div>
+  <div class="services-right scroll-fade-right">
+    <!-- Load the services image from the local assets folder.  To customise
+         this picture later on, replace the file in assets/images/services/services.jpg
+         with your own photograph.  Avoid linking external URLs here so the
+         site remains self‑contained and performs consistently offline. -->
+    <img alt="Services" decoding="async" loading="lazy" src="assets/images/services/services.jpg" />
+  </div>
+</section>
+
+<!-- About Section -->
+<section class="about banner-section" id="esprit">
+  <div class="text scroll-fade-left">
+    <h2 data-i18n="section.espritHeading">L’histoire de la maison</h2>
+    <!-- Replace the short spirit text with a fuller history of the house.
+               Each paragraph has its own translation key to allow proper
+               localisation.  The fallback French text mirrors the values in
+               lang.js. -->
+    <p data-i18n="section.espritText1">En haut de la Grand‑Rue, sur la rive gauche de l’Aulne, au cœur de la jolie petite ville verdoyante de Châteaulin, se trouve une maison toute simple. Elle ressemble à ses voisines&nbsp;: vous passeriez devant sans la remarquer. Et pourtant, Brendan et son frère Gurvan ont eu un véritable coup de cœur pour cette ancêtre châteaulinoise. On dit qu’on y fumait le saumon au début du siècle dernier. Même s’il y avait tout à refaire, ils s’y sont sentis bien immédiatement et, surtout, ils en ont perçu tout son potentiel.</p>
+    <p data-i18n="section.espritText2">Autodidactes, ils ne sont pas à leur première rénovation, mais ici le chantier est de taille&nbsp;: près de 300&nbsp;m² et une ampleur de travaux considérable. Ils n’en ont conservé que les murs et le toit. Pourtant, cette vieille dame a gardé toute son âme. Elle a l’élan d’une mère&nbsp;: on s’y sent si bien qu’on n’a plus envie d’en sortir, comme enveloppé dans un cocon.</p>
+    <p data-i18n="section.espritText3">Gurvan est le bâtisseur, l’artisan, le technicien de tous les corps de métier. Rien ne lui résiste&nbsp;: il trouve toujours des solutions. Il œuvre avec précision et exigence. Brendan, quant à lui, endosse le rôle d’architecte, de décorateur d’intérieur et d’artiste créateur. Il modèle la terre, le bois flotté et les matériaux naturels avec finesse et délicatesse. Leur complémentarité est évidente, renforcée par un solide lien de fraternité.</p>
+    <p data-i18n="section.espritText4">Ils ont conservé les murs en schiste typiques de la région, récupéré les planchers lorsque cela était possible, recyclé les cloisons de bois du grenier qui habillent aujourd’hui les murs de deux chambres, et mis en valeur les vieilles poutres dans les chambres du premier étage. L’enduit de chaux et de sable appliqué sur les murs apporte une chaleur supplémentaire au lieu.</p>
+    <p data-i18n="section.espritText5">Brendan privilégie les couleurs chaudes — ocre, sable — ainsi que les matières naturelles, avec une préférence marquée pour le lin, le bois et le rendu du métal rouillé&nbsp;: poignées de placards, garde‑corps… Il a l’exigence de l’artiste.</p>
+    <p data-i18n="section.espritText6">Gurvan crée également l’ameublement&nbsp;: 90&nbsp;m² de bois deviennent placards, chevets, encadrements de télévisions et meubles de salles de bains, pendant que son frère ponce et enduit. Tous deux ont le goût du très beau et le talent pour y parvenir. Cela prend du temps&nbsp;: voilà cinq années que le chantier a démarré. D’autres phases de travaux sont encore prévues. Le dernier étage connaîtra quelques modifications et, à l’extérieur, un espace bien‑être verra le jour. Rassurez‑vous, c’est déjà très beau.</p>
+    <p data-i18n="section.espritText7">Je vous emmène maintenant pour une petite visite. L’entrée est chaleureuse et spacieuse. Mais avant d’aller plus loin, posez votre regard sur ces marches de pierre&nbsp;: ce sont d’anciens linteaux de cheminées, taillés, transportés, transformés. Rien ne les arrête. Le plafond, couleur ocre, et les lumières chaudes renforcent l’atmosphère enveloppante. L’escalier, fait maison évidemment, apporte sa touche de chêne et de métal rouillé. Même la buanderie mérite qu’on s’y attarde.</p>
+    <p data-i18n="section.espritText8">Pour les chambres, la visite se fera en photos&nbsp;: vous ressentirez immédiatement la chaleur du lieu. On a juste envie de s’y blottir.</p>
+    <p data-i18n="section.espritText9">La maison Brevan est avant tout une invitation à ralentir, à se poser, à ressentir.</p>
+  </div>
+  <div class="image scroll-fade-right">
+    <!-- Load the history section photo from a dedicated folder.  To change this
+         image later, place a new file at assets/images/about/about-photo.jpg.
+         Keeping the photo in its own folder makes it easier to identify
+         and update without affecting other images. -->
+    <img alt="Vue de Châteaulin depuis le pont" decoding="async" loading="lazy" src="assets/images/about/about-photo.jpg" />
+  </div>
+</section>
+<!-- Contact Section removed; contact form is now in the footer -->
+<!-- Footer -->
+</main></div> <!-- end of .page-wrapper -->
+<footer class="footer" id="contact">
+<!-- New consolidated footer layout: three columns and centered legal links -->
+<div class="footer-main-new">
+<div class="footer-col footer-address">
+<p class="address">29 Grand Rue 29150 Châteaulin</p>
+<a class="access-btn" data-i18n="footer.planAccess" href="https://www.google.com/maps/place/29+Grand+Rue+29150+Châteaulin" rel="noopener noreferrer" target="_blank">Plan d'accès</a>
+</div>
+<div class="footer-col footer-follow">
+<p data-i18n="footer.followTitle">Nous suivre</p>
+<div class="social-icons">
+<a aria-label="Instagram" href="https://www.instagram.com/maisonbrevan/" target="_blank" rel="noopener">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"></path></svg>
+</a>
+<a aria-label="Facebook" href="https://www.facebook.com/profile.php?id=61585826054527" target="_blank" rel="noopener">
+<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z"></path></svg>
+</a>
+</div>
+</div>
+<div class="footer-col footer-contact">
+<p class="phone">+33 07 62 57 69 58</p>
+<a class="email" href="mailto:contact@lamaisonbrevan.fr">contact@lamaisonbrevan.fr</a>
+</div>
+</div>
+<!-- Bottom row with legal links centred -->
+<div class="footer-bottom">
+<div class="footer-legal">
+<a data-i18n="footer.legal" data-transition="" href="mentions.html">Mentions légales</a>
+<span class="separator">|</span>
+<a data-i18n="footer.confidentialite" data-transition="" href="confidentialite.html">Confidentialité</a>
+<span class="separator">|</span>
+<a data-i18n="footer.cookies" data-transition="" href="cookies.html">Gestion des cookies</a>
+<span class="separator">|</span>
+<a data-i18n="footer.cgv" data-transition="" href="cgv.html">CGV</a>
+</div>
+</div>
+</footer>
+<script src="script.js"></script>
+<!-- Page turn transition script: applies a 3D flip when navigating
+       between pages via links marked with data‑transition -->
+<script src="transition.js"></script>
+<!-- Room Details Overlay: Hidden by default, shown when a room card is clicked -->
+        <div aria-hidden="true" class="room-overlay" id="roomOverlay">
+          <div class="overlay-content">
+            <button aria-label="Fermer" class="overlay-close">×</button>
+            <!-- Slider container.  Images will be injected dynamically via script.js. -->
+            <div class="overlay-slider" id="overlaySlider">
+              <!-- Images will be injected dynamically via script.js -->
+            </div>
+            <!-- Navigation arrows flank the slider to allow moving between photos, just
+                 like in the gallery overlay.  These buttons are positioned on top of
+                 the image and will be wired up in script.js. -->
+            <div class="overlay-arrows">
+              <button aria-label="Précédent" class="overlay-prev">‹</button>
+              <button aria-label="Suivant" class="overlay-next">›</button>
+            </div>
+            <!-- Dot navigation is still used for room photo navigation.  The dots
+                 will be generated dynamically in script.js and overlaid on the
+                 bottom right of the image via CSS positioning. -->
+            <div class="overlay-dots" id="overlayDots"></div>
+
+            <!-- Watermark element for full-photo mode.  This element remains hidden until the
+                 user enters the full-photo view by clicking on an image.  It displays the
+                 Maison Brevan symbol faintly across the overlay content. -->
+            <div class="overlay-watermark"></div>
+            <!-- Description wrapper.  The room title and reservation button sit side by side
+                 within a header row.  The extended text is hidden by default but can
+                 be revealed if needed. -->
+            <div class="overlay-description">
+              <div class="overlay-header">
+                <h3 id="overlayTitle">Titre chambre</h3>
+                <a class="overlay-reserve-btn" data-i18n="button.reserve" data-transition="" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE">réserver</a>
+              </div>
+              <p id="overlayText" class="overlay-details">Description détaillée de la chambre...</p>
+            </div>
+          </div>
+        </div>
+</body>
+</html>

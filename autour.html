@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La Maison Brevan – Autour de la Maison</title>
+  <meta name="description" content="Découvrez la région autour de La Maison Brévan : nature, plages et villages du Finistère." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Import the same fonts as used on other pages -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;family=Playfair+Display:wght@400;600&amp;display=swap" />
+  <!-- Global site stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+  <!-- Language switcher script -->
+  <script defer src="lang.js"></script>
+  <!-- Interactive behaviours and scroll animations -->
+  <script defer src="script.js"></script>
+  <!-- Page transition effects -->
+  <script defer src="transition.js"></script>
+  <link rel="icon" href="assets/images/logo-symbol.png" />
+  <!-- Open Graph and Twitter metadata for social sharing -->
+  <meta property="og:title" content="La Maison Brevan – Autour de la Maison" />
+  <meta property="og:description" content="Découvrez la région autour de La Maison Brévan : nature, plages et villages du Finistère." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/images/logo-symbol.png" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="La Maison Brevan – Autour de la Maison" />
+  <meta name="twitter:description" content="Découvrez la région autour de La Maison Brévan : nature, plages et villages du Finistère." />
+  <meta name="twitter:image" content="assets/images/logo-symbol.png" />
+</head>
+<body class="around-page debug-show-hamburger">
+  <!-- Site header with navigation and language selector -->
+<header class="site-header">
+  <!-- Removed hidden checkbox.  Mobile navigation is now controlled via
+       JavaScript and the `.open` class on the `.mobile-nav` element. -->
+<div class="nav-row">
+      <div class="nav-left">
+        <a href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE" data-i18n="nav.reserve" data-transition="">réserver</a>
+        <a href="index.html#chambres" data-i18n="nav.rooms">chambres</a>
+        <a href="autour.html" data-i18n="nav.around" data-transition="">autour de la maison</a>
+        <a href="gallery.html" data-i18n="nav.gallery" data-transition="">galerie</a>
+        <a href="index.html#contact" data-i18n="nav.contact">contact</a>
+      </div>
+      <!-- Badge linking back to the home page.  Inserted between the left and right nav sections so it stays centred on mobile. -->
+      <a class="site-title-badge" href="index.html#home" onclick="scrollToTop(event)">
+        <img class="logo-symbol" src="assets/images/logo-symbol.png" alt="Logo Maison Brevan" decoding="async" loading="lazy" />
+        <span>LA MAISON BREVAN</span>
+      </a>
+      <div class="nav-right">
+      <!-- Mobile navigation toggle for small screens.  This button calls the
+           global `toggleMobileNav()` helper defined in script.js to toggle
+           the `.open` class on the `.mobile-nav` element. -->
+      <button class="hamburger" aria-label="Menu" onclick="toggleMobileNav(event)">MENU</button>
+        <div class="lang-selector">
+          <!-- Dropdown language selector: show current language flag and reveal the list on click -->
+          <button id="current-lang" aria-label="Sélection de langue"><img src="assets/images/flags/fr.png" alt="FR" /></button>
+          <div id="lang-menu" class="lang-menu">
+            <button data-lang="fr" aria-label="Français"><img src="assets/images/flags/fr.png" alt="FR" /></button>
+            <button data-lang="en" aria-label="English"><img src="assets/images/flags/en.png" alt="EN" /></button>
+            <button data-lang="es" aria-label="Español"><img src="assets/images/flags/es.png" alt="ES" /></button>
+            <button data-lang="de" aria-label="Deutsch"><img src="assets/images/flags/de.png" alt="DE" /></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav class="mobile-nav">
+      <a data-i18n="nav.reserve" data-transition="" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE">réserver</a>
+      <a data-i18n="nav.rooms" href="index.html#chambres">chambres</a>
+      <a data-i18n="nav.around" data-transition="" href="autour.html">autour de la maison</a>
+      <a data-i18n="nav.gallery" data-transition="" href="gallery.html">galerie</a>
+      <a data-i18n="nav.contact" href="index.html#contact">contact</a>
+      <a data-i18n="nav.access" href="https://www.google.com/maps/place/29+Grand+Rue+29150+Châteaulin" target="_blank" rel="noopener noreferrer">plan d'accès</a>
+    </nav>
+  </header>
+
+  <!-- Main content wrapper; padding-top is handled in CSS for around-page -->
+  <div class="page-wrapper">
+    <main id="main-content">
+      <h1 class="visually-hidden">La Maison Brevan – autour de la maison</h1>
+      <!-- Introduction -->
+      <section class="around-section intro-section">
+        <h2 class="accent-heading scroll-fade-up" data-i18n="around.title">Autour de la Maison Brévan</h2>
+        <p class="scroll-fade-up" data-i18n="around.intro.p1">Située au cœur de Châteaulin, La Maison Brévan bénéficie d’un emplacement privilégié, entre vallées verdoyantes, littoral sauvage et villages de caractère.</p>
+        <p class="scroll-fade-up" data-i18n="around.intro.p2">Ici, tout invite à la découverte du Finistère dans ce qu’il a de plus authentique, sans jamais renoncer au calme et à la douceur de vivre.</p>
+        <p class="scroll-fade-up" data-i18n="around.intro.p3">Depuis la maison, les plus beaux paysages bretons se rejoignent facilement, le temps d’une excursion à la journée ou d’une simple escapade improvisée.</p>
+      </section>
+      <hr class="around-separator" />
+      <!-- Nature & grands espaces -->
+      <section class="around-section nature-section">
+        <!-- Heading is placed outside the content row so it can span the full width and be centred -->
+        <h3 class="accent-heading scroll-fade-up" data-i18n="around.nature.title">Nature & grands espaces</h3>
+        <div class="content-row">
+          <div class="text-container scroll-fade-left">
+            <p data-i18n="around.nature.p1">À quelques minutes seulement, la vallée de l’Aulne et le canal de Nantes à Brest offrent un cadre paisible pour les promenades à pied ou à vélo. Les chemins bordés d’eau, la lumière changeante et la végétation généreuse composent un décor propice au ralentissement et à la contemplation.</p>
+            <p data-i18n="around.nature.p2">Un peu plus loin, le Menez‑Hom, sommet emblématique du Finistère, dévoile l’un des plus beaux panoramas de la région. Depuis ses hauteurs, le regard embrasse la baie de Douarnenez, les Monts d’Arrée et l’arrière‑pays breton. Un lieu idéal pour les amateurs de randonnée et de grands horizons.</p>
+          </div>
+          <div class="image-container scroll-fade-right">
+            <!-- Renommage des photos autour pour faciliter les remplacements ultérieurs -->
+            <img src="assets/images/around/around-01.jpg" alt="Menez‑Hom" loading="lazy" />
+          </div>
+        </div>
+      </section>
+      <hr class="around-separator" />
+      <!-- Plages & littoral -->
+      <section class="around-section beaches-section">
+        <!-- Section title centred above the three‑column layout -->
+        <h3 class="accent-heading scroll-fade-up" data-i18n="around.beaches.title">Plages & littoral</h3>
+        <div class="content-row">
+          <div class="image-left scroll-fade-left">
+            <img src="assets/images/around/around-02.jpg" alt="Plage Sainte‑Anne‑la‑Palud" loading="lazy" />
+          </div>
+          <div class="text-container scroll-fade-up">
+            <p data-i18n="around.beaches.p1">La Maison Brévan se situe à une distance idéale du littoral, permettant de rejoindre facilement de vastes plages tout en conservant la tranquillité de l’intérieur des terres.</p>
+            <p data-i18n="around.beaches.p2">La plage de Pentrez, dans la baie de Douarnenez, séduit par son étendue de sable fin et son ambiance familiale, particulièrement appréciée en fin de journée lorsque la lumière se fait plus douce.</p>
+            <p data-i18n="around.beaches.p3">Plus sauvage, Sainte‑Anne‑la‑Palud déploie une immense baie ouverte sur l’océan, superbe à marée basse et très appréciée pour les longues marches face à l’Atlantique.</p>
+            <p data-i18n="around.beaches.p4">La presqu’île de Crozon, enfin, offre une succession de criques, de falaises et de plages aux reflets turquoise. Morgat, Camaret‑sur‑Mer ou encore les pointes rocheuses alentour figurent parmi les paysages les plus spectaculaires de Bretagne.</p>
+          </div>
+          <div class="image-right scroll-fade-right">
+            <img src="assets/images/around/around-03.jpg" alt="Île Vierge" loading="lazy" />
+          </div>
+        </div>
+      </section>
+      <hr class="around-separator" />
+      <!-- Villages & patrimoine -->
+      <section class="around-section villages-section">
+        <!-- Centre the section title above the content -->
+        <h3 class="accent-heading scroll-fade-up" data-i18n="around.villages.title">Villages & patrimoine</h3>
+        <div class="content-row">
+          <div class="text-container scroll-fade-left">
+            <p data-i18n="around.villages.p1">À une courte distance en voiture, Locronan, classé parmi les plus beaux villages de France, charme par ses ruelles pavées, ses maisons de granit et son atmosphère hors du temps.</p>
+            <p data-i18n="around.villages.p2">Douarnenez, ancienne cité sardinière, mêle aujourd’hui port animé, plages urbaines et esprit maritime. Une halte idéale pour flâner le long des quais ou découvrir la culture locale.</p>
+            <p data-i18n="around.villages.p3">La presqu’île de Crozon et ses villages – Argol, Landévennec, Camaret – constituent un territoire à part, entre patrimoine religieux, ports typiques et paysages sauvages.</p>
+            <p data-i18n="around.villages.p4">Plus au sud, la Pointe du Raz, grand site naturel, offre une expérience saisissante face aux éléments, là où la terre s’avance dans l’océan.</p>
+          </div>
+          <div class="image-container scroll-fade-up">
+            <img src="assets/images/around/around-04.jpg" alt="Locronan" loading="lazy" />
+          </div>
+        </div>
+      </section>
+      <hr class="around-separator" />
+      <!-- Accès & facilité de déplacement -->
+      <section class="around-section access-section">
+        <h3 class="accent-heading scroll-fade-up" data-i18n="around.access.title">Accès & facilité de déplacement</h3>
+        <p class="scroll-fade-up" data-i18n="around.access.p1">La Maison Brévan est facilement accessible et constitue une base idéale pour rayonner dans tout le Finistère.</p>
+        <p class="scroll-fade-up" data-i18n="around.access.p2">La gare de Châteaulin, située à quelques minutes, permet de rejoindre Quimper ou Brest.</p>
+        <p class="scroll-fade-up" data-i18n="around.access.p3">Les aéroports de Brest Bretagne et Quimper Bretagne desservent la région selon les saisons et facilitent les arrivées depuis la France et l’Europe.</p>
+      </section>
+      <hr class="around-separator" />
+      <!-- Conclusion -->
+      <section class="around-section conclusion-section">
+        <h3 class="accent-heading scroll-fade-up" data-i18n="around.conclusion.title">Une invitation à explorer la Bretagne autrement</h3>
+        <p class="scroll-fade-up" data-i18n="around.conclusion.p1">Séjourner à La Maison Brévan, c’est choisir un lieu central et apaisant, à la croisée des chemins entre mer, nature et patrimoine.</p>
+        <p class="scroll-fade-up" data-i18n="around.conclusion.p2">Une adresse pensée pour celles et ceux qui souhaitent découvrir la Bretagne avec élégance, liberté et sérénité.</p>
+      </section>
+    </main>
+  </div>
+
+  <!-- Footer copied from the other pages -->
+  <footer class="footer" id="contact">
+    <div class="footer-main-new">
+      <div class="footer-col footer-address">
+        <p class="address">29 Grand Rue 29150 Châteaulin</p>
+        <a class="access-btn" href="https://www.google.com/maps/place/29+Grand+Rue+29150+Châteaulin" target="_blank" rel="noopener noreferrer" data-i18n="footer.planAccess">Plan d'accès</a>
+      </div>
+      <div class="footer-col footer-follow">
+        <p data-i18n="footer.followTitle">Nous suivre</p>
+        <div class="social-icons">
+<a aria-label="Instagram" href="https://www.instagram.com/maisonbrevan/" target="_blank" rel="noopener">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8z"/></svg>
+          </a>
+<a aria-label="Facebook" href="https://www.facebook.com/profile.php?id=61585826054527" target="_blank" rel="noopener">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col footer-contact">
+        <p class="phone">+33 07 62 57 69 58</p>
+        <a class="email" href="mailto:contact@lamaisonbrevan.fr">contact@lamaisonbrevan.fr</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-legal">
+        <a href="mentions.html" data-i18n="footer.legal" data-transition="">Mentions légales</a>
+        <span class="separator">|</span>
+        <a href="confidentialite.html" data-i18n="footer.confidentialite" data-transition="">Confidentialité</a>
+        <span class="separator">|</span>
+        <a href="cookies.html" data-i18n="footer.cookies" data-transition="">Gestion des cookies</a>
+        <span class="separator">|</span>
+        <a href="cgv.html" data-i18n="footer.cgv" data-transition="">CGV</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lightbox overlay for the Around page images -->
+  <div aria-hidden="true" class="gallery-overlay" id="aroundOverlay">
+    <div class="gallery-overlay-content">
+      <button aria-label="Fermer" class="gallery-close">×</button>
+      <div class="gallery-slider"></div>
+      <div class="gallery-arrows">
+        <button aria-label="Précédent" class="prev">‹</button>
+        <button aria-label="Suivant" class="next">›</button>
+      </div>
+      <div class="gallery-dots"></div>
+    </div>
+  </div>
+  <script>
+    // Lightbox for Around page images.  Collect all image elements in the around sections
+    // (nature, beaches, villages) and build an overlay slider to navigate them.
+    document.addEventListener('DOMContentLoaded', function() {
+      const images = Array.from(document.querySelectorAll('.around-section .image-container img, .around-section .image-left img, .around-section .image-right img'));
+      if (!images.length) return;
+      const overlay = document.getElementById('aroundOverlay');
+      const slider = overlay.querySelector('.gallery-slider');
+      const dotsContainer = overlay.querySelector('.gallery-dots');
+      const prevBtn = overlay.querySelector('.prev');
+      const nextBtn = overlay.querySelector('.next');
+      const closeBtn = overlay.querySelector('.gallery-close');
+      const imgSources = images.map((img) => img.src);
+      let current = 0;
+      function showSlide(index) {
+        const slides = slider.querySelectorAll('img');
+        slides.forEach((img, i) => {
+          img.classList.toggle('active', i === index);
+        });
+        current = index;
+        const dots = dotsContainer.querySelectorAll('button');
+        dots.forEach((btn, i) => {
+          btn.classList.toggle('active', i === index);
+        });
+      }
+      function openOverlay(index) {
+        // Populate the slider
+        slider.innerHTML = '';
+        imgSources.forEach((src, i) => {
+          const imgEl = document.createElement('img');
+          imgEl.src = src;
+          imgEl.alt = '';
+          if (i === index) imgEl.classList.add('active');
+          slider.appendChild(imgEl);
+        });
+        // Build dots for navigation
+        dotsContainer.innerHTML = '';
+        imgSources.forEach((_, i) => {
+          const btn = document.createElement('button');
+          if (i === index) btn.classList.add('active');
+          btn.addEventListener('click', function(ev) {
+            ev.stopPropagation();
+            showSlide(i);
+          });
+          dotsContainer.appendChild(btn);
+        });
+        // Scroll to the top to ensure the overlay appears in view
+        window.scrollTo({ top: 0, behavior: 'auto' });
+        overlay.classList.add('show');
+        overlay.setAttribute('aria-hidden', 'false');
+        current = index;
+      }
+      images.forEach((img, i) => {
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', function(ev) {
+          ev.preventDefault();
+          openOverlay(i);
+        });
+      });
+      prevBtn.addEventListener('click', function(ev) {
+        ev.stopPropagation();
+        const newIndex = (current - 1 + imgSources.length) % imgSources.length;
+        showSlide(newIndex);
+      });
+      nextBtn.addEventListener('click', function(ev) {
+        ev.stopPropagation();
+        const newIndex = (current + 1) % imgSources.length;
+        showSlide(newIndex);
+      });
+      closeBtn.addEventListener('click', function() {
+        overlay.classList.remove('show');
+        overlay.setAttribute('aria-hidden', 'true');
+      });
+      overlay.addEventListener('click', function(ev) {
+        if (ev.target === overlay) {
+          overlay.classList.remove('show');
+          overlay.setAttribute('aria-hidden', 'true');
+        }
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && overlay.classList.contains('show')) {
+          overlay.classList.remove('show');
+          overlay.setAttribute('aria-hidden', 'true');
+        }
+      });
+    });
+  </script>
+
+  <!-- Fallback scroll reveal for local testing and browsers without IntersectionObserver
+       This inline script ensures that text and images marked with the scroll-fade
+       classes become visible as the user scrolls down the page.  It mirrors
+       the behaviour of the IntersectionObserver in script.js by checking each
+       element’s position relative to the viewport and adding the `in-view`
+       class when at least 10% of it enters the viewport.  Without this
+       fallback, animated elements may remain hidden when the site is opened
+       via the `file://` protocol or in older browsers. -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Fallback scroll reveal for local testing and browsers without IntersectionObserver.
+      // Unlike the original implementation, this version toggles the `in-view` class both
+      // when elements enter and leave the viewport so animations can be replayed when
+      // scrolling back and forth.  This behaviour mirrors the IntersectionObserver logic in
+      // script.js but does not rely on that API.
+      const animatedItems = document.querySelectorAll('.scroll-fade-up, .scroll-fade-left, .scroll-fade-right');
+      function reveal() {
+        animatedItems.forEach((item) => {
+          const rect = item.getBoundingClientRect();
+          // If any part of the element is within the viewport (top < viewport bottom and bottom > 0),
+          // add the in-view class; otherwise remove it.  Multiplying by 0.9 introduces a small offset
+          // so items animate slightly before being fully visible.
+          if (rect.top < window.innerHeight * 0.9 && rect.bottom > 0) {
+            item.classList.add('in-view');
+          } else {
+            item.classList.remove('in-view');
+          }
+        });
+      }
+      // Reveal items that are visible on load
+      reveal();
+      window.addEventListener('scroll', reveal);
+      window.addEventListener('resize', reveal);
+    });
+  </script>
+</body>
+</html>

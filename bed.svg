@@ -1,0 +1,16 @@
+<!--
+  Outline bed icon for the amenities list.
+  This version uses a 24×24 viewBox and a consistent stroke width of 2.
+  The bed is depicted by a simple rectangular frame with two end posts and
+  a small vertical line suggesting the division at the head.  Using
+  currentColor allows the icon to adopt the colour of its parent text.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- Bed frame -->
+  <path d="M3 10h18v6H3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <!-- Posts -->
+  <line x1="5" y1="16" x2="5" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <line x1="19" y1="16" x2="19" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <!-- Pillow divider -->
+  <line x1="12" y1="8" x2="12" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+</svg>
