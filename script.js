@@ -302,10 +302,53 @@ const slides = document.querySelectorAll(".hero img");
       index = i;
     }
 
-    // Autoplay interval for each room card
+    /*
+     * Animate room card slide transition.
+     *
+     * This function adds CSS classes to the current and next images
+     * to produce a sliding animation similar to the hero slider.  The
+     * direction parameter should be +1 for forward (next) and -1 for
+     * backward (previous).  After the animation completes, it
+     * cleans up classes and sets the new active image.
+     */
+    function animateRoomSlide(newIndex, direction) {
+      // If the requested slide is already active, do nothing
+      if (newIndex === index) return;
+      const currentImg = images[index];
+      const nextImg = images[newIndex];
+      // Determine which classes to add based on direction
+      const outClass = direction > 0 ? 'slide-out-left' : 'slide-out-right';
+      const inClass  = direction > 0 ? 'slide-in-right' : 'slide-in-left';
+      // Remove any previous animation classes
+      images.forEach(img => {
+        img.classList.remove('slide-in-right', 'slide-out-left', 'slide-in-left', 'slide-out-right');
+      });
+      // Assign z-index values so the incoming image appears above
+      currentImg.style.zIndex = '1';
+      nextImg.style.zIndex = '2';
+      // Update dot states immediately
+      navDots[index].classList.remove('active');
+      navDots[newIndex].classList.add('active');
+      // Add animation classes
+      currentImg.classList.add(outClass);
+      nextImg.classList.add(inClass);
+      // After animation completes, clean up and set active
+      setTimeout(() => {
+        images.forEach((img, idx) => {
+          img.classList.remove('active', 'slide-in-right', 'slide-out-left', 'slide-in-left', 'slide-out-right');
+          img.style.zIndex = '';
+          if (idx === newIndex) {
+            img.classList.add('active');
+          }
+        });
+        index = newIndex;
+      }, 500);
+    }
+
+    // Autoplay interval for each room card using sliding animation
     let roomInterval = setInterval(() => {
       const next = (index + 1) % images.length;
-      showRoomSlide(next);
+      animateRoomSlide(next, +1);
     }, 5000);
 
     // Pause on hover over the room image
@@ -316,14 +359,15 @@ const slides = document.querySelectorAll(".hero img");
     roomImgContainer.addEventListener("mouseleave", () => {
       roomInterval = setInterval(() => {
         const next = (index + 1) % images.length;
-        showRoomSlide(next);
+        animateRoomSlide(next, +1);
       }, 5000);
     });
 
     // Dot click handlers for manual navigation
     navDots.forEach((dot, i) => {
       dot.addEventListener("click", () => {
-        showRoomSlide(i);
+        const direction = i > index ? 1 : -1;
+        animateRoomSlide(i, direction);
       });
     });
 
@@ -346,15 +390,15 @@ const slides = document.querySelectorAll(".hero img");
         clearInterval(roomInterval);
         if (diff2 < 0) {
           const next = (index + 1) % images.length;
-          showRoomSlide(next);
+          animateRoomSlide(next, +1);
         } else {
           const prev = (index - 1 + images.length) % images.length;
-          showRoomSlide(prev);
+          animateRoomSlide(prev, -1);
         }
         // Restart autoplay interval
         roomInterval = setInterval(() => {
           const next = (index + 1) % images.length;
-          showRoomSlide(next);
+          animateRoomSlide(next, +1);
         }, 5000);
       }
       roomTouchStartX = null;
