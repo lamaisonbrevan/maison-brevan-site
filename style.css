@@ -19,10 +19,14 @@
 /* Additional mobile and button overrides appended at end of file */
 @media (max-width: 600px) {
   .hero {
-    margin-top: 5rem !important;
+    /* Increase the top margin further so the hero never hides behind
+       the fixed header on very small screens. */
+    margin-top: 6rem !important;
   }
   .hero .social-icons {
-    bottom: 1rem !important;
+    /* Place the icons at the bottom‑right with a slight offset and ensure
+       they never overlap the navigation dots */
+    bottom: 1.2rem !important;
     right: 1rem !important;
     left: auto !important;
     justify-content: flex-end !important;
@@ -33,9 +37,12 @@
     height: 1rem !important;
   }
   .hero .dots {
-    bottom: 1rem !important;
+    bottom: 1.2rem !important;
     left: 1rem !important;
+    right: auto !important;
     justify-content: flex-start !important;
+    /* Ensure dots container only takes up the space required by the dots */
+    width: auto !important;
   }
 }
 
