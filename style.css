@@ -4414,9 +4414,14 @@ footer .footer-main + .footer-main {
    * centre of the hero for better visibility.  Absolute positioning
    * of the images preserves the cross‑fade animation.
    */
+  /* Make the hero responsive to the viewport width by using an
+     aspect‑ratio instead of a fixed height.  The height will scale
+     automatically with the width, avoiding grey bars and preserving
+     the full image. */
   .hero {
-    height: 80vh !important;
-    max-height: 80vh !important;
+    height: auto !important;
+    max-height: none !important;
+    aspect-ratio: 16 / 9 !important;
     overflow: hidden !important;
   }
   .hero img {
@@ -4504,14 +4509,13 @@ footer .footer-main + .footer-main {
 
   /* -----------------------------------------------------------------
    * Reservation buttons on mobile
-   * On small screens, show the rust‑coloured background by default on
-   * all reserve buttons instead of only on hover.  Make the text
-   * white for contrast and ensure the gradient overlay is always
-   * visible.  Remove hover overrides so the button does not change
-   * colour when touched.
-   */
+   * On small screens, preserve the same rust gradient as the hover
+   * state on desktop by keeping the button background transparent and
+   * showing the overlay at full opacity.  The text colour becomes
+   * white by default to match the hover state.  Hover overrides are
+   * unnecessary because the button is already filled.  */
   .room-reserve-btn {
-    background: var(--accent) !important;
+    background: transparent !important;
     color: #ffffff !important;
   }
   .room-reserve-btn::after {
@@ -4525,20 +4529,34 @@ footer .footer-main + .footer-main {
   }
 
   /* Also style the primary navigation reserve links (e.g. in the hero
-     header) so they appear as rust badges on mobile.  Use a pill
-     background similar to the Menu button. */
+     header) so they appear as rust badges on mobile.  Use the same
+     gradient fill by applying the overlay class directly and white
+     text. */
   a[data-i18n="nav.reserve"] {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    background: var(--accent) !important;
     color: #ffffff !important;
+    background: transparent !important;
     border-radius: 2rem !important;
     padding: 0.35rem 1rem !important;
     font-size: 0.85rem !important;
     text-transform: uppercase !important;
     letter-spacing: 0.05em !important;
     margin-left: 0.5rem !important;
+    position: relative !important;
+    overflow: hidden !important;
+  }
+  a[data-i18n="nav.reserve"]::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
+    opacity: 1;
+    z-index: -1;
   }
 }
 
