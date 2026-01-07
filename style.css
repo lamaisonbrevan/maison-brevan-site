@@ -4287,7 +4287,8 @@ footer .footer-main + .footer-main {
     letter-spacing: 0.05em !important;
     padding: 0 0.8rem !important;
     /* Add a small right margin so the title badge doesn't touch the Menu button */
-    margin-right: 0.7rem !important;
+    /* Separate the title badge from the Menu button a bit more on very small screens */
+    margin-right: 1rem !important;
   }
 
   /* Restyle the hamburger ("Menu") button to resemble the site title
@@ -4307,9 +4308,12 @@ footer .footer-main + .footer-main {
     padding: 0 0.8rem !important;
     border: none !important;
     /* Add a left margin for spacing relative to the title badge */
-    margin-left: 0.7rem !important;
+    /* Increase the left margin to separate the Menu button from the title badge */
+    margin-left: 1rem !important;
     /* Remove bold weight so the Menu text matches the title */
     font-weight: normal !important;
+    /* Match the vertical sizing of the title badge */
+    line-height: 1 !important;
   }
 
   /* Reformat the footer into a two‑row grid.  The address spans
@@ -4317,9 +4321,11 @@ footer .footer-main + .footer-main {
      share the second row. */
   .footer-main-new {
     display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    grid-row-gap: 1rem !important;
-    grid-column-gap: 1rem !important;
+    /* Use a single column on narrow viewports so each section stacks vertically.
+       This prevents text like the phone number and email address from being cut off.
+       The row gap provides breathing space between sections. */
+    grid-template-columns: 1fr !important;
+    grid-row-gap: 1.25rem !important;
     align-items: center !important;
     text-align: center !important;
   }
@@ -4335,6 +4341,7 @@ footer .footer-main + .footer-main {
   /* Centre the Plan d'accès button within its container and remove default margin */
   .footer-address .access-btn {
     margin: 0 auto !important;
+    display: inline-block !important;
   }
 
   /* Centre and allow wrapping of the address text */
@@ -4349,6 +4356,8 @@ footer .footer-main + .footer-main {
     align-items: center !important;
     /* Allow these columns to occupy the full width so contact details wrap nicely */
     width: 100% !important;
+    /* Add space below each column for separation */
+    margin-bottom: 1rem !important;
   }
 
   /* Improve wrapping and legibility of phone and email on narrow screens */
@@ -4359,6 +4368,21 @@ footer .footer-main + .footer-main {
     text-align: center !important;
     width: 100% !important;
     font-size: 0.85rem !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Further reduce font size and compress legal links to avoid overflow.  Split
+     the links across two lines by allowing wrapping and centering text. */
+  .footer-bottom .footer-legal {
+    white-space: normal !important;
+    font-size: 0.6rem !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 0.25rem !important;
+  }
+  .footer-bottom .footer-legal a {
+    padding: 0 0.25rem !important;
   }
 
   /* On very narrow screens display room cards one per row to prevent
