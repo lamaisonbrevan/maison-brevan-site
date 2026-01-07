@@ -4311,6 +4311,11 @@ footer .footer-main + .footer-main {
     color: var(--accent) !important;
     border-radius: 2rem !important;
     margin-right: 1rem !important;
+    /* Add a gap between the logo and text, and equalise the horizontal
+       padding so the text appears visually centred inside the badge. */
+    gap: 0.5rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
   }
 
   /* Specific styling for the Menu badge: mirror the title badge styles
@@ -4395,38 +4400,42 @@ footer .footer-main + .footer-main {
 
   /* -----------------------------------------------------------------
    * Hero responsiveness on small screens
-   * On narrow viewports the full-screen hero can be overwhelming and
-   * its navigation (dots and social icons) may fall outside the visible
-   * area.  Set a fixed percentage height so the entire image remains
-   * visible while preserving its aspect ratio via object-fit: contain.
-   * Reposition the navigation elements below the image and centre
-   * them.  Using absolute positioning for images maintains the
-   * cross-fade animation while still respecting the new height.
+   * Restore the full‑bleed effect by using object‑fit: cover and a
+   * moderate height.  The hero occupies most of the viewport (80vh)
+   * without introducing grey bars above or below the image.  The
+   * navigation dots and social icons are positioned at the bottom
+   * centre of the hero for better visibility.  Absolute positioning
+   * of the images preserves the cross‑fade animation.
    */
   .hero {
-    height: 70vh !important;
-    max-height: 70vh !important;
+    height: 80vh !important;
+    max-height: 80vh !important;
     overflow: hidden !important;
   }
   .hero img {
     position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
+    top: 0 !important;
+    left: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    object-fit: contain !important;
+    object-fit: cover !important;
   }
   .hero .social-icons {
-    position: static !important;
-    margin-top: 0.5rem !important;
+    position: absolute !important;
+    bottom: 2.2rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
     justify-content: center !important;
     gap: 0.8rem !important;
+    z-index: 5 !important;
   }
   .hero .dots {
-    position: static !important;
-    margin-top: 0.5rem !important;
+    position: absolute !important;
+    bottom: 0.8rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
     justify-content: center !important;
+    z-index: 5 !important;
   }
 
   /* On very narrow screens display room cards one per row to prevent
@@ -4472,6 +4481,45 @@ footer .footer-main + .footer-main {
   }
   .footer-bottom .separator {
     margin: 0 0.25rem !important;
+  }
+
+  /* -----------------------------------------------------------------
+   * Reservation buttons on mobile
+   * On small screens, show the rust‑coloured background by default on
+   * all reserve buttons instead of only on hover.  Make the text
+   * white for contrast and ensure the gradient overlay is always
+   * visible.  Remove hover overrides so the button does not change
+   * colour when touched.
+   */
+  .room-reserve-btn {
+    background: var(--accent) !important;
+    color: #ffffff !important;
+  }
+  .room-reserve-btn::after {
+    opacity: 1 !important;
+  }
+  .room-reserve-btn::before {
+    opacity: 1 !important;
+  }
+  .room-reserve-btn:hover {
+    color: #ffffff !important;
+  }
+
+  /* Also style the primary navigation reserve links (e.g. in the hero
+     header) so they appear as rust badges on mobile.  Use a pill
+     background similar to the Menu button. */
+  a[data-i18n="nav.reserve"] {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: var(--accent) !important;
+    color: #ffffff !important;
+    border-radius: 2rem !important;
+    padding: 0.35rem 1rem !important;
+    font-size: 0.85rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    margin-left: 0.5rem !important;
   }
 }
 
