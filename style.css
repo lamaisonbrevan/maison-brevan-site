@@ -4286,6 +4286,8 @@ footer .footer-main + .footer-main {
     font-size: 0.9rem !important;
     letter-spacing: 0.05em !important;
     padding: 0 0.8rem !important;
+    /* Add a small right margin so the title badge doesn't touch the Menu button */
+    margin-right: 0.7rem !important;
   }
 
   /* Restyle the hamburger ("Menu") button to resemble the site title
@@ -4304,7 +4306,10 @@ footer .footer-main + .footer-main {
     text-transform: uppercase !important;
     padding: 0 0.8rem !important;
     border: none !important;
-    margin-left: 0 !important;
+    /* Add a left margin for spacing relative to the title badge */
+    margin-left: 0.7rem !important;
+    /* Remove bold weight so the Menu text matches the title */
+    font-weight: normal !important;
   }
 
   /* Reformat the footer into a two‑row grid.  The address spans
@@ -4323,12 +4328,55 @@ footer .footer-main + .footer-main {
     display: flex !important;
     flex-direction: column-reverse !important;
     align-items: center !important;
+    /* Centre the address text within the column */
+    text-align: center !important;
+  }
+
+  /* Centre the Plan d'accès button within its container and remove default margin */
+  .footer-address .access-btn {
+    margin: 0 auto !important;
+  }
+
+  /* Centre and allow wrapping of the address text */
+  .footer-address .address {
+    margin: 0 auto !important;
+    text-align: center !important;
   }
   .footer-follow,
   .footer-contact {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
+    /* Allow these columns to occupy the full width so contact details wrap nicely */
+    width: 100% !important;
+  }
+
+  /* Improve wrapping and legibility of phone and email on narrow screens */
+  .footer-contact .phone,
+  .footer-contact .email {
+    white-space: normal !important;
+    word-break: break-word !important;
+    text-align: center !important;
+    width: 100% !important;
+    font-size: 0.85rem !important;
+  }
+
+  /* On very narrow screens display room cards one per row to prevent
+     thumbnails from being cut off */
+  .rooms-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Ensure gallery items stack vertically on very small screens and
+     remove multi-span classes to avoid partial thumbnails */
+  .gallery-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .gallery-item.big,
+  .gallery-item.wide,
+  .gallery-item.tall {
+    grid-column: span 1 !important;
+    grid-row: span 1 !important;
   }
 
   /* Style the Plan d'accès button as a coloured pill and place it
