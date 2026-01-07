@@ -211,6 +211,32 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // --------------------------------------------------------------
+  // Touch swipe navigation for gallery overlay
+  // Enable swiping left or right on the enlarged gallery photo to move
+  // through the slideshow.  A threshold of 50 pixels distinguishes
+  // intentional swipes from taps.  Stop propagation on touchend so
+  // that a swipe does not inadvertently close the overlay.
+  let galleryTouchStartX = null;
+  slider.addEventListener('touchstart', (e) => {
+    galleryTouchStartX = e.touches[0].clientX;
+  });
+  slider.addEventListener('touchend', (e) => {
+    if (galleryTouchStartX === null) return;
+    const diffX = e.changedTouches[0].clientX - galleryTouchStartX;
+    if (Math.abs(diffX) > 50) {
+      e.stopPropagation();
+      if (diffX < 0) {
+        const newIndex = (currentIndex + 1) % images.length;
+        showSlide(newIndex);
+      } else {
+        const newIndex = (currentIndex - 1 + images.length) % images.length;
+        showSlide(newIndex);
+      }
+    }
+    galleryTouchStartX = null;
+  });
+
   // Page transitions are handled globally via transition.js using
   // a page-turn effect applied to the `.page-wrapper`.  Fade
   // transitions previously defined here have been removed to avoid

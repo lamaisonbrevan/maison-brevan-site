@@ -289,6 +289,32 @@
           overlay.setAttribute('aria-hidden', 'true');
         }
       });
+
+      // --------------------------------------------------------------
+      // Touch swipe navigation for the Around page overlay
+      // Detect horizontal swipes on the image slider and move to the
+      // previous or next photo.  A swipe threshold of 50px is used to
+      // avoid accidental triggers on taps.  Stop propagation on
+      // touchend so that the swipe does not close the overlay.
+      var aroundTouchStartX = null;
+      slider.addEventListener('touchstart', function(ev) {
+        aroundTouchStartX = ev.touches[0].clientX;
+      });
+      slider.addEventListener('touchend', function(ev) {
+        if (aroundTouchStartX === null) return;
+        var diffX = ev.changedTouches[0].clientX - aroundTouchStartX;
+        if (Math.abs(diffX) > 50) {
+          ev.stopPropagation();
+          if (diffX < 0) {
+            var newIndex = (current + 1) % imgSources.length;
+            showSlide(newIndex);
+          } else {
+            var newIndex = (current - 1 + imgSources.length) % imgSources.length;
+            showSlide(newIndex);
+          }
+        }
+        aroundTouchStartX = null;
+      });
     });
   </script>
 

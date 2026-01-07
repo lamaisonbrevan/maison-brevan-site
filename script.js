@@ -182,6 +182,38 @@ const slides = document.querySelectorAll(".hero img");
     });
   });
 
+  // --------------------------------------------------------------
+  // Touch swipe navigation for the hero slider
+  // On touch devices allow users to swipe left/right on the hero
+  // image to navigate between slides.  A horizontal swipe exceeding
+  // 50 pixels triggers the previous or next slide accordingly.  This
+  // complements the auto‑rotation and dot navigation.
+  let heroTouchStartX = null;
+  hero.addEventListener('touchstart', (e) => {
+    heroTouchStartX = e.touches[0].clientX;
+  });
+  hero.addEventListener('touchend', (e) => {
+    if (heroTouchStartX === null) return;
+    const diff = e.changedTouches[0].clientX - heroTouchStartX;
+    if (Math.abs(diff) > 50) {
+      // Stop auto‑rotation to avoid a double update during swipes
+      clearInterval(intervalId);
+      if (diff < 0) {
+        const next = (current + 1) % slides.length;
+        showSlide(next);
+      } else {
+        const prev = (current - 1 + slides.length) % slides.length;
+        showSlide(prev);
+      }
+      // Restart auto‑rotation after swipe
+      intervalId = setInterval(() => {
+        const next = (current + 1) % slides.length;
+        showSlide(next);
+      }, 5000);
+    }
+    heroTouchStartX = null;
+  });
+
   // Show initial slide
   showSlide(0);
 
@@ -256,6 +288,36 @@ const slides = document.querySelectorAll(".hero img");
 
     // Initialise first slide
     showRoomSlide(0);
+
+    // --------------------------------------------------------------
+    // Touch swipe navigation for each room card slider
+    // Detect horizontal swipes on the room image container and
+    // navigate to the previous or next image accordingly.  Pause the
+    // autoplay interval during the swipe and restart it afterwards.
+    let roomTouchStartX = null;
+    roomImgContainer.addEventListener('touchstart', (e) => {
+      roomTouchStartX = e.touches[0].clientX;
+    });
+    roomImgContainer.addEventListener('touchend', (e) => {
+      if (roomTouchStartX === null) return;
+      const diff2 = e.changedTouches[0].clientX - roomTouchStartX;
+      if (Math.abs(diff2) > 50) {
+        clearInterval(roomInterval);
+        if (diff2 < 0) {
+          const next = (index + 1) % images.length;
+          showRoomSlide(next);
+        } else {
+          const prev = (index - 1 + images.length) % images.length;
+          showRoomSlide(prev);
+        }
+        // Restart autoplay interval
+        roomInterval = setInterval(() => {
+          const next = (index + 1) % images.length;
+          showRoomSlide(next);
+        }, 5000);
+      }
+      roomTouchStartX = null;
+    });
   });
 
   /*
@@ -462,6 +524,34 @@ const slides = document.querySelectorAll(".hero img");
       overlay.classList.remove('show');
       overlay.setAttribute('aria-hidden', 'true');
     }
+  });
+
+  // --------------------------------------------------------------
+  // Touch swipe navigation for the room overlay slider
+  // When the overlay is open on touch devices, users can swipe left or
+  // right on the enlarged photo to move to the next or previous image.
+  // The swipe distance threshold of 50px prevents accidental slide
+  // changes when tapping.  Because the overlay sits on top of other
+  // content, stopPropagation() is used during touchend to avoid
+  // closing the overlay.
+  let overlayTouchStartX = null;
+  overlaySlider.addEventListener('touchstart', (e) => {
+    overlayTouchStartX = e.touches[0].clientX;
+  });
+  overlaySlider.addEventListener('touchend', (e) => {
+    if (overlayTouchStartX === null) return;
+    const diff3 = e.changedTouches[0].clientX - overlayTouchStartX;
+    if (Math.abs(diff3) > 50 && overlayImages && overlayImages.length > 0) {
+      e.stopPropagation();
+      if (diff3 < 0) {
+        const nextIdx = (currentOverlayIndex + 1) % overlayImages.length;
+        updateOverlaySlide(nextIdx);
+      } else {
+        const prevIdx = (currentOverlayIndex - 1 + overlayImages.length) % overlayImages.length;
+        updateOverlaySlide(prevIdx);
+      }
+    }
+    overlayTouchStartX = null;
   });
 
   /*

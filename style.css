@@ -4267,6 +4267,98 @@ footer .footer-main + .footer-main {
   }
 }
 
+/* --------------------------------------------------------------------
+ * Mobile enhancements
+ *
+ * The following rules adjust the header, menu button, and footer layout on
+ * very narrow viewports (<=600px).  The default styles defined earlier
+ * assume moderate widths; on phones the site title badge can overflow
+ * its container and the menu button looks detached.  We reduce the
+ * typography and padding of the badge, style the "Menu" button like
+ * a pill and reorganise the footer into a grid with a coloured
+ * access button.  All declarations use !important to override
+ * preceding rules.
+ */
+@media (max-width: 600px) {
+  /* Shrink the site title badge and tighten its spacing so the full
+     name "La Maison Brevan" fits on one line. */
+  .site-title-badge {
+    font-size: 0.9rem !important;
+    letter-spacing: 0.05em !important;
+    padding: 0 0.8rem !important;
+  }
+
+  /* Restyle the hamburger ("Menu") button to resemble the site title
+     badge.  Use the cream background and rust text with pill
+     rounded corners.  Display as inline‑flex for proper centring. */
+  .hamburger {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: var(--cream-bg2) !important;
+    color: var(--accent) !important;
+    border-radius: 2rem !important;
+    font-family: Georgia, "Times New Roman", serif !important;
+    font-size: 0.9rem !important;
+    letter-spacing: 0.05em !important;
+    text-transform: uppercase !important;
+    padding: 0 0.8rem !important;
+    border: none !important;
+    margin-left: 0 !important;
+  }
+
+  /* Reformat the footer into a two‑row grid.  The address spans
+     the full width on the first row and the follow/contact columns
+     share the second row. */
+  .footer-main-new {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    grid-row-gap: 1rem !important;
+    grid-column-gap: 1rem !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  .footer-address {
+    grid-column: 1 / -1 !important;
+    display: flex !important;
+    flex-direction: column-reverse !important;
+    align-items: center !important;
+  }
+  .footer-follow,
+  .footer-contact {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  /* Style the Plan d'accès button as a coloured pill and place it
+     above the address by virtue of column‑reverse. */
+  .footer-address .access-btn {
+    background: var(--accent) !important;
+    color: #fff !important;
+    border-radius: 2rem !important;
+    padding: 0.4rem 1rem !important;
+    margin-bottom: 0.5rem !important;
+    display: inline-block !important;
+    text-transform: uppercase !important;
+    font-size: 0.85rem !important;
+    letter-spacing: 0.05em !important;
+  }
+  .footer-address .access-btn:hover {
+    background: var(--accent-dark) !important;
+  }
+
+  /* Compress the legal links to maintain a single line and reduce
+     separators’ spacing. */
+  .footer-bottom .footer-legal {
+    font-size: 0.65rem !important;
+    white-space: normal !important;
+  }
+  .footer-bottom .separator {
+    margin: 0 0.25rem !important;
+  }
+}
+
 /*
  * Prevent the site title badge from overlapping or shifting navigation links on
  * mid‑sized viewports.  When the browser window is relatively narrow (up to
