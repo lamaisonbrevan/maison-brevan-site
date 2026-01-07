@@ -19,10 +19,10 @@
 /* Additional mobile and button overrides appended at end of file */
 @media (max-width: 600px) {
   .hero {
-    /* Increase the top margin further so the hero never hides behind
-       the fixed header on very small screens. 12rem provides enough
-       space for the header and avoids any overlap. */
-    margin-top: 12rem !important;
+    /* Increase the top margin even further so the hero never hides behind
+       the fixed header on very small screens. 15rem provides a generous
+       offset ensuring no part of the image is obscured by the header. */
+    margin-top: 15rem !important;
   }
   .hero .social-icons {
     /* Place the icons at the bottom‑right with a slight offset and ensure
@@ -4546,23 +4546,20 @@ footer .footer-main + .footer-main {
     width: 1.1rem !important;
     height: 1.1rem !important;
   }
+  /* On small screens hide the navigation dots entirely.  The user
+     can still swipe through the slides and the social icons stay
+     visible on the opposite side. */
   .hero .dots {
-    position: absolute !important;
-    /* Lower the navigation dots slightly to accommodate the smaller
-       social icons and to prevent any overlap. */
-    bottom: 0.6rem !important;
-    left: 1rem !important;
-    transform: none !important;
-    justify-content: flex-start !important;
-    z-index: 5 !important;
+    display: none !important;
   }
 
   /* Offset the hero by the height of the fixed header to prevent
      it from sliding underneath the top bar on small screens.
-     Use a larger top margin (12rem) so the hero never overlaps the
-     header on narrow screens. */
+     Increase the top margin even further (18rem) so the hero sits
+     comfortably below the header and leaves room for the gradient
+     bar visible on the desktop design. */
   .hero {
-    margin-top: 12rem !important;
+    margin-top: 18rem !important;
   }
 
   /* On very narrow screens display room cards one per row to prevent
