@@ -125,6 +125,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let currentIndex = 0;
 
+  // ------------------------------------------------------------------
+  // Sliding animation for gallery overlay
+  // This helper animates transitions between slides in the gallery
+  // overlay using CSS keyframes defined in style.css.  The direction
+  // argument should be +1 for forward navigation and -1 for backward.
+  function animateGallerySlide(newIndex, direction) {
+    if (newIndex === currentIndex) return;
+    const slides = slider.querySelectorAll('img');
+    const currentImg = slides[currentIndex];
+    const nextImg = slides[newIndex];
+    // Remove existing animation classes
+    [currentImg, nextImg].forEach((img) => {
+      img.classList.remove('slide-in-right', 'slide-out-left', 'slide-in-left', 'slide-out-right');
+    });
+    if (direction > 0) {
+      currentImg.classList.add('slide-out-left');
+      nextImg.classList.add('slide-in-right');
+    } else {
+      currentImg.classList.add('slide-out-right');
+      nextImg.classList.add('slide-in-left');
+    }
+    setTimeout(() => {
+      const imgs = slider.querySelectorAll('img');
+      imgs.forEach((img, i) => {
+        img.classList.toggle('active', i === newIndex);
+      });
+      const dots = dotsContainer.querySelectorAll('button');
+      dots.forEach((btn, i) => {
+        btn.classList.toggle('active', i === newIndex);
+      });
+      currentIndex = newIndex;
+      currentImg.classList.remove('slide-out-left', 'slide-out-right');
+      nextImg.classList.remove('slide-in-left', 'slide-in-right');
+    }, 500);
+  }
+
   function showSlide(index) {
     const slides = slider.querySelectorAll('img');
     slides.forEach((img, i) => {
@@ -157,7 +193,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (i === index) btn.classList.add('active');
       btn.addEventListener('click', (ev) => {
         ev.stopPropagation();
-        showSlide(i);
+        const dir = i > currentIndex ? 1 : -1;
+        animateGallerySlide(i, dir);
       });
       dotsContainer.appendChild(btn);
     });
@@ -182,12 +219,12 @@ document.addEventListener("DOMContentLoaded", () => {
   prevBtn.addEventListener('click', (ev) => {
     ev.stopPropagation();
     const newIndex = (currentIndex - 1 + images.length) % images.length;
-    showSlide(newIndex);
+    animateGallerySlide(newIndex, -1);
   });
   nextBtn.addEventListener('click', (ev) => {
     ev.stopPropagation();
     const newIndex = (currentIndex + 1) % images.length;
-    showSlide(newIndex);
+    animateGallerySlide(newIndex, +1);
   });
   closeBtn.addEventListener('click', () => {
     overlay.classList.remove('show');
@@ -228,10 +265,10 @@ document.addEventListener("DOMContentLoaded", () => {
       e.stopPropagation();
       if (diffX < 0) {
         const newIndex = (currentIndex + 1) % images.length;
-        showSlide(newIndex);
+        animateGallerySlide(newIndex, +1);
       } else {
         const newIndex = (currentIndex - 1 + images.length) % images.length;
-        showSlide(newIndex);
+        animateGallerySlide(newIndex, -1);
       }
     }
     galleryTouchStartX = null;

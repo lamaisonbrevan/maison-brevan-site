@@ -20,9 +20,9 @@
 @media (max-width: 600px) {
   .hero {
     /* Increase the top margin further so the hero never hides behind
-       the fixed header on very small screens. 10rem provides enough
+       the fixed header on very small screens. 12rem provides enough
        space for the header and avoids any overlap. */
-    margin-top: 10rem !important;
+    margin-top: 12rem !important;
   }
   .hero .social-icons {
     /* Place the icons at the bottom‑right with a slight offset and ensure
@@ -2552,6 +2552,60 @@ footer {
   border-color: var(--accent);
 }
 
+/* ------------------------------------------------------------------
+ * Sliding animations for the hero images.  These keyframes and helper
+ * classes allow hero slides to move in and out horizontally rather
+ * than simply appearing/disappearing.  They are applied via JS when
+ * navigating between slides.  Each animation lasts 0.5s and uses a
+ * gentle easing for smooth movement.  Opacity remains constant to
+ * avoid fading; only the horizontal position changes.
+ */
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 1; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slideOutLeft {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(-100%); opacity: 1; }
+}
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); opacity: 1; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slideOutRight {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(100%); opacity: 1; }
+}
+.hero img.slide-in-right {
+  animation: slideInRight 0.5s ease forwards;
+}
+.hero img.slide-out-left {
+  animation: slideOutLeft 0.5s ease forwards;
+}
+.hero img.slide-in-left {
+  animation: slideInLeft 0.5s ease forwards;
+}
+.hero img.slide-out-right {
+  animation: slideOutRight 0.5s ease forwards;
+}
+
+/* Apply the same sliding animations to images inside any gallery overlay.
+   The gallery overlays (gallery page and around page) use the class
+   .gallery-overlay for the lightbox.  Assign the slide classes to
+   overlay images so transitions mirror the hero slider. */
+.gallery-overlay img.slide-in-right {
+  animation: slideInRight 0.5s ease forwards;
+}
+.gallery-overlay img.slide-out-left {
+  animation: slideOutLeft 0.5s ease forwards;
+}
+.gallery-overlay img.slide-in-left {
+  animation: slideInLeft 0.5s ease forwards;
+}
+.gallery-overlay img.slide-out-right {
+  animation: slideOutRight 0.5s ease forwards;
+}
+
 /* -------------------------------------------------------------------
    Extra small‑screen overrides for the Around page
 
@@ -4504,9 +4558,11 @@ footer .footer-main + .footer-main {
   }
 
   /* Offset the hero by the height of the fixed header to prevent
-     it from sliding underneath the top bar on small screens. */
+     it from sliding underneath the top bar on small screens.
+     Use a larger top margin (12rem) so the hero never overlaps the
+     header on narrow screens. */
   .hero {
-    margin-top: 4rem !important;
+    margin-top: 12rem !important;
   }
 
   /* On very narrow screens display room cards one per row to prevent

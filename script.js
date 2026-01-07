@@ -150,6 +150,8 @@ const slides = document.querySelectorAll(".hero img");
   let current = 0;
 
   function showSlide(index) {
+    // Fallback slide update without animation.  This method
+    // immediately toggles the active class on the images and dots.
     slides.forEach((img, i) => {
       img.classList.toggle("active", i === index);
     });
@@ -159,26 +161,65 @@ const slides = document.querySelectorAll(".hero img");
     current = index;
   }
 
-  // Auto-rotate every 5 seconds
+  // ------------------------------------------------------------------
+  // Sliding animation for the hero slider
+  // This helper animates the transition between the current slide and
+  // the next/previous slide using CSS classes defined in style.css.
+  // The direction parameter should be +1 for forward navigation or
+  // -1 for backward navigation.  After the animation completes, the
+  // active states are updated and animation classes are removed.
+  function animateHeroSlide(newIndex, direction) {
+    if (newIndex === current) return;
+    const currentImg = slides[current];
+    const nextImg = slides[newIndex];
+    // Remove any lingering animation classes
+    [currentImg, nextImg].forEach((img) => {
+      img.classList.remove('slide-in-right', 'slide-out-left', 'slide-in-left', 'slide-out-right');
+    });
+    // Determine which animation classes to apply based on direction
+    if (direction > 0) {
+      currentImg.classList.add('slide-out-left');
+      nextImg.classList.add('slide-in-right');
+    } else {
+      currentImg.classList.add('slide-out-right');
+      nextImg.classList.add('slide-in-left');
+    }
+    // Schedule update of active classes after the animation duration
+    setTimeout(() => {
+      slides.forEach((img, i) => {
+        img.classList.toggle('active', i === newIndex);
+      });
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === newIndex);
+      });
+      current = newIndex;
+      // Remove animation classes so future animations can be applied
+      currentImg.classList.remove('slide-out-left', 'slide-out-right');
+      nextImg.classList.remove('slide-in-left', 'slide-in-right');
+    }, 500);
+  }
+
+  // Auto-rotate every 5 seconds using sliding animation
   let intervalId = setInterval(() => {
     const next = (current + 1) % slides.length;
-    showSlide(next);
+    animateHeroSlide(next, +1);
   }, 5000);
 
   // Pause on hover
   const hero = document.querySelector(".hero");
-  hero.addEventListener("mouseenter", () => clearInterval(intervalId));
-  hero.addEventListener("mouseleave", () => {
+  hero.addEventListener('mouseenter', () => clearInterval(intervalId));
+  hero.addEventListener('mouseleave', () => {
     intervalId = setInterval(() => {
       const next = (current + 1) % slides.length;
-      showSlide(next);
+      animateHeroSlide(next, +1);
     }, 5000);
   });
 
-  // Dot click handler
+  // Dot click handler with sliding animation
   dots.forEach((dot, i) => {
-    dot.addEventListener("click", () => {
-      showSlide(i);
+    dot.addEventListener('click', () => {
+      const direction = i > current ? 1 : -1;
+      animateHeroSlide(i, direction);
     });
   });
 
@@ -200,15 +241,15 @@ const slides = document.querySelectorAll(".hero img");
       clearInterval(intervalId);
       if (diff < 0) {
         const next = (current + 1) % slides.length;
-        showSlide(next);
+        animateHeroSlide(next, +1);
       } else {
         const prev = (current - 1 + slides.length) % slides.length;
-        showSlide(prev);
+        animateHeroSlide(prev, -1);
       }
       // Restart auto‑rotation after swipe
       intervalId = setInterval(() => {
         const next = (current + 1) % slides.length;
-        showSlide(next);
+        animateHeroSlide(next, +1);
       }, 5000);
     }
     heroTouchStartX = null;

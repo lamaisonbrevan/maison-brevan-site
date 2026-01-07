@@ -219,6 +219,7 @@
       const imgSources = images.map((img) => img.src);
       let current = 0;
       function showSlide(index) {
+        // Fallback slide update without animation
         const slides = slider.querySelectorAll('img');
         slides.forEach((img, i) => {
           img.classList.toggle('active', i === index);
@@ -228,6 +229,36 @@
         dots.forEach((btn, i) => {
           btn.classList.toggle('active', i === index);
         });
+      }
+
+      // Sliding animation for the Around page overlay
+      function animateAroundSlide(newIndex, direction) {
+        if (newIndex === current) return;
+        const imgs = slider.querySelectorAll('img');
+        const currentImg = imgs[current];
+        const nextImg = imgs[newIndex];
+        [currentImg, nextImg].forEach(function(img) {
+          img.classList.remove('slide-in-right','slide-out-left','slide-in-left','slide-out-right');
+        });
+        if (direction > 0) {
+          currentImg.classList.add('slide-out-left');
+          nextImg.classList.add('slide-in-right');
+        } else {
+          currentImg.classList.add('slide-out-right');
+          nextImg.classList.add('slide-in-left');
+        }
+        setTimeout(function() {
+          imgs.forEach(function(img, i) {
+            img.classList.toggle('active', i === newIndex);
+          });
+          const dots = dotsContainer.querySelectorAll('button');
+          dots.forEach(function(btn, i) {
+            btn.classList.toggle('active', i === newIndex);
+          });
+          current = newIndex;
+          currentImg.classList.remove('slide-out-left','slide-out-right');
+          nextImg.classList.remove('slide-in-left','slide-in-right');
+        }, 500);
       }
       function openOverlay(index) {
         // Populate the slider
@@ -246,7 +277,8 @@
           if (i === index) btn.classList.add('active');
           btn.addEventListener('click', function(ev) {
             ev.stopPropagation();
-            showSlide(i);
+            const dir = i > current ? 1 : -1;
+            animateAroundSlide(i, dir);
           });
           dotsContainer.appendChild(btn);
         });
@@ -266,12 +298,12 @@
       prevBtn.addEventListener('click', function(ev) {
         ev.stopPropagation();
         const newIndex = (current - 1 + imgSources.length) % imgSources.length;
-        showSlide(newIndex);
+        animateAroundSlide(newIndex, -1);
       });
       nextBtn.addEventListener('click', function(ev) {
         ev.stopPropagation();
         const newIndex = (current + 1) % imgSources.length;
-        showSlide(newIndex);
+        animateAroundSlide(newIndex, +1);
       });
       closeBtn.addEventListener('click', function() {
         overlay.classList.remove('show');
@@ -307,10 +339,10 @@
           ev.stopPropagation();
           if (diffX < 0) {
             var newIndex = (current + 1) % imgSources.length;
-            showSlide(newIndex);
+            animateAroundSlide(newIndex, +1);
           } else {
             var newIndex = (current - 1 + imgSources.length) % imgSources.length;
-            showSlide(newIndex);
+            animateAroundSlide(newIndex, -1);
           }
         }
         aroundTouchStartX = null;
