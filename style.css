@@ -16,6 +16,41 @@
   color: var(--text-color);
 }
 
+/* Additional mobile and button overrides appended at end of file */
+@media (max-width: 600px) {
+  .hero {
+    margin-top: 5rem !important;
+  }
+  .hero .social-icons {
+    bottom: 1rem !important;
+    right: 1rem !important;
+    left: auto !important;
+    justify-content: flex-end !important;
+    gap: 0.4rem !important;
+  }
+  .hero .social-icons svg {
+    width: 1rem !important;
+    height: 1rem !important;
+  }
+  .hero .dots {
+    bottom: 1rem !important;
+    left: 1rem !important;
+    justify-content: flex-start !important;
+  }
+}
+
+.room-reserve-btn {
+  background: linear-gradient(135deg, var(--accent-light), var(--accent-dark)) !important;
+  color: #ffffff !important;
+}
+.room-reserve-btn:hover {
+  color: #ffffff !important;
+}
+.room-reserve-btn::before,
+.room-reserve-btn::after {
+  opacity: 1 !important;
+}
+
 .footer-bottom a {
   color: inherit;
   text-decoration: none;
