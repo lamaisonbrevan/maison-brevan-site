@@ -2564,6 +2564,33 @@ footer {
   from { transform: translateX(100%); opacity: 1; }
   to { transform: translateX(0); opacity: 1; }
 }
+
+/* ------------------------------------------------------------------
+ * Room slider transitions
+ *
+ * Similar to the hero slider, animate room card images when
+ * transitioning between slides.  The classes below mirror those
+ * used for the hero and gallery overlays but are scoped to
+ * `.room-slider img`.  They translate the incoming and outgoing
+ * images horizontally and fade them in/out for a smooth carousel
+ * effect.
+ */
+.room-slider img.slide-in-right {
+  animation: slideInRight 0.5s ease forwards;
+  z-index: 2;
+}
+.room-slider img.slide-out-left {
+  animation: slideOutLeft 0.5s ease forwards;
+  z-index: 1;
+}
+.room-slider img.slide-in-left {
+  animation: slideInLeft 0.5s ease forwards;
+  z-index: 2;
+}
+.room-slider img.slide-out-right {
+  animation: slideOutRight 0.5s ease forwards;
+  z-index: 1;
+}
 @keyframes slideOutLeft {
   from { transform: translateX(0); opacity: 1; }
   to { transform: translateX(-100%); opacity: 1; }
@@ -4555,11 +4582,12 @@ footer .footer-main + .footer-main {
 
   /* Offset the hero by the height of the fixed header to prevent
      it from sliding underneath the top bar on small screens.
-     Increase the top margin even further (18rem) so the hero sits
-     comfortably below the header and leaves room for the gradient
-     bar visible on the desktop design. */
+     Use a moderate top margin (10rem) so the hero sits just below
+     the header without leaving an excessive blank area.  This
+     positioning matches the desktop design by showing a small
+     gradient strip between the header and the hero. */
   .hero {
-    margin-top: 18rem !important;
+    margin-top: 10rem !important;
   }
 
   /* On very narrow screens display room cards one per row to prevent
