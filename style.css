@@ -4280,40 +4280,48 @@ footer .footer-main + .footer-main {
  * preceding rules.
  */
 @media (max-width: 600px) {
-  /* Shrink the site title badge and tighten its spacing so the full
-     name "La Maison Brevan" fits on one line. */
-  .site-title-badge {
-    font-size: 0.9rem !important;
-    letter-spacing: 0.05em !important;
-    padding: 0 0.8rem !important;
-    /* Add a small right margin so the title badge doesn't touch the Menu button */
-    /* Separate the title badge from the Menu button a bit more on very small screens */
-    margin-right: 1rem !important;
-  }
-
-  /* Restyle the hamburger ("Menu") button to resemble the site title
-     badge.  Use the cream background and rust text with pill
-     rounded corners.  Display as inline‑flex for proper centring. */
+  /*
+   * Ensure the site title badge and the Menu button share identical
+   * sizing on mobile.  Use inline‑flex to vertically centre the
+   * contents, apply equal vertical padding and consistent font
+   * styling.  The margins separate the two badges so they never
+   * appear stuck together.  Letter spacing and font size are
+   * slightly reduced to fit comfortably on small screens.
+   */
+  .site-title-badge,
   .hamburger {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
+    font-family: Georgia, "Times New Roman", serif !important;
+    font-size: 0.85rem !important;
+    letter-spacing: 0.05em !important;
+    line-height: 1 !important;
+    text-transform: uppercase !important;
+    padding: 0.35rem 1rem !important;
+    height: auto !important;
+    border: none !important;
+  }
+
+  /* Specific styling for the site title badge: lighten the background,
+     add a right margin so it doesn’t touch the Menu button, and use
+     rust text.  The border radius matches the desktop design. */
+  .site-title-badge {
     background: var(--cream-bg2) !important;
     color: var(--accent) !important;
     border-radius: 2rem !important;
-    font-family: Georgia, "Times New Roman", serif !important;
-    font-size: 0.9rem !important;
-    letter-spacing: 0.05em !important;
-    text-transform: uppercase !important;
-    padding: 0 0.8rem !important;
-    border: none !important;
-    /* Add a left margin for spacing relative to the title badge */
-    /* Increase the left margin to separate the Menu button from the title badge */
+    margin-right: 1rem !important;
+  }
+
+  /* Specific styling for the Menu badge: mirror the title badge styles
+     and add a left margin to separate it from the title.  Remove
+     bold weight to match the title’s typestyle. */
+  .hamburger {
+    background: var(--cream-bg2) !important;
+    color: var(--accent) !important;
+    border-radius: 2rem !important;
     margin-left: 1rem !important;
-    /* Remove bold weight so the Menu text matches the title */
     font-weight: normal !important;
-    /* Match the vertical sizing of the title badge */
-    line-height: 1 !important;
   }
 
   /* Reformat the footer into a two‑row grid.  The address spans
@@ -4383,6 +4391,42 @@ footer .footer-main + .footer-main {
   }
   .footer-bottom .footer-legal a {
     padding: 0 0.25rem !important;
+  }
+
+  /* -----------------------------------------------------------------
+   * Hero responsiveness on small screens
+   * On narrow viewports the full-screen hero can be overwhelming and
+   * its navigation (dots and social icons) may fall outside the visible
+   * area.  Set a fixed percentage height so the entire image remains
+   * visible while preserving its aspect ratio via object-fit: contain.
+   * Reposition the navigation elements below the image and centre
+   * them.  Using absolute positioning for images maintains the
+   * cross-fade animation while still respecting the new height.
+   */
+  .hero {
+    height: 70vh !important;
+    max-height: 70vh !important;
+    overflow: hidden !important;
+  }
+  .hero img {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+  }
+  .hero .social-icons {
+    position: static !important;
+    margin-top: 0.5rem !important;
+    justify-content: center !important;
+    gap: 0.8rem !important;
+  }
+  .hero .dots {
+    position: static !important;
+    margin-top: 0.5rem !important;
+    justify-content: center !important;
   }
 
   /* On very narrow screens display room cards one per row to prevent
