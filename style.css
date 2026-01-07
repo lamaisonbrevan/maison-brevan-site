@@ -4313,9 +4313,9 @@ footer .footer-main + .footer-main {
     margin-right: 1rem !important;
     /* Add a gap between the logo and text, and equalise the horizontal
        padding so the text appears visually centred inside the badge. */
-    gap: 0.5rem !important;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
+    gap: 0.45rem !important;
+    padding-left: 0.9rem !important;
+    padding-right: 1.25rem !important;
   }
 
   /* Specific styling for the Menu badge: mirror the title badge styles
@@ -4422,12 +4422,19 @@ footer .footer-main + .footer-main {
   }
   .hero .social-icons {
     position: absolute !important;
-    bottom: 2.2rem !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    justify-content: center !important;
-    gap: 0.8rem !important;
+    bottom: 1.5rem !important;
+    right: 1rem !important;
+    left: auto !important;
+    transform: none !important;
+    justify-content: flex-end !important;
+    gap: 0.5rem !important;
     z-index: 5 !important;
+  }
+  /* Shrink hero social icons on small screens so they don't overlap
+     the navigation dots */
+  .hero .social-icons svg {
+    width: 1.3rem !important;
+    height: 1.3rem !important;
   }
   .hero .dots {
     position: absolute !important;
