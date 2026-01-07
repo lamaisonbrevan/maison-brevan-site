@@ -59,3 +59,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+// When navigating back/forward via the browser, the page may be restored
+// from the back-forward cache (bfcache) and DOMContentLoaded will not fire.
+// This handler replays the entry animation and removes any exit classes.
+window.addEventListener('pageshow', (event) => {
+  // When navigating back/forward via the browser, the page may be
+  // restored from the back‑forward cache (bfcache) and DOMContentLoaded
+  // will not fire.  Regardless of whether the event is persisted, clear
+  // any exit/enter classes and replay the entry animation on the
+  // wrapper or body.  Without this, pages loaded from the bfcache
+  // sometimes remain hidden behind an exit transformation.
+  const wrapper = document.querySelector('.page-wrapper');
+  if (wrapper) {
+    wrapper.classList.remove(
+      'page-turn-exit',
+      'page-turn-exit-active',
+      'page-turn-enter',
+      'page-turn-enter-active'
+    );
+    wrapper.classList.add('page-turn-enter');
+    requestAnimationFrame(() => {
+      wrapper.classList.add('page-turn-enter-active');
+    });
+  } else {
+    document.body.classList.remove('page-exit', 'page-exit-active');
+    document.body.classList.add('page-enter');
+    requestAnimationFrame(() => {
+      document.body.classList.add('page-enter-active');
+    });
+  }
+});
