@@ -249,29 +249,69 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // --------------------------------------------------------------
-  // Touch swipe navigation for gallery overlay
-  // Enable swiping left or right on the enlarged gallery photo to move
-  // through the slideshow.  A threshold of 50 pixels distinguishes
-  // intentional swipes from taps.  Stop propagation on touchend so
-  // that a swipe does not inadvertently close the overlay.
-  let galleryTouchStartX = null;
+  // Touch drag navigation for gallery overlay
+  // Allow users to drag the current slide left or right.  While dragging,
+  // the current and neighbouring slides follow the finger.  Only on
+  // touchend do we decide whether to change slides based on a distance
+  // threshold.  If the drag is too short, the slides snap back to
+  // their original positions.  This behaviour matches the hero and
+  // room carousels implemented in script.js.
+  let galleryStartX = null;
+  let galleryDragging = false;
+  let galleryContainerWidth = null;
   slider.addEventListener('touchstart', (e) => {
-    galleryTouchStartX = e.touches[0].clientX;
-  });
-  slider.addEventListener('touchend', (e) => {
-    if (galleryTouchStartX === null) return;
-    const diffX = e.changedTouches[0].clientX - galleryTouchStartX;
-    if (Math.abs(diffX) > 50) {
-      e.stopPropagation();
-      if (diffX < 0) {
-        const newIndex = (currentIndex + 1) % images.length;
-        animateGallerySlide(newIndex, +1);
-      } else {
-        const newIndex = (currentIndex - 1 + images.length) % images.length;
-        animateGallerySlide(newIndex, -1);
-      }
+    galleryStartX = e.touches[0].clientX;
+    galleryDragging = true;
+    galleryContainerWidth = slider.offsetWidth;
+    // disable transitions during drag
+    const slides = slider.querySelectorAll('img');
+    slides.forEach((img) => {
+      img.style.transition = 'none';
+    });
+  }, { passive: true });
+  slider.addEventListener('touchmove', (e) => {
+    if (!galleryDragging || galleryStartX === null) return;
+    const diffX = e.touches[0].clientX - galleryStartX;
+    const slides = slider.querySelectorAll('img');
+    const currentImg = slides[currentIndex];
+    currentImg.style.transform = `translateX(${diffX}px)`;
+    // Determine neighbour based on drag direction
+    if (diffX < 0) {
+      const neighbourIndex = (currentIndex + 1) % slides.length;
+      const neighbourImg = slides[neighbourIndex];
+      neighbourImg.style.transform = `translateX(${galleryContainerWidth + diffX}px)`;
+    } else if (diffX > 0) {
+      const neighbourIndex = (currentIndex - 1 + slides.length) % slides.length;
+      const neighbourImg = slides[neighbourIndex];
+      neighbourImg.style.transform = `translateX(${-galleryContainerWidth + diffX}px)`;
     }
-    galleryTouchStartX = null;
+  }, { passive: true });
+  slider.addEventListener('touchend', (e) => {
+    if (!galleryDragging || galleryStartX === null) return;
+    const diffX = e.changedTouches[0].clientX - galleryStartX;
+    const slides = slider.querySelectorAll('img');
+    // restore transitions
+    slides.forEach((img) => {
+      img.style.transition = '';
+    });
+    const threshold = galleryContainerWidth * 0.25;
+    if (Math.abs(diffX) > threshold) {
+      e.stopPropagation();
+      const direction = diffX < 0 ? +1 : -1;
+      const newIndex = (currentIndex + direction + images.length) % images.length;
+      // reset transforms before performing the animated slide
+      slides.forEach((img) => {
+        img.style.transform = '';
+      });
+      animateGallerySlide(newIndex, direction);
+    } else {
+      // revert transforms
+      slides.forEach((img) => {
+        img.style.transform = '';
+      });
+    }
+    galleryStartX = null;
+    galleryDragging = false;
   });
 
   // Page transitions are handled globally via transition.js using

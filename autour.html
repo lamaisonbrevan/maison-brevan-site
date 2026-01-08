@@ -323,29 +323,66 @@
       });
 
       // --------------------------------------------------------------
-      // Touch swipe navigation for the Around page overlay
-      // Detect horizontal swipes on the image slider and move to the
-      // previous or next photo.  A swipe threshold of 50px is used to
-      // avoid accidental triggers on taps.  Stop propagation on
-      // touchend so that the swipe does not close the overlay.
-      var aroundTouchStartX = null;
+      // Enhanced touch drag navigation for the Around page overlay
+      // Users can drag the current photo left or right.  The slide moves
+      // in real‑time with the finger, and on touchend a threshold
+      // determines whether to transition to the next/previous image.  If
+      // the drag is too short, the slides snap back to their original
+      // positions without changing the index.  This mirrors the
+      // behaviour used for other carousels on the site.
+      var aroundStartX = null;
+      var aroundDragging = false;
+      var aroundContainerWidth = null;
       slider.addEventListener('touchstart', function(ev) {
-        aroundTouchStartX = ev.touches[0].clientX;
-      });
-      slider.addEventListener('touchend', function(ev) {
-        if (aroundTouchStartX === null) return;
-        var diffX = ev.changedTouches[0].clientX - aroundTouchStartX;
-        if (Math.abs(diffX) > 50) {
-          ev.stopPropagation();
-          if (diffX < 0) {
-            var newIndex = (current + 1) % imgSources.length;
-            animateAroundSlide(newIndex, +1);
-          } else {
-            var newIndex = (current - 1 + imgSources.length) % imgSources.length;
-            animateAroundSlide(newIndex, -1);
-          }
+        aroundStartX = ev.touches[0].clientX;
+        aroundDragging = true;
+        aroundContainerWidth = slider.offsetWidth;
+        // disable transitions during drag
+        var imgs = slider.querySelectorAll('img');
+        imgs.forEach(function(img) {
+          img.style.transition = 'none';
+        });
+      }, { passive: true });
+      slider.addEventListener('touchmove', function(ev) {
+        if (!aroundDragging || aroundStartX === null) return;
+        var diff = ev.touches[0].clientX - aroundStartX;
+        var imgs = slider.querySelectorAll('img');
+        var currentImg = imgs[current];
+        currentImg.style.transform = 'translateX(' + diff + 'px)';
+        if (diff < 0) {
+          var neighborIndex = (current + 1) % imgs.length;
+          var neighborImg = imgs[neighborIndex];
+          neighborImg.style.transform = 'translateX(' + (aroundContainerWidth + diff) + 'px)';
+        } else if (diff > 0) {
+          var neighborIndex2 = (current - 1 + imgs.length) % imgs.length;
+          var neighborImg2 = imgs[neighborIndex2];
+          neighborImg2.style.transform = 'translateX(' + (-aroundContainerWidth + diff) + 'px)';
         }
-        aroundTouchStartX = null;
+      }, { passive: true });
+      slider.addEventListener('touchend', function(ev) {
+        if (!aroundDragging || aroundStartX === null) return;
+        var diff = ev.changedTouches[0].clientX - aroundStartX;
+        var imgs = slider.querySelectorAll('img');
+        imgs.forEach(function(img) {
+          img.style.transition = '';
+        });
+        var threshold = aroundContainerWidth * 0.25;
+        if (Math.abs(diff) > threshold) {
+          ev.stopPropagation();
+          var direction = diff < 0 ? 1 : -1;
+          var newIndex = (current + direction + imgSources.length) % imgSources.length;
+          // reset transforms before animating
+          imgs.forEach(function(img) {
+            img.style.transform = '';
+          });
+          animateAroundSlide(newIndex, direction);
+        } else {
+          imgs.forEach(function(img) {
+            img.style.transform = '';
+          });
+        }
+        aroundStartX = null;
+        aroundDragging = false;
       });
     });
   </script>

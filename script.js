@@ -223,40 +223,101 @@ const slides = document.querySelectorAll(".hero img");
     });
   });
 
-  // --------------------------------------------------------------
-  // Touch swipe navigation for the hero slider
-  // On touch devices allow users to swipe left/right on the hero
-  // image to navigate between slides.  A horizontal swipe exceeding
-  // 50 pixels triggers the previous or next slide accordingly.  This
-  // complements the auto‑rotation and dot navigation.
-  let heroTouchStartX = null;
-  hero.addEventListener('touchstart', (e) => {
-    heroTouchStartX = e.touches[0].clientX;
-  });
-  hero.addEventListener('touchend', (e) => {
-    if (heroTouchStartX === null) return;
-    const diff = e.changedTouches[0].clientX - heroTouchStartX;
-    if (Math.abs(diff) > 50) {
-      // Stop auto‑rotation to avoid a double update during swipes
-      clearInterval(intervalId);
-      if (diff < 0) {
-        const next = (current + 1) % slides.length;
-        animateHeroSlide(next, +1);
-      } else {
-        const prev = (current - 1 + slides.length) % slides.length;
-        animateHeroSlide(prev, -1);
-      }
-      // Restart auto‑rotation after swipe
-      intervalId = setInterval(() => {
-        const next = (current + 1) % slides.length;
-        animateHeroSlide(next, +1);
-      }, 5000);
-    }
-    heroTouchStartX = null;
+  // Attach a generic swipe handler to the hero that animates the
+  // slides during the drag and decides on the final slide on
+  // touchend.  See attachSwipe() definition for implementation.
+  // The handler updates the global `current` and uses
+  // animateHeroSlide() to perform the slide once the swipe ends.
+  attachSwipe(hero, slides, () => current, (newIndex, direction) => {
+    animateHeroSlide(newIndex, direction);
   });
 
   // Show initial slide
   showSlide(0);
+
+  /**
+   * Attach swipe handling to a slider container.
+   *
+   * This helper enables drag‑to‑swipe functionality on any carousel.  It
+   * listens to touchstart/move/end events on the given container,
+   * translates the images during the drag, and decides on
+   * touchend whether to commit to the next/previous slide or revert
+   * back to the current one.  Threshold is based on 25% of the
+   * container width.  The `getIndex` function must return the
+   * current slide index, and `setIndex` is called with the new
+   * index and direction (+1 or –1) when the slide should change.
+   *
+   * @param {HTMLElement} container The DOM element to attach listeners to.
+   * @param {NodeListOf<HTMLElement>} imgList A list of the images in the slider.
+   * @param {Function} getIndex Function returning the current active index.
+   * @param {Function} setIndex Function accepting (newIndex, direction) and performing the slide change.
+   */
+  function attachSwipe(container, imgList, getIndex, setIndex) {
+    let startX = null;
+    let isDragging = false;
+    let containerWidth = null;
+    let currentIndex = null;
+    let neighborIndex = null;
+    container.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      isDragging = true;
+      containerWidth = container.offsetWidth;
+      currentIndex = getIndex();
+      // Disable transitions during drag
+      imgList.forEach(img => {
+        img.style.transition = 'none';
+      });
+    }, { passive: true });
+    container.addEventListener('touchmove', (e) => {
+      if (!isDragging || startX === null) return;
+      const diff = e.touches[0].clientX - startX;
+      // Translate current image
+      const currentImg = imgList[currentIndex];
+      currentImg.style.transform = `translateX(${diff}px)`;
+      // Determine which neighbouring image to move based on drag direction
+      if (diff < 0) {
+        neighborIndex = (currentIndex + 1) % imgList.length;
+        const neighborImg = imgList[neighborIndex];
+        neighborImg.style.transform = `translateX(${containerWidth + diff}px)`;
+      } else if (diff > 0) {
+        neighborIndex = (currentIndex - 1 + imgList.length) % imgList.length;
+        const neighborImg = imgList[neighborIndex];
+        neighborImg.style.transform = `translateX(${-containerWidth + diff}px)`;
+      }
+    }, { passive: true });
+    container.addEventListener('touchend', (e) => {
+      if (!isDragging || startX === null) return;
+      const diff = e.changedTouches[0].clientX - startX;
+      // Restore transitions
+      imgList.forEach(img => {
+        img.style.transition = '';
+      });
+      const threshold = containerWidth * 0.25;
+      if (Math.abs(diff) > threshold) {
+        // Determine direction and compute new index
+        const direction = diff < 0 ? +1 : -1;
+        const newIndex = (currentIndex + direction + imgList.length) % imgList.length;
+        // Reset transforms before animating with our slide functions
+        imgList.forEach(img => {
+          img.style.transform = '';
+        });
+        setIndex(newIndex, direction);
+      } else {
+        // Revert translation
+        imgList.forEach(img => {
+          img.style.transform = '';
+        });
+      }
+      startX = null;
+      isDragging = false;
+    });
+  }
+
+  // Expose attachSwipe globally so other scripts (gallery.js, around overlay)
+  // can reuse the same drag‑to‑swipe behaviour.  Without assigning
+  // attachSwipe to window, the helper remains scoped within this
+  // closure and cannot be invoked from other modules or inline scripts.
+  window.attachSwipe = attachSwipe;
 
   // --------------------------------------------------------------
   // Performance: Enable native lazy‑loading for images
@@ -374,35 +435,25 @@ const slides = document.querySelectorAll(".hero img");
     // Initialise first slide
     showRoomSlide(0);
 
-    // --------------------------------------------------------------
-    // Touch swipe navigation for each room card slider
-    // Detect horizontal swipes on the room image container and
-    // navigate to the previous or next image accordingly.  Pause the
-    // autoplay interval during the swipe and restart it afterwards.
-    let roomTouchStartX = null;
-    roomImgContainer.addEventListener('touchstart', (e) => {
-      roomTouchStartX = e.touches[0].clientX;
-    });
-    roomImgContainer.addEventListener('touchend', (e) => {
-      if (roomTouchStartX === null) return;
-      const diff2 = e.changedTouches[0].clientX - roomTouchStartX;
-      if (Math.abs(diff2) > 50) {
+    // Attach swipe handling to the room image container.  The
+    // generic attachSwipe() function handles the drag motion and
+    // decides which slide to show once the finger is lifted.  It
+    // pauses the autoplay interval during the swipe and restarts it
+    // afterwards.
+    attachSwipe(
+      roomImgContainer,
+      images,
+      () => index,
+      (newIndex, direction) => {
         clearInterval(roomInterval);
-        if (diff2 < 0) {
-          const next = (index + 1) % images.length;
-          animateRoomSlide(next, +1);
-        } else {
-          const prev = (index - 1 + images.length) % images.length;
-          animateRoomSlide(prev, -1);
-        }
-        // Restart autoplay interval
+        animateRoomSlide(newIndex, direction);
+        // Restart autoplay interval after the animation
         roomInterval = setInterval(() => {
           const next = (index + 1) % images.length;
           animateRoomSlide(next, +1);
         }, 5000);
       }
-      roomTouchStartX = null;
-    });
+    );
   });
 
   /*
