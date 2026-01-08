@@ -4586,7 +4586,10 @@ footer .footer-main + .footer-main {
      positioning matches the desktop design by showing a small
      gradient strip between the header and the hero. */
   .hero {
-    margin-top: 6rem !important;
+    /* Reduce top margin so the hero sits closely below the header on
+       small screens.  This aligns the hero image with the header
+       without leaving a noticeable gap. */
+    margin-top: 2rem !important;
   }
 
   /* On very narrow screens display room cards one per row to prevent

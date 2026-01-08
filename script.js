@@ -278,10 +278,14 @@ const slides = document.querySelectorAll(".hero img");
       if (diff < 0) {
         neighborIndex = (currentIndex + 1) % imgList.length;
         const neighborImg = imgList[neighborIndex];
+        // Make the neighbouring image visible during drag and move it alongside
+        neighborImg.style.opacity = '1';
         neighborImg.style.transform = `translateX(${containerWidth + diff}px)`;
       } else if (diff > 0) {
         neighborIndex = (currentIndex - 1 + imgList.length) % imgList.length;
         const neighborImg = imgList[neighborIndex];
+        // Make the neighbouring image visible during drag and move it alongside
+        neighborImg.style.opacity = '1';
         neighborImg.style.transform = `translateX(${-containerWidth + diff}px)`;
       }
     }, { passive: true });
@@ -300,12 +304,16 @@ const slides = document.querySelectorAll(".hero img");
         // Reset transforms before animating with our slide functions
         imgList.forEach(img => {
           img.style.transform = '';
+          // Reset temporary opacity so animation can control it via CSS classes
+          img.style.opacity = '';
         });
         setIndex(newIndex, direction);
       } else {
         // Revert translation
         imgList.forEach(img => {
           img.style.transform = '';
+          // Revert any temporary opacity applied during drag
+          img.style.opacity = '';
         });
       }
       startX = null;
@@ -492,13 +500,13 @@ const slides = document.querySelectorAll(".hero img");
       ev.stopPropagation();
       if (!overlayImages || overlayImages.length === 0) return;
       const prevIndex = (currentOverlayIndex - 1 + overlayImages.length) % overlayImages.length;
-      updateOverlaySlide(prevIndex);
+      animateOverlaySlide(prevIndex, -1);
     });
     overlayNext.addEventListener('click', (ev) => {
       ev.stopPropagation();
       if (!overlayImages || overlayImages.length === 0) return;
       const nextIndex = (currentOverlayIndex + 1) % overlayImages.length;
-      updateOverlaySlide(nextIndex);
+      animateOverlaySlide(nextIndex, +1);
     });
   }
 
@@ -513,6 +521,45 @@ const slides = document.querySelectorAll(".hero img");
     dotButtons.forEach((btn, idx) => {
       btn.classList.toggle('active', idx === index);
     });
+  }
+
+  /*
+   * Animate room overlay slide transition.
+   *
+   * This helper performs a sliding animation between the current
+   * overlay image and the next/previous image.  It mirrors the
+   * behaviour of the hero and gallery sliders by applying CSS
+   * classes defined in style.css.  The direction parameter should
+   * be +1 for forward (next) and -1 for backward (previous).
+   */
+  function animateOverlaySlide(newIndex, direction) {
+    if (!overlayImages || overlayImages.length === 0) return;
+    if (newIndex === currentOverlayIndex) return;
+    const imgs = overlaySlider.querySelectorAll('img');
+    const currentImg = imgs[currentOverlayIndex];
+    const nextImg = imgs[newIndex];
+    // Remove any existing animation classes
+    [currentImg, nextImg].forEach((img) => {
+      img.classList.remove('slide-in-right','slide-out-left','slide-in-left','slide-out-right');
+    });
+    // Determine classes based on direction
+    const outClass = direction > 0 ? 'slide-out-left' : 'slide-out-right';
+    const inClass  = direction > 0 ? 'slide-in-right' : 'slide-in-left';
+    // Apply animation classes
+    currentImg.classList.add(outClass);
+    nextImg.classList.add(inClass);
+    // Update dot states immediately
+    const dotButtons = overlayDotsContainer.querySelectorAll('button');
+    dotButtons[currentOverlayIndex].classList.remove('active');
+    dotButtons[newIndex].classList.add('active');
+    setTimeout(() => {
+      // After animation, update active classes and reset animation classes
+      imgs.forEach((img, idx) => {
+        img.classList.remove('slide-in-right','slide-out-left','slide-in-left','slide-out-right');
+        img.classList.toggle('active', idx === newIndex);
+      });
+      currentOverlayIndex = newIndex;
+    }, 500);
   }
 
   function openOverlay(card) {
@@ -549,11 +596,13 @@ const slides = document.querySelectorAll(".hero img");
     overlayDotsContainer.innerHTML = '';
     overlayImages.forEach((_, idx) => {
       const btn = document.createElement('button');
+      if (idx === 0) btn.classList.add('active');
       btn.addEventListener('click', (ev) => {
         ev.stopPropagation();
-        updateOverlaySlide(idx);
+        // Determine direction based on relative index
+        const dir = idx > currentOverlayIndex ? 1 : -1;
+        animateOverlaySlide(idx, dir);
       });
-      if (idx === 0) btn.classList.add('active');
       overlayDotsContainer.appendChild(btn);
     });
     // Attach click handlers to each image in the overlay slider to toggle
@@ -663,31 +712,74 @@ const slides = document.querySelectorAll(".hero img");
   });
 
   // --------------------------------------------------------------
-  // Touch swipe navigation for the room overlay slider
-  // When the overlay is open on touch devices, users can swipe left or
-  // right on the enlarged photo to move to the next or previous image.
-  // The swipe distance threshold of 50px prevents accidental slide
-  // changes when tapping.  Because the overlay sits on top of other
-  // content, stopPropagation() is used during touchend to avoid
-  // closing the overlay.
-  let overlayTouchStartX = null;
-  overlaySlider.addEventListener('touchstart', (e) => {
-    overlayTouchStartX = e.touches[0].clientX;
-  });
-  overlaySlider.addEventListener('touchend', (e) => {
-    if (overlayTouchStartX === null) return;
-    const diff3 = e.changedTouches[0].clientX - overlayTouchStartX;
-    if (Math.abs(diff3) > 50 && overlayImages && overlayImages.length > 0) {
-      e.stopPropagation();
-      if (diff3 < 0) {
-        const nextIdx = (currentOverlayIndex + 1) % overlayImages.length;
-        updateOverlaySlide(nextIdx);
-      } else {
-        const prevIdx = (currentOverlayIndex - 1 + overlayImages.length) % overlayImages.length;
-        updateOverlaySlide(prevIdx);
-      }
+  // Enhanced touch drag navigation for the room overlay slider
+  // Users can drag the enlarged photo horizontally.  The current and
+  // neighbouring images follow the finger during the drag.  Only when
+  // the finger is lifted do we decide whether to transition to the next
+  // or previous slide based on a quarter of the slider width.  If the
+  // drag is shorter than the threshold, the images snap back to their
+  // original positions.  This behaviour mirrors the hero and gallery
+  // sliders for a unified user experience.
+  let overlayStartX = null;
+  let overlayDragging = false;
+  let overlayContainerWidth = null;
+  overlaySlider.addEventListener('touchstart', function(ev) {
+    overlayStartX = ev.touches[0].clientX;
+    overlayDragging = true;
+    overlayContainerWidth = overlaySlider.offsetWidth;
+    // disable transitions during drag
+    const imgs = overlaySlider.querySelectorAll('img');
+    imgs.forEach(function(img) {
+      img.style.transition = 'none';
+    });
+  }, { passive: true });
+  overlaySlider.addEventListener('touchmove', function(ev) {
+    if (!overlayDragging || overlayStartX === null) return;
+    const diff = ev.touches[0].clientX - overlayStartX;
+    const imgs = overlaySlider.querySelectorAll('img');
+    const currentImg = imgs[currentOverlayIndex];
+    currentImg.style.transform = 'translateX(' + diff + 'px)';
+    // Determine neighbour image and move it accordingly
+    if (diff < 0) {
+      const neighbourIdx = (currentOverlayIndex + 1) % imgs.length;
+      const neighbourImg = imgs[neighbourIdx];
+      neighbourImg.style.transform = 'translateX(' + (overlayContainerWidth + diff) + 'px)';
+      neighbourImg.style.opacity = '1';
+    } else if (diff > 0) {
+      const neighbourIdx = (currentOverlayIndex - 1 + imgs.length) % imgs.length;
+      const neighbourImg = imgs[neighbourIdx];
+      neighbourImg.style.transform = 'translateX(' + (-overlayContainerWidth + diff) + 'px)';
+      neighbourImg.style.opacity = '1';
     }
-    overlayTouchStartX = null;
+  }, { passive: true });
+  overlaySlider.addEventListener('touchend', function(ev) {
+    if (!overlayDragging || overlayStartX === null) return;
+    const diff = ev.changedTouches[0].clientX - overlayStartX;
+    const imgs = overlaySlider.querySelectorAll('img');
+    // restore transitions
+    imgs.forEach(function(img) {
+      img.style.transition = '';
+    });
+    const threshold = overlayContainerWidth * 0.25;
+    if (Math.abs(diff) > threshold) {
+      ev.stopPropagation();
+      const direction = diff < 0 ? 1 : -1;
+      const newIndex = (currentOverlayIndex + direction + overlayImages.length) % overlayImages.length;
+      // reset transforms and opacity before animating
+      imgs.forEach(function(img) {
+        img.style.transform = '';
+        img.style.opacity = '';
+      });
+      animateOverlaySlide(newIndex, direction);
+    } else {
+      // revert transforms and opacity
+      imgs.forEach(function(img) {
+        img.style.transform = '';
+        img.style.opacity = '';
+      });
+    }
+    overlayStartX = null;
+    overlayDragging = false;
   });
 
   /*

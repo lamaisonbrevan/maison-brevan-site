@@ -279,10 +279,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (diffX < 0) {
       const neighbourIndex = (currentIndex + 1) % slides.length;
       const neighbourImg = slides[neighbourIndex];
+      // Ensure the neighbouring image is visible during the drag
+      neighbourImg.style.opacity = '1';
       neighbourImg.style.transform = `translateX(${galleryContainerWidth + diffX}px)`;
     } else if (diffX > 0) {
       const neighbourIndex = (currentIndex - 1 + slides.length) % slides.length;
       const neighbourImg = slides[neighbourIndex];
+      // Ensure the neighbouring image is visible during the drag
+      neighbourImg.style.opacity = '1';
       neighbourImg.style.transform = `translateX(${-galleryContainerWidth + diffX}px)`;
     }
   }, { passive: true });
@@ -302,12 +306,15 @@ document.addEventListener("DOMContentLoaded", () => {
       // reset transforms before performing the animated slide
       slides.forEach((img) => {
         img.style.transform = '';
+        // Reset temporary opacity to allow animation to manage it
+        img.style.opacity = '';
       });
       animateGallerySlide(newIndex, direction);
     } else {
       // revert transforms
       slides.forEach((img) => {
         img.style.transform = '';
+        img.style.opacity = '';
       });
     }
     galleryStartX = null;
