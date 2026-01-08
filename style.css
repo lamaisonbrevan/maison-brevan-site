@@ -19,11 +19,10 @@
 /* Additional mobile and button overrides appended at end of file */
 @media (max-width: 600px) {
   .hero {
-    /* Offset the hero by roughly the height of the fixed header on small screens.
-       A moderate top margin ensures the image starts just below the navigation
-       bar without leaving an excessive gap.  This mirrors the "perfect"
-       positioning requested by the user. */
-    margin-top: 4rem !important;
+    /* Offset the hero by a bit more than the navigation bar height on small screens.
+       Increasing the top margin slightly lowers the hero under the header
+       to eliminate any residual overlap while still maintaining a minimal gap. */
+    margin-top: 5rem !important;
   }
   .hero .social-icons {
     /* Place the icons at the bottom‑right with a slight offset and ensure
@@ -4583,11 +4582,10 @@ footer .footer-main + .footer-main {
 
   /* Offset the hero by the height of the fixed header to prevent
      it from sliding underneath the top bar on small screens.
-     A 4rem top margin roughly matches the height of the navigation bar,
-     ensuring the hero begins immediately beneath the header without a
-     pronounced gap. */
+     Increase the top margin slightly (5rem) so the hero sits a bit further
+     below the header, as requested, without creating an excessive gap. */
   .hero {
-    margin-top: 4rem !important;
+    margin-top: 5rem !important;
   }
 
   /* On very narrow screens display room cards one per row to prevent
