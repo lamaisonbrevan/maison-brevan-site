@@ -20,9 +20,9 @@
 @media (max-width: 600px) {
   .hero {
     /* Lower the hero a bit more below the header on small screens.  A 7rem
-       top margin increases the separation slightly, as requested, while
+ X    top margin increases the separation slightly, as requested, while
        avoiding an excessive blank area. */
-    margin-top: 7rem !important;
+margin-top: 5rem !important;tant;
   }
   .hero .social-icons {
     /* Place the icons at the bottom‑right with a slight offset and ensure
@@ -38,7 +38,7 @@
     height: 1rem !important;
   }
   .hero .dots {
-    /* Hide navigation dots on very small screens to avoid overlap with
+    /*5Hide navigation dots on very small screens to avoid overlap with
        the social icons.  Users can still swipe to navigate between
        slides. */
     display: none !important;
@@ -4585,7 +4585,7 @@ footer .footer-main + .footer-main {
      Increase the top margin slightly (5rem) so the hero sits a bit further
      below the header, as requested, without creating an excessive gap. */
   .hero {
-    margin-top: 7rem !important;
+   margin-top: 5rem !important;
   }
 
   /* On very narrow screens display room cards one per row to prevent
