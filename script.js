@@ -258,11 +258,25 @@ const slides = document.querySelectorAll(".hero img");
     let containerWidth = null;
     let currentIndex = null;
     let neighborIndex = null;
+    // Track timing and finger position during drag to enable momentum- and velocity‑based slide changes.
+    // These variables are initialised on touchstart and updated on each touchmove.  On touchend
+    // we use them to compute the drag velocity and decide whether to change slides based on
+    // either distance or velocity thresholds.  Without these values, the carousel would rely
+    // solely on distance thresholds, causing abrupt snap‑back behaviour.
+    let startTime = null;
+    let lastX = null;
+    let lastTime = null;
     container.addEventListener('touchstart', (e) => {
       startX = e.touches[0].clientX;
       isDragging = true;
       containerWidth = container.offsetWidth;
       currentIndex = getIndex();
+      // Initialise timing variables for velocity calculations.  We record the time and finger
+      // position at the start of the drag and update them on each move.  These values are
+      // used on touchend to derive the drag velocity.
+      startTime = Date.now();
+      lastX = startX;
+      lastTime = startTime;
       // Disable transitions during drag
       imgList.forEach(img => {
         img.style.transition = 'none';
@@ -274,6 +288,11 @@ const slides = document.querySelectorAll(".hero img");
       // Translate current image
       const currentImg = imgList[currentIndex];
       currentImg.style.transform = `translateX(${diff}px)`;
+      // Update lastX and lastTime for velocity calculation.  We record the latest finger
+      // position and timestamp on each move.  These values are required on touchend to
+      // compute the average velocity of the drag.
+      lastX = e.touches[0].clientX;
+      lastTime = Date.now();
       // Determine which neighbouring image to move based on drag direction
       if (diff < 0) {
         neighborIndex = (currentIndex + 1) % imgList.length;
@@ -296,8 +315,17 @@ const slides = document.querySelectorAll(".hero img");
       imgList.forEach(img => {
         img.style.transition = '';
       });
-      const threshold = containerWidth * 0.25;
-      if (Math.abs(diff) > threshold) {
+      // Compute velocity‑based thresholds.  We calculate how long the drag lasted and the
+      // average velocity (in pixels per millisecond).  If the user drags quickly or a
+      // sufficient distance, the carousel will advance to the next or previous slide.  A
+      // smaller distance threshold (20% of container width) combined with a velocity
+      // threshold yields a more natural momentum‑driven feel, avoiding snap‑back
+      // behaviour on quick flicks.
+      const elapsed = (lastTime - startTime) || 1;
+      const velocity = diff / elapsed;
+      const velocityThreshold = 0.5;
+      const threshold = containerWidth * 0.2;
+      if (Math.abs(diff) > threshold || Math.abs(velocity) > velocityThreshold) {
         // Determine direction and compute new index
         const direction = diff < 0 ? +1 : -1;
         const newIndex = (currentIndex + direction + imgList.length) % imgList.length;
