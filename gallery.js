@@ -259,10 +259,20 @@ document.addEventListener("DOMContentLoaded", () => {
   let galleryStartX = null;
   let galleryDragging = false;
   let galleryContainerWidth = null;
+  // Track timing and finger position during gallery drags.  These variables
+  // allow us to compute the drag velocity on touchend and decide whether
+  // to switch slides based on speed as well as distance.
+  let galleryStartTime = null;
+  let galleryLastX = null;
+  let galleryLastTime = null;
   slider.addEventListener('touchstart', (e) => {
     galleryStartX = e.touches[0].clientX;
     galleryDragging = true;
     galleryContainerWidth = slider.offsetWidth;
+    // Initialise timing variables for velocity calculation.
+    galleryStartTime = Date.now();
+    galleryLastX = galleryStartX;
+    galleryLastTime = galleryStartTime;
     // disable transitions during drag
     const slides = slider.querySelectorAll('img');
     slides.forEach((img) => {
@@ -275,6 +285,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const slides = slider.querySelectorAll('img');
     const currentImg = slides[currentIndex];
     currentImg.style.transform = `translateX(${diffX}px)`;
+    // Update last position and time for velocity calculation.
+    galleryLastX = e.touches[0].clientX;
+    galleryLastTime = Date.now();
     // Determine neighbour based on drag direction
     if (diffX < 0) {
       const neighbourIndex = (currentIndex + 1) % slides.length;
@@ -298,8 +311,15 @@ document.addEventListener("DOMContentLoaded", () => {
     slides.forEach((img) => {
       img.style.transition = '';
     });
-    const threshold = galleryContainerWidth * 0.25;
-    if (Math.abs(diffX) > threshold) {
+    // Compute drag velocity and thresholds.  We use both distance and velocity
+    // thresholds to decide whether to change slides.  A smaller distance
+    // threshold (20% of container width) combined with a velocity threshold
+    // yields a more natural, momentum‑driven swipe.
+    const elapsed = (galleryLastTime - galleryStartTime) || 1;
+    const velocity = diffX / elapsed;
+    const velocityThreshold = 0.5;
+    const distanceThreshold = galleryContainerWidth * 0.2;
+    if (Math.abs(diffX) > distanceThreshold || Math.abs(velocity) > velocityThreshold) {
       e.stopPropagation();
       const direction = diffX < 0 ? +1 : -1;
       const newIndex = (currentIndex + direction + images.length) % images.length;
