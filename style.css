@@ -20,7 +20,7 @@
 @media (max-width: 600px) {
   .hero {
     /* Lower the hero a bit more below the header on small screens.  A 7rem
- X    top margin increases the separation slightly, as requested, while
+    top margin increases the separation slightly, as requested, while
        avoiding an excessive blank area. */
 margin-top: 5rem !important;tant;
   }
