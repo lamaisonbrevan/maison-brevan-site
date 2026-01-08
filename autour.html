@@ -333,10 +333,20 @@
       var aroundStartX = null;
       var aroundDragging = false;
       var aroundContainerWidth = null;
+      // Variables to track timing and finger position during drag.  These values
+      // allow us to compute the average drag velocity on touchend and decide
+      // whether to change slides based on both distance and speed.
+      var aroundStartTime = null;
+      var aroundLastX = null;
+      var aroundLastTime = null;
       slider.addEventListener('touchstart', function(ev) {
         aroundStartX = ev.touches[0].clientX;
         aroundDragging = true;
         aroundContainerWidth = slider.offsetWidth;
+        // Initialise timing variables for velocity calculations
+        aroundStartTime = Date.now();
+        aroundLastX = aroundStartX;
+        aroundLastTime = aroundStartTime;
         // disable transitions during drag
         var imgs = slider.querySelectorAll('img');
         imgs.forEach(function(img) {
@@ -349,6 +359,9 @@
         var imgs = slider.querySelectorAll('img');
         var currentImg = imgs[current];
         currentImg.style.transform = 'translateX(' + diff + 'px)';
+        // Update last finger position and time for velocity calculation
+        aroundLastX = ev.touches[0].clientX;
+        aroundLastTime = Date.now();
         if (diff < 0) {
           var neighborIndex = (current + 1) % imgs.length;
           var neighborImg = imgs[neighborIndex];
@@ -366,8 +379,15 @@
         imgs.forEach(function(img) {
           img.style.transition = '';
         });
-        var threshold = aroundContainerWidth * 0.25;
-        if (Math.abs(diff) > threshold) {
+        // Compute drag velocity and thresholds.  Use both distance and velocity to
+        // determine whether to change slides.  A reduced distance threshold of
+        // 20% of container width combined with a velocity threshold gives a
+        // responsive momentum effect.
+        var elapsed = (aroundLastTime - aroundStartTime) || 1;
+        var velocity = diff / elapsed;
+        var velocityThreshold = 0.5;
+        var distanceThreshold = aroundContainerWidth * 0.2;
+        if (Math.abs(diff) > distanceThreshold || Math.abs(velocity) > velocityThreshold) {
           ev.stopPropagation();
           var direction = diff < 0 ? 1 : -1;
           var newIndex = (current + direction + imgSources.length) % imgSources.length;
