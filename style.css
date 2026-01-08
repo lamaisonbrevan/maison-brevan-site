@@ -19,10 +19,9 @@
 /* Additional mobile and button overrides appended at end of file */
 @media (max-width: 600px) {
   .hero {
-    /* Increase the top margin even further so the hero never hides behind
-       the fixed header on very small screens. 15rem provides a generous
-       offset ensuring no part of the image is obscured by the header. */
-    margin-top: 15rem !important;
+    /* Provide a modest offset so the hero sits just below the fixed
+       header on very small screens without leaving a large gap. */
+    margin-top: 6rem !important;
   }
   .hero .social-icons {
     /* Place the icons at the bottom‑right with a slight offset and ensure
@@ -4587,7 +4586,7 @@ footer .footer-main + .footer-main {
      positioning matches the desktop design by showing a small
      gradient strip between the header and the hero. */
   .hero {
-    margin-top: 10rem !important;
+    margin-top: 6rem !important;
   }
 
   /* On very narrow screens display room cards one per row to prevent
