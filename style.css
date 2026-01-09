@@ -4244,17 +4244,17 @@ footer .footer-main + .footer-main {
     position: absolute !important;
     left: 50% !important;
     top: 50% !important;
-    transform: translate(-50%, -50%) !important;
+    /* Optically centre the logo + text group on mobile screens by offsetting the
+       translation by approximately half the width of the logo minus half the gap.
+       Increasing the horizontal offset from 0.6rem to 0.8rem shifts the group
+       further right, compensating for the logo’s footprint.  The !important
+       flag ensures this transform prevails over any later declarations. */
+    transform: translate(calc(-50% + 0.8rem), -50%) !important;
     margin: 0 !important;
-    /*
-     * Centre the badge contents on small screens by using equal left and
-     * right padding.  As the logo sits to the left of the wordmark, a
-     * symmetrical horizontal padding ensures the visual centre of the
-     * group aligns with the mathematical centre defined by the
-     * translate(-50%, -50%) transform.  A two‑value padding shorthand
-     * sets top/bottom to 0 and left/right to 1rem.  The !important flag
-     * guarantees these values override earlier declarations.
-     */
+    /* Apply symmetrical horizontal padding (top/bottom remain zero) so the badge
+       expands equally on both sides of its contents.  Combined with the
+       adjusted transform above, this helps align the visual centre of the
+       badge with the mathematical centre of the navigation bar. */
     padding: 0 1rem !important;
     font-size: 1rem !important;
     letter-spacing: 0.15em !important;
@@ -4443,17 +4443,24 @@ footer .footer-main + .footer-main {
     background: var(--cream-bg2) !important;
     color: var(--accent) !important;
     border-radius: 2rem !important;
-    margin-right: 1rem !important;
+    /* Absolutely position the badge so it remains centred within the nav row.
+       Left and top offsets combined with a calc() translation keep the badge’s
+       combined logo and text centred optically rather than mathematically. */
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(calc(-50% + 0.8rem), -50%) !important;
+    /* Remove the right margin used when the badge was inline; absolute positioning
+       no longer requires horizontal margins. */
+    margin: 0 !important;
     /* Reduce the gap between the logo and text so the text sits closer
        to the centre of the badge. A small gap ensures the words do not
        drift toward the right edge on very narrow screens. */
     gap: 0.35rem !important;
-    /* Use equal left and right padding so the text is visually centred.
-       Increasing the padding slightly on mobile compensates for the
-       smaller logo size and ensures the rounded ends of the pill have
-       equal breathing room. */
-    padding-left: 1.1rem !important;
-    padding-right: 1.1rem !important;
+    /* Use asymmetric padding to offset the logo’s width: a larger left padding and smaller
+       right padding move the text slightly right, centring the logo + text group. */
+    padding-left: 1.6rem !important;
+    padding-right: 0.6rem !important;
   }
 
   /* Specific styling for the Menu badge: mirror the title badge styles
