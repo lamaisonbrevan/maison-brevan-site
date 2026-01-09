@@ -2968,7 +2968,36 @@ footer .footer-main + .footer-main {
   border: none;
 }
 
-@media (max-width: 1300px) {
+
+
+/* ---------------------------------------------------------
+   Mobile landscape (iPhone en mode paysage) :
+   réduit la hauteur du bandeau (header) pour laisser plus
+   de place au hero.
+   --------------------------------------------------------- */
+@media (max-width: 900px) and (orientation: landscape) and (max-height: 500px) {
+  .nav-row {
+    padding: 0.75rem 0.5rem !important;
+  }
+
+  .site-title-badge {
+    margin-top: 0 !important;
+    font-size: 0.9rem !important;
+    letter-spacing: 0.12em !important;
+    padding: 0 1rem !important;
+  }
+
+  .site-title-badge img.logo-symbol {
+    height: 1.6rem !important;
+    margin-right: 0.5rem !important;
+  }
+
+  .hamburger {
+    font-size: 0.9rem !important;
+    padding: 0.15rem 0.5rem !important;
+  }
+}
+@media (min-width: 901px) and (max-width: 1300px) {
   .site-title-badge:hover {
     transform: none !important;
   }
