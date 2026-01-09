@@ -1,215 +1,40 @@
-
 /*
- * Footer bottom section
+ * style.cleaned.css
  *
- * The footer now includes a second row of small legal and policy links
- * (mentions légales, gestion des cookies, CGV).  This section is
- * centered beneath the main footer content.  Links inherit the
- * footer's text colour and underline on hover.
- */
-.footer-bottom {
-  text-align: center;
-  /* Reduce the separation between the main footer row and the legal links
-     to compress the overall footer height. */
-  margin-top: 0.5rem;
-  font-size: 0.75rem;
-  color: var(--text-color);
-}
-
-/* Additional mobile and button overrides appended at end of file */
-@media (max-width: 600px) {
-  .hero {
-    /* Lower the hero a bit more below the header on small screens6r6rem 7rem
-    top margin increases the separation slightly, as requested, while
-       avoiding an excessive blank area. */
-margin-top: 6.5rem !important;
-  }
-  .hero .social-icons {
-    /* Place the icons at the bottom‑right with a slight offset and ensure
-       they never overlap the navigation dots */
-    bottom: 1.2rem !important;
-    right: 1rem !important;
-    left: auto !important;
-    justify-content: flex-end !important;
-    gap: 0.4rem !important;
-  }
-  .hero .social-icons svg {
-    width: 1rem !important;
-    height: 1rem !important;
-  }
-  .hero .dots {
-    /*5Hide navigation dots on very small screens to avoid overlap with
-       the social icons.  Users can still swipe to navigate between
-       slides. */
-    display: none !important;
-  }
-}
-
-.room-reserve-btn {
-  background: linear-gradient(135deg, var(--accent-light), var(--accent-dark)) !important;
-  color: #ffffff !important;
-}
-.room-reserve-btn:hover {
-  color: #ffffff !important;
-}
-.room-reserve-btn::before,
-.room-reserve-btn::after {
-  opacity: 1 !important;
-}
-
-.footer-bottom a {
-  color: inherit;
-  text-decoration: none;
-  /* Widen the horizontal spacing around each legal link for improved
-     readability. */
-  margin: 0 0.75rem;
-  transition: color 0.2s;
-}
-
-.footer-bottom a:hover {
-  /* Use the darker accent colour on hover so the text remains readable
-     against the footer’s cream background. */
-  color: var(--accent-dark);
-  text-decoration: underline;
-}
-
-.footer-bottom .separator {
-  /* Separate the vertical bars further apart from the links. */
-  margin: 0 0.5rem;
-}
-/*
- * Styles for the static index page of La Maison Brevan.
- * This stylesheet reuses the elegant header and color palette from
- * previous versions while simplifying the page into a static HTML file.
- * It includes a minimal hero slider, an about section, and a contact form.
+ * Version nettoyée : doublons supprimés, règles fusionnées, quelques correctifs (bouton réserver desktop, overflow input, masquage footer legacy conditionnel).
+ *
+ * IMPORTANT : Testez visuellement chaque page (accueil, chambres, galerie, autour, réservation, mentions légales) après remplacement.
  */
 
-/* Basic resets */
-
-/*
- * Define a set of CSS variables to centralise the colour palette.  This makes
- * it easy to harmonise all accents and backgrounds across the page.  The
- * primary accent is a rich rust tone reminiscent of weathered metal, with
- * lighter and darker variants.  Creamy off‑white backgrounds soften the
- * overall look and tie the design together.
- */
 :root {
-  /* Base rust accent used for borders, text, buttons, etc.  Inspired by
-     natural iron oxide, this hue (#95544E) provides an authentic,
-     mineral warmth reminiscent of oxidised steel and burnt earth【18297982645124†L205-L213】. */
   --accent: #95544E;
-  /* Lighter variant for subtle gradients and hover states.  This shade
-     (#E7723B) introduces a richer, warmer burnt sienna tone for active
-     elements【18297982645124†L205-L213】. */
   --accent-light: #E7723B;
-  /* Darker variant for depth and shadows.  A very deep rusty brown
-     (#4C1414) grounds gradients and emphasises hierarchy【18297982645124†L205-L213】. */
   --accent-dark: #4C1414;
-  /* Warm cream background for the page.  Choose a linen‑like off‑white
-     (#F5E9E4) rather than pure white to complement the rust palette and
-     maintain a cosy ambience.  This colour is inspired by warm white
-     hues used in design palettes【247053152640622†L44-L53】. */
   --cream-bg: #F5E9E4;
-  /* Secondary cream for slightly darker panels.  A muted beige (#EEE1DA)
-     adds subtle variation without drifting into stark contrast. */
   --cream-bg2: #EEE1DA;
-  /* Colours for headings and body text.  Use a very dark rust tone for
-     headings to harmonise with the palette and a deep neutral for
-     body text to ensure readability on light backgrounds. */
   --heading-color: #4C1414;
   --text-color: #3C2B24;
-
-  /* Background colour when hovering over a room card.  Slightly darker
-     than the secondary cream to subtly distinguish the card without
-     introducing a border. */
   --card-hover-bg: #e6d7cf;
 }
+
 * {
   box-sizing: border-box;
 }
 
-/*
- * Apply smooth scrolling to the whole document.  When users click on
- * navigation links that target anchors on the page (e.g. #chambres or
- * #contact), the browser will scroll smoothly rather than jumping
- * instantly.  This improves the browsing experience on long pages.
- */
 html {
   scroll-behavior: smooth;
 }
 
-/* Prevent any element from causing horizontal scrolling.  If an element
-   extends beyond the viewport width (for example, due to large
-   transforms or fixed positions), this rule ensures the page does
-   not introduce a horizontal scrollbar on desktop. */
 html, body {
   overflow-x: hidden;
-}
-
-/*
- * When navigating via anchor links to in-page sections (e.g. #chambres
- * or #contact) the browser will by default align the top of the
- * targeted element with the top of the viewport.  Because this
- * template uses a fixed header and a hero image at the top of the
- * homepage, the default alignment can leave part of the previous
- * section visible above the heading.  Use scroll-margin-top on
- * section anchors to offset the scroll position so the new section
- * sits fully below the header.  The value here (8rem) can be
- * adjusted if the header height changes in the future.
- */
-
-/* Offset the rooms section (#chambres) so it sits just below the
-   fixed header when navigated to via anchor link.  Without this
-   offset the top of the hero section remains in view when clicking
-   the “chambres” navigation item on the home page. */
-/*
- * Anchor adjustment for sections with large banners above them.
- *
- * The .anchor-adjust class is applied to a hidden <span> just above
- * the section heading in index.html.  The element is invisible but
- * reserves space such that its id (#chambres) becomes the target for
- * navigation links.  The negative top offset defined here shifts the
- * anchor upward by the height of the hero (100vh), ensuring that
- * when you click “Chambres” in the navigation the hero image is
- * completely scrolled out of view.  Without this adjustment, the
- * browser would align the top of the rooms section with the top of
- * the viewport, leaving a portion of the hero visible above.
- */
-.anchor-adjust {
-  display: block;
-  position: relative;
-  /* Do not offset the anchor vertically; let the anchor mark the
-     beginning of the rooms section.  Combined with the
-     scroll‑margin on .rooms-section, this ensures that clicking
-     « Chambres » in the navigation scrolls just enough to reveal
-     the heading without leaving the hero visible or overshooting
-     past it. */
-  /* Do not shift the anchor relative to the heading; let the anchor
-     sit directly above the section heading.  The scrolling offset
-     is now handled entirely by script.js based on the fixed header
-     height. */
-  top: 0;
-  /* Hide the anchor from assistive technologies and prevent it from
-     affecting layout outside of scrolling. */
-  height: 0;
-  visibility: hidden;
 }
 
 body {
   margin: 0;
   font-family: "Inter", sans-serif;
-  /* On the rust bar the nav text is light for contrast */
-  /* Use the text colour defined in our palette for normal body text */
   color: var(--text-color);
-  /* Use the warm cream background defined in variables */
   background-color: var(--cream-bg);
   line-height: 1.6;
-
-  /* The page‑turn animation has been removed in favour of a simple fade
-     transition to preserve the fixed header behaviour.  Therefore the
-     perspective and transform-style properties are no longer needed. */
-  /* perspective: 1200px; */
-  /* transform-style: preserve-3d; */
 }
 
 a {
@@ -217,28 +42,50 @@ a {
   text-decoration: none;
 }
 
-/* Header (top bar) */
+.footer-bottom {
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-color);
+}
+
+.footer-bottom a {
+  color: inherit;
+  text-decoration: none;
+  margin: 0 0.75rem;
+  transition: color 0.2s;
+}
+
+.footer-bottom a:hover {
+  color: var(--accent-dark);
+  text-decoration: underline;
+}
+
+.footer-bottom .separator {
+  margin: 0 0.5rem;
+}
+
+.anchor-adjust {
+  display: block;
+  position: relative;
+  top: 0;
+  height: 0;
+  visibility: hidden;
+}
+
 .site-header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  /* Colour the top bar with the rust gradient matching the check‑in/out section */
   background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
   border-bottom: none;
 }
 
 .nav-row {
-  /* Remove max-width to allow full width header and align nav items to the edges */
   width: 100%;
   margin: 0;
-  /* Increase the vertical padding on the navigation bar to enlarge the top
-     banner.  Doubling the top and bottom padding provides more space for
-     the navigation and logo, reducing overlap issues on medium screens. */
-  /* Further increase the height of the menu bar to provide additional vertical space.
-     This ensures the navigation links stay above the site badge when the
-     viewport narrows. */
   padding: 1.5rem 0.5rem;
   display: flex;
   align-items: center;
@@ -246,16 +93,13 @@ a {
   position: relative;
 }
 
-/* Navigation grouping: use flexbox for both left and right link sets, with equal spacing */
 .nav-left,
 .nav-right {
   display: flex;
   align-items: center;
-  /* Reduce the gap between navigation links so they occupy less horizontal space */
   gap: 1.5rem;
 }
 
-/* Provide a small margin on each side of the navigation row to keep the links from touching the edges */
 .nav-left {
   margin-left: 1rem;
 }
@@ -264,149 +108,76 @@ a {
   margin-right: 1rem;
 }
 
-
 .nav-left a,
 .nav-right a {
-  /* Make navigation link text bold and slightly enlarged */
   font-size: 1.1rem;
   font-weight: 600;
   text-transform: uppercase;
-  /* Reduce letter spacing so words fit more compactly */
   letter-spacing: 0.1em;
-  /* Light colour to contrast the rust bar */
   color: #ffffff;
-  /* Smoothly animate the transform, colour and letter-spacing on hover */
   transition: transform 0.4s ease, color 0.4s ease, letter-spacing 0.4s ease;
   white-space: nowrap;
-
-  /* Add a slight base margin on nav items for general spacing; detailed
-     margins are applied below for precise control. */
 }
 
-/* Duplicate `.nav-left a:hover` rule removed; the combined
-   `.nav-left a:hover, .nav-right a:hover` rule applies these
-   properties to both sides. */
-
-/* Language switch behaves like other nav items */
-/* Make FR/EN behave exactly like the other navigation links */
 .nav-right a {
   cursor: pointer;
   user-select: none;
 }
 
-/* Hover effects for both left and right navigation items */
-/* Hover animation for both left and right navigation links.  Increase the
- * scale even further for a bolder zoom and expand the letter spacing
- * slightly more to give the text a lively ripple.  The colour shifts
- * toward the cream background to harmonise with the rust gradient. */
 .nav-left a:hover,
   .nav-right a:hover {
-  /* Apply a gentle upward movement combined with a slight skew.  This
-     creates a refined wave-like motion without aggressive scaling. */
   transform: translateY(-4px) skewX(-3deg);
-  /* Spread the letters slightly apart for a lively animation */
   letter-spacing: 0.2em;
-  /* Lighten the colour on hover to a cream tone */
   color: var(--cream-bg);
 }
 
-/* Provide specific margins on navigation links to separate them clearly.
-   For the left-hand links (Réserver, Chambres, etc.) add a right margin
-   to every link except the last one.  For the right-hand links
-   (Gallery, Contact, etc.) add a left margin to every link except
-   the first. */
 .nav-left a:not(:last-child) {
-  /* Increase spacing between left-hand links */
-  /* Increase spacing between left-hand links for a more airy feel */
   margin-right: 2.5rem;
 }
 
 .nav-right a:not(:first-child) {
-  /* Increase spacing between right-hand links */
-  /* Increase spacing between right-hand links for a more airy feel */
   margin-left: 2.5rem;
 }
 
-/* Ensure language switch inherits the same colour rules on the rust bar */
-/* The language switch inherits the primary nav colour. Use !important to override conflicts.
-   Also style the nav-right anchors equivalently. */
-/* Force the language switch links to inherit the same colour rules as other nav items */
 .lang-switch,
 .nav-right a {
   color: #ffffff !important;
   transition: transform 0.2s, color 0.2s;
 }
 
-/* Preserve the language switch hover styling without reapplying the main
- * navigation hover.  The `.nav-right a:hover` rule above already
- * handles scaling and colour changes.  Only the language switch
- * requires a specific transformation on hover. */
 .lang-switch:hover {
   transform: scale(1.05);
   color: var(--cream-bg) !important;
 }
 
-/* The separator between FR and EN should have the same light colour as the nav text */
 .lang-separator {
   color: #ffffff;
   margin: 0 0.25rem;
 }
 
-/* Generic class to apply the accent colour to headings or text */
 .accent-heading {
   color: var(--accent);
 }
 
-/*
- * Navigation letter wave animation
- *
- * Each navigation link's text is programmatically wrapped in
- * <span class="nav-letter"> elements via JavaScript.  These
- * classes give the letters their baseline properties and define the
- * animated behaviour when the parent link is hovered.  A CSS
- * variable (--delay) set on each span controls the staggered
- * transition delay, creating a wave‑like motion across the word.
- */
 .nav-letter {
   display: inline-block;
-  /* Shorten the duration of the letter animation for a gentle wave */
   transition: transform 0.4s ease;
 }
 
-/* On hover, lift each letter upward with a staggered delay.  The
-   transform and delay values combine to simulate a wave passing
-   through the word. */
-/* Apply wave lift on hover to navigation links as well as room reserve and price links.  When any of
-   these elements is hovered, each letter wrapped in .nav-letter will translate upward in sequence.
-   The same CSS variable (--delay) controls the stagger timing. */
-/* Apply wave lift on hover to navigation links as well as room reserve and price links.
-   When any of these elements (or the room card containing them) is hovered, each letter
-   wrapped in .nav-letter will translate upward in sequence.  Including the .room-card:hover
-   selector ensures the effect triggers when hovering anywhere on the card, matching the
-   existing colour and gradient interactions. */
-/* Apply the wave lift only when hovering directly over the link.  We no longer trigger
-   the effect when hovering the entire room card, so the animation is limited to
-   .room-reserve-btn and .price-tag on hover, and to navigation links. */
 .nav-left a:hover .nav-letter,
 .nav-right a:hover .nav-letter,
 .room-reserve-btn:hover .nav-letter,
 .price-tag:hover .nav-letter {
-  /* Lift each letter by a few pixels to create a subtle wave effect */
   transform: translateY(-4px);
   transition-delay: var(--delay);
 }
 
-/* Reservation page styles */
 .reserve-section {
-  /* Offset the top of the section to sit below the fixed header and badge */
   padding-top: 6rem;
   padding-bottom: 6rem;
   background-color: var(--cream-bg2);
 }
 
-/* Reservation hero section for the dedicated reservation page.  This
-   section spans the full viewport height and presents a background
-   image with the calendar overlay centred in the middle. */
 .reserve-hero {
   position: relative;
   height: 100vh;
@@ -415,23 +186,16 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Use one of the hero images as the backdrop for the reservation page instead of the removed baignoire directory. */
   background-image: url("assets/images/hero/hero-07.jpg");
   background-size: cover;
   background-position: center;
 }
 
-/* Semi‑opaque overlay that contains the calendar image.  This panel
-   sits on top of the hero background and provides contrast for the
-   reservation form or calendar. */
 .reserve-overlay {
   background-color: rgba(255, 255, 255, 0.9);
   padding: 2rem;
-  /* Remove rounded corners from the reservation overlay so its panel is square */
   border-radius: 0;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  /* Increase maximum width to allow the two calendar months to breathe on
-     larger screens. */
   max-width: 1000px;
   width: 90%;
 }
@@ -452,42 +216,10 @@ a {
   width: 100%;
   height: auto;
   display: block;
-  /* Ensure the calendar image has square corners */
   border-radius: 0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Push the gallery grid down so the first row of photos doesn't sit
-   directly under the fixed header.  This spacing ensures the images
-   are fully visible below the bar. */
-.gallery-section {
-  /* Provide ample space below the fixed header and badge so the first
-     row of gallery photos is fully visible.  The top padding accounts
-     for the header height and the overlapping badge. */
-  padding-top: 8rem;
-}
-
-/* Ensure the "Nos chambres" section header is fully visible when
-   scrolled into view via an anchor link.  The scroll-margin-top
-   reserves space equivalent to the fixed header and badge. */
-.rooms-section {
-  /* Reserve extra space when scrolling to the rooms section via an
-     anchor link so that the heading appears cleanly below the
-     fixed header and badge.  Adjust the scroll margin so that the
-     "Nos chambres" title is visible without overshooting.  We
-     reduce the margin from 14rem to 12rem to bring the section
-     slightly higher and ensure the heading is fully visible on
-     different screens. */
-  /* Reserve just enough space to account for the fixed header when
-     navigating via an anchor.  Reduce the offset to zero to avoid
-     overshooting past the heading; the hero section will be hidden
-     because the anchor sits at the start of the rooms section. */
-  scroll-margin-top: 0;
-}
-
-/* Page transition animations.  A fade effect is retained for
-   situations where the page-turn wrapper is absent.  These
-   animations are applied to the body element as a fallback. */
 body.page-enter {
   opacity: 0;
 }
@@ -501,25 +233,16 @@ body.page-exit {
 }
 
 @keyframes fadeIn {
-  to { opacity: 1; }
+to { opacity: 1; }
 }
 
 @keyframes fadeOut {
-  to { opacity: 0; }
+to { opacity: 0; }
 }
 
-/*
- * Page‑turn animations for the main content wrapper.  The
- * `.page-wrapper` element (wrapping the page content) will
- * be rotated to give the impression of turning a page, while the
- * fixed header and footer remain static.  Transition classes are
- * applied and removed via the transition.js script.
- */
 .page-wrapper {
   perspective: 1200px;
   transform-style: preserve-3d;
-  /* Ensure the wrapper occupies the full width and height of its
-     parent so the rotation is consistent across pages. */
   width: 100%;
 }
 
@@ -529,8 +252,6 @@ body.page-exit {
 
 .page-wrapper.page-turn-enter-active {
   transform: rotateY(0deg);
-  /* Slow down the entry rotation to make the page turn effect more
-     noticeable.  Increase the duration from 0.8s to 1s. */
   transition: transform 1s ease-in-out;
 }
 
@@ -540,166 +261,60 @@ body.page-exit {
 
 .page-wrapper.page-turn-exit-active {
   transform: rotateY(90deg);
-  /* Slow down the exit rotation as well to match the entry duration. */
   transition: transform 1s ease-in-out;
 }
 
-/*
- * Badge for the site title.  This badge uses a gradient fill that
- * animates from left to right on hover.  The underlying border and
- * shape remain constant, while the background colour transitions
- * smoothly from transparent to the rust gradient defined in the
- * accent variables.  The text colour inverts on hover for
- * readability.
- */
 .site-title-badge {
   position: absolute;
   left: 50%;
-  /* Lower the site title badge further down on the hero image */
   top: 130%;
   transform: translate(-50%, -50%);
-  /* Ensure the badge’s contents sit above its ::after pseudo-element.  Without
-     an explicit z-index, some browsers may stack the pseudo-element above
-     the anchor’s children, causing the logo and text to disappear on
-     hover.  Assign a positive z-index to the badge to guarantee its
-     content remains on top. */
   z-index: 1;
-  /* Turn the badge into a flex container so we can insert a logo
-     alongside the text.  This preserves the existing absolute
-     positioning while allowing inner elements to align neatly. */
   display: flex;
   align-items: center;
-  /* Increase the gap between the logo and the text so a larger emblem has room
-     to breathe.  A full rem of space prevents the text from crowding the
-     symbol when the badge scales up on larger screens. */
   gap: 1rem;
-  /* Reduce the vertical padding to the bare minimum so the badge height is
-     tightly wrapped around the large logo.  Horizontal padding is kept for
-     spacing around the text, but top and bottom padding are removed to
-     minimise overall height.  The border still provides a small buffer
-     around the logo and text. */
   padding: 0rem 2.5rem;
-  /* Decrease line height on the title to avoid adding extra vertical space.
-     Setting line-height to 1 ensures the text aligns vertically with the
-     logo without introducing additional height. */
   line-height: 1;
-  /* Slimmer border to reduce the visual height of the badge */
-  /* Remove visible border to eliminate the surrounding frame */
   border: none;
-  /* Use an elegant serif stack to evoke the charm of a boutique guesthouse.  Georgia
-     and Times are widely available and suit a timeless aesthetic. */
   font-family: Georgia, "Times New Roman", serif;
-  /* Keep the title size consistent with the logo while adding slightly wider
-     letter spacing for a refined look. */
   font-size: 1.4rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  /* Remove rounded corners and shadow for a clean rectangular outline */
-  border-radius: 0;
+  border-radius: 2rem !important;
   box-shadow: none;
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
-  /* Provide a background colour for the badge.  The gradient fill is handled
-     by the pseudo-element defined below. */
   background: var(--cream-bg2);
   color: var(--accent);
-  /* Ensure the badge remains absolutely positioned relative to the header so it
-     overlaps the top bar and hero image gracefully.  Do not override
-     the absolute positioning defined above. */
   overflow: hidden;
-  /* Animate only the colour and transform on the badge itself.  The
-     gradient fill animation is handled by the ::after pseudo-element
-     defined below.  Match the reserve button’s slower timing (1s)
-     so the rust colour fades in gradually. */
   transition: color 1s ease, transform 0.3s ease;
-  /* Add curved edges to the badge */
-  border-radius: 2rem !important;
 }
 
 .site-title-badge:hover {
   transform: translate(-50%, -50%) scale(1.05);
-  /* Keep the scale effect on hover.  The rust gradient fill is applied via the
-     ::after pseudo-element, so do not set the background here. */
-  /* Change the text colour on hover; the badge will fade to white over the
-     course of the transition defined on the parent. */
   color: #fff;
 }
 
-/*
- * When the user hovers over the site title badge the background fills
- * with the rust gradient.  To ensure the logo remains visible against
- * this darker fill, invert its colours to white.  Using the
- * brightness(0) invert(1) filter transforms the dark PNG symbol into
- * a white silhouette without requiring a separate asset.  This rule
- * targets only the logo inside the badge on hover and leaves the
- * default (rust‑coloured) logo unchanged in all other contexts.
- */
-/* Use a more robust filter to convert the multicoloured logo into a pure white version when hovering.
-   The brightness(0) saturate(0) step converts the image to black while preserving transparency,
-   and invert(1) flips it to white.  This produces crisp white lines regardless of the original colour gradient. */
-.site-title-badge:hover img.logo-symbol {
-  filter: brightness(0) saturate(0) invert(1);
-}
-
-/* Explicitly set the text colour on the span inside the badge so the wordmark also turns white on hover.
-   While the anchor itself changes colour, some browsers may not inherit this properly under certain
-   cascade conditions.  Applying it directly to the span ensures legibility. */
 .site-title-badge:hover span {
-  /* Fade the wordmark to white on hover over one second.  The transition ensures
-     the colour change matches the overlay animation. */
   color: #fff;
   transition: color 1s ease-in-out;
 }
 
-/* Disable badge scaling on hover for smaller screens.  When the header collapses
-   into multiple lines, scaling the central logo can push navigation links out of view.
-   Removing the scale keeps the layout stable on narrow viewports. */
-@media (max-width: 1200px) {
-  .site-title-badge:hover {
-    transform: none;
-  }
-}
-
-/* Additional responsive tweaks for the site title badge.  Below 1100px the
-   navigation often wraps to multiple lines, so the badge should appear in the
-   normal document flow rather than overlaying the header.  Setting
-   pointer-events to none ensures the badge doesn’t block clicks on links. */
 @media (max-width: 1100px) {
   .site-title-badge {
-    /* Keep the badge in the normal document flow on narrow screens while
-       allowing its ::after pseudo-element to fill the background.  Relative
-       positioning creates a containing block for the pseudo-element without
-       taking the element out of the flow like absolute positioning would. */
     position: relative;
     transform: none;
     margin: 0.5rem auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Allow interactions with the badge on smaller screens */
     pointer-events: auto;
-
-    /* Reset any absolute offsets so the badge stays centred when it is
-       positioned relatively. */
     left: auto;
     top: auto;
   }
 }
 
-/* Fade overlay for the site badge.  This pseudo-element sits behind the
-   text and border and fades in on hover to create a homogeneous
-   colour fill (the rust gradient). */
-/*
- * Disable the gradient ::after overlay entirely.  The hover effect is now
- * handled directly by applying the gradient to the badge’s background.  By
- * hiding the pseudo-element we avoid stacking issues that could obscure
- * the text and logo.
- */
-/* Gradient overlay for the site badge.  This pseudo-element sits behind
-   the text and logo and fades in on hover to create the rust fill.
-   By default the overlay is fully transparent; its opacity transitions
-   smoothly to 1 on hover. */
 .site-title-badge::after {
   content: "";
   position: absolute;
@@ -710,9 +325,6 @@ body.page-exit {
   background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
   opacity: 0;
   transition: opacity 1s ease-in-out;
-  /* Place the overlay beneath the badge contents.  A negative z-index
-     ensures the gradient sits behind the text and logo regardless
-     of stacking context quirks in different browsers. */
   z-index: -1;
   pointer-events: none;
 }
@@ -721,28 +333,15 @@ body.page-exit {
   opacity: 1;
 }
 
-/*
- * White logo overlay on hover
- *
- * Rather than relying solely on CSS filters to invert the original rust-coloured
- * logo, introduce a ::before pseudo-element that displays the logo as a
- * background image.  In its default state the pseudo-element shows the
- * original rust logo; on hover it swaps to a white version of the logo.
- * The <img> element inside the badge is hidden to avoid duplication.  A
- * margin-right provides separation between the symbol and the wordmark.
- */
-/* Hide the ::before pseudo-element used in a previous version to display the logo.
-   The logo will now be provided by the <img> element inside the badge and
-   inverted with a CSS filter on hover. */
 .site-title-badge::before,
 .site-title-badge:hover::before {
   display: none !important;
 }
 
-/* Display the original inline logo and prepare it for colour inversion.
-   Set explicit sizing and margin to align it with the text.  A transition
-   on the filter property allows the inversion to fade in over the same
-   duration as the overlay. */
+.site-title-badge:hover img.logo-symbol {
+  filter: brightness(0) saturate(0) invert(1);
+}
+
 .site-title-badge img.logo-symbol {
   display: inline-block !important;
   height: 5rem;
@@ -751,104 +350,28 @@ body.page-exit {
   transition: filter 1s ease-in-out;
 }
 
-/* Invert the logo to white on hover using a brightness and invert filter.
-   The filter transition above ensures the effect is gradual rather than instant. */
-.site-title-badge:hover img.logo-symbol {
-  filter: brightness(0) saturate(0) invert(1);
-}
-
-
-/*
- * Logo sizing within the site title badge.  Restrict the height to
- * approximately the text height while allowing the width to scale
- * automatically.  A slight margin ensures breathing room between
- * the symbol and the title text.
- */
-/*
- * Increase the size of the logo symbol in the header.  The emblem
- * now stands more prominently next to the title text.  The width
- * remains auto so the aspect ratio is preserved.
- */
-.site-title-badge img.logo-symbol {
-  /* Large logo within the badge.  Reduce the height slightly from 6rem to 5rem
-     to trim overall badge height while keeping the emblem highly visible.
-     Width remains auto to preserve aspect ratio. */
-  height: 5rem;
-  width: auto;
-}
-
-/*
- * On informational pages (legal notices, privacy policy, etc.) the
- * heading levels beyond the main title should adopt the same
- * brown tone as the logo.  Without this rule the h2/h3 elements
- * inherit the white body text colour, making them hard to read on
- * light backgrounds.  Use the heading colour defined in the CSS
- * variables so the palette stays consistent.
- */
 .legal-content h2,
 .legal-content h3 {
   color: var(--heading-color);
 }
 
-/*
- * Provide styles for the small logo displayed in the footer.  The
- * image is centred within its container and sized modestly so it
- * doesn’t overpower the surrounding text.  Margin below gives it
- * breathing room before the following content.
- */
 .footer-logo {
   display: flex;
   justify-content: center;
   margin-bottom: 0.5rem;
 }
+
 .footer-logo img {
-  /* Display an even larger logo in the footer to ensure it is clearly visible.
-     Doubling the previous height makes the emblem an unmistakable feature of
-     the footer while preserving the aspect ratio. */
   height: 16rem;
   width: auto;
 }
 
-/*
- * Base row within the footer containing the Maison Brevan emblem on the left
- * and the address with its map link on the right.  By separating the logo
- * from the social/follow section and positioning it here, the overall
- * vertical footprint of the footer is reduced.  The logo retains its
- * generous size while sitting flush with the bottom edge of the footer.
- */
-.footer-base {
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  gap: 1.5rem;
-  /* Remove extra top margin so the logo row sits directly beneath the
-     “Follow us”/contact row.  This helps reduce the overall height
-     of the footer. */
-  margin-top: 0;
-}
-.footer-base-logo img {
-  height: 16rem;
-  width: auto;
-}
-.footer-base-address {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-/*
- * Optionally add a subtle watermark of the logo behind some
- * sections.  The ::before pseudo-element overlays a faint version
- * of the symbol without interfering with content interaction.  The
- * parent sections must be positioned relative so the pseudo-element
- * is correctly anchored.  Adjust the opacity and size as needed to
- * maintain legibility.
- */
 .rooms-section,
 .about,
 .services-section {
   position: relative;
 }
+
 .rooms-section::before,
 .about::before,
 .services-section::before {
@@ -858,19 +381,15 @@ body.page-exit {
   left: 0;
   width: 100%;
   height: 100%;
-  /* Use the transparent PNG version of the logo for the watermark */
-  background-image: url('assets/images/logo-symbol.png');
+  background-image: url("assets/images/logo-symbol.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 65%;
-  /* Increase opacity for greater visibility of the watermark.  The logo should be
-     noticeable but still subtle enough not to distract from the content. */
   opacity: 0.1;
   pointer-events: none;
   z-index: 0;
 }
 
-/* Hero section */
 .hero {
   height: 100vh;
   position: relative;
@@ -925,11 +444,6 @@ body.page-exit {
 }
 
 .hero .dots {
-  /*
-   * When the hero navigation dots are inside the `.social-icons` container, they no
-   * longer need absolute positioning.  Treat them as inline flex items so they
-   * align horizontally with the icons.  A small gap separates each dot.
-   */
   position: static;
   display: flex;
   gap: 0.4rem;
@@ -950,11 +464,9 @@ body.page-exit {
   background: #fff;
 }
 
-/* Rooms section */
 .rooms-section {
-  /* Remove horizontal padding so the grid spans full width */
+  scroll-margin-top: 0;
   padding: 4rem 0;
-  /* Apply a subtle vertical gradient for the rooms section to suggest natural variation */
   background: linear-gradient(to bottom, var(--cream-bg), var(--cream-bg2));
 }
 
@@ -965,14 +477,12 @@ body.page-exit {
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  /* Colour the section heading in the accent rust tone */
   color: var(--accent);
 }
 
 .rooms-intro {
   max-width: 600px;
   margin: 0 auto 2rem auto;
-  /* Use the main text colour for the room introduction paragraph */
   color: var(--text-color);
   text-align: center;
   font-size: 0.95rem;
@@ -981,343 +491,69 @@ body.page-exit {
 
 .rooms-grid {
   display: grid;
-  /* Use auto-fit with a larger minimum width per card so cards scale and fill the full viewport */
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
   width: 100%;
-  /* Add horizontal padding to create a small gap between the grid and page edges */
   padding-left: 1rem;
   padding-right: 1rem;
   margin-left: 0;
   margin-right: 0;
 }
 
-.room-card {
-  display: flex;
-  flex-direction: column;
-  /* Use the secondary cream colour for room card backgrounds */
-  background-color: var(--cream-bg2);
-  /* Remove the permanent border and rounded corners from room cards.  A
-     simple rectangular card lets the content and colours speak for
-     themselves. */
-  border: none;
-  border-radius: 0;
-  overflow: hidden;
-  transition: transform 0.2s ease;
-}
-
-/* When hovering a room card, slightly zoom the entire card rather than shifting it up */
 .room-card:hover {
-  /* Keep the gentle zoom effect but remove drop shadow.  Instead,
-     darken the card background slightly using our hover colour. */
   transform: scale(1.05);
   z-index: 5;
   box-shadow: none;
   background-color: var(--card-hover-bg);
 }
 
-/*
- * Overlay presentation adjustments
- *
- * To create a more immersive photo view when a room card is clicked,
- * the overlay fades in smoothly and the image scales from 95% to its full
- * size.  The Maison Brevan watermark enlarges to fill the backdrop and
- * the description area is repositioned so that only the room name
- * appears overlaid on the picture.  The reserve button and detailed
- * paragraphs are hidden to focus attention on the image.
- */
-.room-overlay {
-  /* Start hidden and transparent; the overlay becomes visible via the .show
-     class which is toggled by script.js.  Opacity transitions create a
-     gentle fade on open and close. */
-  display: none;
-  opacity: 0;
-  transition: opacity 0.8s ease;
-}
-
-.room-overlay.show {
-  display: flex;
-  opacity: 1;
-}
-
-/* Scale the overlay content from 95% to 100% on open for a subtle zoom effect */
-.room-overlay .overlay-content {
-  transform: scale(0.95);
-  transition: transform 0.8s ease;
-}
-
 .room-overlay.show .overlay-content {
   transform: scale(1);
-}
-
-/* Animate the watermark so it grows to fill the backdrop when the overlay opens */
-.overlay-watermark {
-  background-size: 40%;
-  transition: background-size 1.5s ease;
 }
 
 .room-overlay.show .overlay-watermark {
   background-size: 140%;
 }
 
-/* Reposition the overlay description so only the room name appears on top of the image.
-   Hide the description text and the reserve button entirely. */
-.room-overlay .overlay-description {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  margin: 0;
-  padding: 0;
-  background: transparent;
-  z-index: 4;
-  pointer-events: none;
-}
-
-.room-overlay .overlay-description h3 {
-  margin: 0;
-  font-family: "Playfair Display", serif;
-  font-size: 1.8rem;
-  color: var(--accent);
-  /* Add a soft shadow to ensure the text remains legible on light photos */
-  text-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
-}
-
-.room-overlay .overlay-description p,
-.room-overlay .overlay-description a {
-  display: none;
-}
-
-/* =================================================================== */
-/*
- * Custom overrides for the "Autour de la maison" page layout
- *
- * To respond to user feedback, the around page is widened on
- * desktop screens, images are given consistent dimensions, and
- * rounded corners are removed.  Flexbox replaces the original
- * grid layout for the nature and beaches sections, allowing
- * the text and images to be centred within a wider container.
- * The villages section remains stacked vertically but centres
- * its image below the text.
- */
-
-/* Widen the maximum width of around-page sections */
-body.around-page .around-section {
-  /* Override the default section width on the around page.  The base
-     stylesheet limits each section to 1200px wide, which left little
-     room for the central text column between two 600px images.
-     Increasing this to 2200px (matching the main content width)
-     ensures that sections with multiple columns can allocate
-     sufficient space to the text, reducing the vertical height of
-     paragraphs. */
-  max-width: 2200px;
-  max-width: 1400px;
-}
-
-/* Thicker separators matching the footer colour with increased width */
-body.around-page hr.around-separator {
-  max-width: 1300px;
-}
-
-/* Nature section: horizontal layout with fixed image size */
-.nature-section {
-  display: flex !important;
-  justify-content: center;
-  align-items: center;
-  gap: 3rem;
-}
-.nature-section .text-container {
-  flex: 1;
-}
-.nature-section .image-container {
-  flex: 0 0 600px;
-  max-width: 600px;
-}
-.nature-section .image-container img {
-  width: 100%;
-  height: auto;
-  border-radius: 0;
-  display: block;
-}
-
-/* Beaches section: three columns (image – text – image) with fixed image size */
-.beaches-section {
-  /* Use a grid layout for the beaches section so that the side images
-     and the central text share the available width proportionally.
-     Assign 1fr for each image column and 2fr for the text column.
-     This means the text gets roughly twice as much horizontal space
-     as each image, avoiding overly tall columns on wide screens. */
-  display: grid !important;
-  grid-template-columns: 1fr 2fr 1fr;
-  gap: 2rem;
-  align-items: stretch;
-}
-/* Remove flex properties on the text container now that the section
-   uses a grid layout.  The grid template columns will determine
-   its width relative to the image columns. */
-.beaches-section .text-container {
-  flex: none;
-}
-.beaches-section .image-left,
-.beaches-section .image-right {
-  /* When switching to a grid layout, flex properties and fixed widths
-     are no longer needed.  Allow the grid columns to control the
-     width and remove the previous maximum width restrictions. */
-  flex: none;
-  max-width: none;
-}
-.beaches-section .image-left img,
-.beaches-section .image-right img {
-  width: 100%;
-  height: auto;
-  border-radius: 0;
-  display: block;
-}
-/* Align the left image to the top and the right image to the bottom */
-/* Align the beach images within their grid rows.  In a grid layout
-   'start' and 'end' correspond to top and bottom alignment. */
-.beaches-section .image-left {
-  align-self: start;
-}
-.beaches-section .image-right {
-  align-self: end;
-}
-
-/* Villages section: stack text and image, centring the image below */
-.villages-section {
-  display: flex !important;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-}
 .villages-section .text-container {
   max-width: 1000px;
   width: 100%;
 }
+
 .villages-section .image-container {
   max-width: 600px;
   width: 100%;
 }
-.villages-section .image-container img {
-  width: 100%;
-  height: auto;
-  border-radius: 0;
-  display: block;
-}
 
-/* -------------------------------------------------------------------
-   Responsive adjustments for the Around page
-
-   On smaller screens the side‑by‑side layouts in the Nature and Beaches
-   sections cause the text to shrink and drift out of view.  The
-   following media queries stack the images above or below the text and
-   remove fixed widths so that each element can fill the available
-   space.  The ordering of the beaches section elements is preserved
-   by default, resulting in the left image at the top, followed by the
-   text and then the right image.  You can adjust the `order` values
-   if you prefer a different arrangement.
-*/
-
-@media (max-width: 900px) {
-  /* Stack the columns vertically in the nature section */
-  body.around-page .nature-section {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  body.around-page .nature-section .text-container,
-  body.around-page .nature-section .image-container {
-    flex: none;
-    width: 100%;
-    max-width: none;
-  }
-  /* Stack the columns in the beaches section.  Use flexbox instead of
-     grid so elements flow vertically.  The default markup order
-     (image-left, text-container, image-right) produces a top image,
-     followed by text, then a bottom image. */
-  body.around-page .beaches-section {
-    display: flex !important;
-    flex-direction: column;
-    align-items: stretch;
-  }
-  body.around-page .beaches-section .image-left,
-  body.around-page .beaches-section .image-right,
-  body.around-page .beaches-section .text-container {
-    flex: none;
-    width: 100%;
-    max-width: none;
-  }
-}
-
-/* Allow the around page main content wrapper to grow wider than
-   900px.  This ensures the increased max-width values on
-   individual sections take effect. */
-body.around-page #main-content {
-  max-width: 1400px;
-}
-
-/* Remove rounded corners from all images in the around page.  A high
-   specificity selector and !important ensure this override takes
-   precedence over earlier declarations. */
-body.around-page .around-section img {
-  border-radius: 0 !important;
-}
-
-/* Expand paragraph width on the around page.  The default around
-   section paragraphs were limited to 60 characters per line which
-   resulted in narrow columns.  Increase the maximum line length so
-   that text occupies more horizontal space on large screens. */
-body.around-page .around-section p {
-  /* Allow paragraphs to span a wider measure.  Increasing from 60ch
-     to 100ch gives the text more breathing room on large screens
-     without stretching lines excessively. */
-  max-width: 100ch;
-}
-
-/* -------------------------------------------------------------------
- * Override layouts for the around page sections now that headings sit
- * above a dedicated content row.  Previously, nature-section and
- * beaches-section used flex/grid on the section element itself.  Those
- * declarations must be reverted to block-level to allow the heading to
- * span the full width.  The .content-row elements handle the side‑by‑side
- * arrangement of text and images.
- */
-
-/* Nature section: reset the section to block and arrange the content
-   row horizontally.  The text grows to fill the remaining space
-   while the image retains its fixed width. */
-.nature-section {
-  display: block !important;
-}
 .nature-section .content-row {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 3rem;
 }
+
 .nature-section .text-container {
   flex: 1;
 }
+
 .nature-section .image-container {
   flex: 0 0 600px;
   max-width: 600px;
 }
 
-/* Beaches section: reset the section to block and apply a three‑column
-   grid on the content row.  The images occupy the first and last
-   columns and the text spans twice the width of an image. */
-.beaches-section {
-  display: block !important;
-}
 .beaches-section .content-row {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
   gap: 2rem;
   align-items: stretch;
 }
+
 .beaches-section .image-left,
 .beaches-section .image-right {
-  /* Remove any inherited flex sizing so the grid controls the width. */
+  flex: none;
   max-width: none;
 }
+
 .beaches-section .image-left img,
 .beaches-section .image-right img {
   width: 100%;
@@ -1325,17 +561,11 @@ body.around-page .around-section p {
   border-radius: 0;
   display: block;
 }
+
 .beaches-section .text-container {
-  /* Ensure the central column uses its allocated grid space without
-     flex properties interfering. */
   flex: none;
 }
 
-/* Villages section: reset section to block and stack the text and image
-   vertically within the content row. */
-.villages-section {
-  display: block !important;
-}
 .villages-section .content-row {
   display: flex;
   flex-direction: column;
@@ -1343,87 +573,42 @@ body.around-page .around-section p {
   gap: 2rem;
 }
 
-/* -------------------------------------------------------------------
- * Additional styling for the “Autour de la maison” page
- *
- * The around page contains long-form editorial content.  To improve
- * readability and harmonise its look and feel with the other pages,
- * constrain the content to a comfortable width, centre the section
- * titles and apply the accent colour used on the home page.  Paragraphs
- * are given generous line height and spacing to avoid the appearance
- * of text flush against the viewport edges.
- */
 body.around-page #main-content {
-  /* Constrain the width of the editorial content and centre it on
-     the page.  A maximum width prevents paragraphs from stretching
-     full‑width on large screens, while the auto margins centre the
-     column. */
-  /* Increase the maximum width so that the editorial content can
-     occupy much more of the viewport on larger screens.  A larger
-     max-width allows the central column in sections like “Plages &
-     littoral” to use more horizontal space between the fixed-size
-     side images.  This change reduces the apparent vertical length
-     of paragraphs by giving them more room to flow left to right. */
   max-width: 2200px;
   margin: 0 auto;
-  /* Horizontal padding ensures the text never touches the edges on
-     narrow viewports. */
   padding: 0 2rem;
 }
 
 body.around-page .around-section {
-  /* Separate each section with ample vertical space to create
-     breathing room between topics. */
+  max-width: 1400px;
   margin-bottom: 3rem;
 }
 
 body.around-page .around-section h2,
 body.around-page .around-section h3 {
-  /* Use the accent colour defined in the root variables to tie the
-     around page into the site’s colour palette. */
   color: var(--accent);
-  /* Use the same serif heading font as the home page for visual
-     consistency.  Fallback to generic serif if the custom font
-     fails to load. */
-  font-family: 'Playfair Display', serif;
-  /* Centre the headings within the constrained column to echo the
-     layout of the introduction section. */
+  font-family: "Playfair Display", serif;
   text-align: center;
-  /* Reduce the default margin below headings so the titles sit
-     closer to their content, improving hierarchy. */
   margin-bottom: 1rem;
-
-  /* Override default block formatting so headings can be
-     horizontally centred on their own line.  By explicitly
-     declaring them as block-level elements and applying
-     auto margins, the heading’s width collapses to its
-     intrinsic size and centres within the available space.
-     The width: fit-content declaration allows auto margins to
-     take effect across modern browsers. */
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: -moz-fit-content;
   width: fit-content;
 }
 
 body.around-page .around-section p {
-  /* Improve readability of long passages by increasing line height. */
+  max-width: 100ch;
   line-height: 1.6;
-  /* Add space below each paragraph to separate them visually. */
   margin-bottom: 1rem;
 }
 
 .room-image {
   position: relative;
-  /* Increase the height so that room photos aren't squashed */
-  /* Increased height (was 300px) so photos have more breathing room */
   height: 340px;
   overflow: hidden;
 }
 
 .room-image img {
-  /* Position images absolutely for the room slider and fade between them */
   position: absolute;
   top: 0;
   left: 0;
@@ -1434,30 +619,14 @@ body.around-page .around-section p {
   transition: opacity 0.8s ease;
 }
 
-/* Price tag styling: use the lighter accent colour and remove rounded corners */
-.price-tag {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  background-color: var(--accent-light);
-  color: #fff;
-  font-size: 0.7rem;
-  padding: 0.3rem 0.6rem;
-  border-radius: 0;
-  /* Allow animated letters inside price tags to move above their baseline during hover */
-  overflow: visible;
-}
-
 .room-card h3 {
   font-family: "Playfair Display", serif;
   font-size: 1.1rem;
   margin: 0.8rem 0 0.2rem 0;
   padding: 0 0.8rem;
-  /* Use the accent colour for room names so they stand out */
   color: var(--accent);
 }
 
-/* Style for the bed information row beneath the room description */
 .room-card .bed-info {
   display: flex;
   align-items: center;
@@ -1466,6 +635,7 @@ body.around-page .around-section p {
   font-size: 0.85rem;
   color: var(--text-color);
 }
+
 .room-card .bed-info img {
   width: 1.2rem;
   height: 1.2rem;
@@ -1477,32 +647,23 @@ body.around-page .around-section p {
   padding: 0 0.8rem;
   margin: 0.1rem 0 0.2rem 0;
   font-size: 0.85rem;
-  /* Align room card paragraph colour with the main text colour */
   color: var(--text-color);
   line-height: 1.4;
 }
 
 .room-card .features {
-  /* Use the main text colour for the features line */
   color: var(--text-color);
-  /* Enlarge language switch text similarly to the main nav */
   font-size: 1.125rem;
   margin-bottom: 0.8rem;
 }
 
-/* Sections */
 section {
-  /* Increase top padding so that the first row of photos in the gallery
-     page is fully visible below the fixed header and title badge.  The
-     bottom padding remains unchanged. */
   padding: 10rem 1rem 4rem;
 }
 
-/* About section */
 .about {
   display: flex;
   flex-wrap: wrap;
-  /* Off‑white background for the about section */
   background: var(--cream-bg2);
 }
 
@@ -1517,7 +678,6 @@ section {
   font-family: "Playfair Display", serif;
   font-size: 2rem;
   margin-bottom: 1rem;
-  /* Accent colour for "L’esprit de la maison" heading */
   color: var(--accent);
 }
 
@@ -1529,11 +689,9 @@ section {
 .about .image img {
   width: 100%;
   height: auto;
-  /* Les images doivent toutes avoir des angles droits */
   border-radius: 0;
 }
 
-/* Contact section */
 .contact {
   background: #fff;
 }
@@ -1546,7 +704,6 @@ section {
 
 .contact p {
   max-width: 600px;
-  /* Align contact description text with the main text colour */
   color: var(--text-color);
   margin-bottom: 2rem;
 }
@@ -1560,7 +717,6 @@ section {
 
 .contact label {
   font-size: 0.85rem;
-  /* Use the main text colour for contact form labels */
   color: var(--text-color);
 }
 
@@ -1571,8 +727,6 @@ section {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 0.9rem;
-  /* Ensure letters inside price tags aren't clipped when animating */
-  overflow: visible;
 }
 
 .contact button {
@@ -1587,22 +741,17 @@ section {
 }
 
 .contact button:hover {
-  /* Darken the contact button on hover using the accent dark shade */
   background: var(--accent-dark);
 }
 
-/* Footer */
 footer {
-  /* Give the footer the same rust gradient as the check‑in/out section */
   background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
   border-top: none;
-  /* Reduce the vertical padding by 25 % to make the footer more compact */
   padding: 3rem 1rem;
   color: #ffffff;
   font-size: 0.9rem;
 }
 
-/* Footer layout */
 .footer-content {
   display: flex;
   flex-wrap: wrap;
@@ -1610,27 +759,6 @@ footer {
   gap: 2rem;
 }
 
-/* Adjust column widths: give more room to left and right columns */
-.footer-left {
-  flex: 2 1 350px;
-}
-.footer-middle {
-  flex: 1 1 200px;
-}
-.footer-right {
-  flex: 2 1 350px;
-}
-
-/* Arrange address and contact info side by side within the left column */
-/* Arrange the address and the phone/email side by side in the left column */
-
-/* Ensure phone and email occupy their own lines */
-/* Ensure phone and email occupy their own lines */
-/*
- * Contact table in the footer.
- * Aligns the address to the left and the phone/email to the right,
- * stacking the email below the phone.
- */
 .footer-contact-table {
   width: 100%;
   border-collapse: collapse;
@@ -1655,15 +783,14 @@ footer {
 
 .footer-left p,
   .footer-left a {
-    margin: 0.2rem 0;
-    font-size: 0.95rem;
-    /* Light text in the dark footer */
-    color: #ffffff;
-    text-decoration: underline;
-  }
+  margin: 0.2rem 0;
+  font-size: 0.95rem;
+  color: #ffffff;
+  text-decoration: underline;
+}
 
-/* Center column styling */
 .footer-middle {
+  flex: 1 1 200px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -1677,12 +804,10 @@ footer {
   font-size: 1.1rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  /* Light text for the dark footer */
   color: #ffffff;
 }
 
 .footer-middle .social-icons {
-  /* Override absolute positioning from global .social-icons class */
   position: static;
   margin-top: 0.5rem;
   display: flex;
@@ -1699,11 +824,9 @@ footer {
 
 .footer-middle .social-icons a:hover svg {
   transform: scale(1.2);
-  /* Invert colour on hover for a subtle effect */
   fill: var(--cream-bg);
 }
 
-/* Right column form styling */
 .footer-right form {
   display: flex;
   flex-direction: column;
@@ -1745,8 +868,8 @@ footer {
   background-color: #333;
 }
 
-/* Right column: phone and email aligned to the right */
 .footer-right {
+  flex: 2 1 350px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -1755,14 +878,14 @@ footer {
 
 .footer-right .phone,
   .footer-right .email {
-    margin: 0.2rem 0;
-    font-size: 0.95rem;
-    color: #ffffff;
-    text-decoration: underline;
-  }
+  margin: 0.2rem 0;
+  font-size: 0.95rem;
+  color: #ffffff;
+  text-decoration: underline;
+}
 
-/* New footer left structure */
 .footer-left {
+  flex: 2 1 350px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -1770,20 +893,14 @@ footer {
   align-items: flex-start;
 }
 
-/* Group the address and access button vertically.  Apply the same
-   layout rules to both the legacy `.footer-left` address group (if
-   present) and the new `.footer-base-address` used in the updated
-   footer design. */
 .footer-left .address-group,
 .footer-base-address {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-  /* Make the group shrink to fit its contents so the button width matches the address */
   flex: 0 0 auto;
 }
 
-/* Footer address uses the same colour as other footer text */
 .footer-left .address,
 .footer-base-address .address {
   margin: 0;
@@ -1791,10 +908,6 @@ footer {
   color: #ffffff;
 }
 
-/* Style the plan d'accès button; support both legacy and new footer structures */
-/* Plan d'accès buttons in the footer.  Apply these styles to the new
- * `.footer-brand` container as well as any legacy containers that may
- * remain on some pages. */
 .footer-left .access-btn,
 .footer-base-address .access-btn,
 .footer-brand .access-btn {
@@ -1809,32 +922,12 @@ footer {
   background-color: transparent;
   cursor: pointer;
   text-decoration: none;
-  /* Remove the stretch behaviour so the button only takes as much
-     width as needed in the new layout.  Legacy layouts retain the
-     original 100% width implicitly via their container styles. */
   width: fit-content;
-  /* Prepare the button for a fade overlay */
   position: relative;
   overflow: hidden;
   transition: color 0.8s ease;
 }
 
-/* Keep text white on hover and allow the gradient overlay to show through */
-/*
- * When hovering over the Plan d’accès button, fill the button with
- * the same rich brown gradient used throughout the site.  Keep the text
- * white so it remains legible on the darker background.  This
- * eliminates the need for the pseudo‑element overlay that was
- * previously used to fade the gradient in, and instead applies
- * the gradient directly to the button’s background.  The border
- * remains white to preserve visual separation from the footer background.
- */
-/* When hovering over the Plan d’accès button, the text remains white.  The
-   gradient fill is handled via the pseudo‑element below to allow a
-   smooth fade‑in effect instead of an instant background change. */
-/* Hover state for the plan d'accès button.  Keep the text and border
- * white on hover to maintain legibility against the gradient.
- */
 .footer-left .access-btn:hover,
 .footer-base-address .access-btn:hover,
 .footer-brand .access-btn:hover {
@@ -1842,12 +935,6 @@ footer {
   border-color: #ffffff;
 }
 
-/* Fade overlay for the plan d'accès button.  A pseudo‑element slides
-   a rust gradient over the transparent background on hover.  The
-   opacity transition is intentionally slowed for a smoother fill. */
-/* Fade overlay for the plan d'accès button.  Apply to the new
- * `.footer-brand` container as well.  Extend the transition duration
- * slightly for an even smoother fill. */
 .footer-left .access-btn::after,
 .footer-base-address .access-btn::after,
 .footer-brand .access-btn::after {
@@ -1863,14 +950,12 @@ footer {
   z-index: -1;
 }
 
-/* Hover state for the overlay on the plan d'accès button */
 .footer-left .access-btn:hover::after,
 .footer-base-address .access-btn:hover::after,
 .footer-brand .access-btn:hover::after {
   opacity: 1;
 }
 
-/* Contact details stacked vertically */
 .footer-left .contact-details {
   display: flex;
   flex-direction: column;
@@ -1890,41 +975,29 @@ footer {
   text-decoration: underline;
 }
 
-/* Reserve button in each room card */
 .room-reserve-btn {
   display: inline-block;
   margin: 0.4rem 0.8rem 1rem 0.8rem;
   padding: 0.4rem 1rem;
-  /* Remove the visible border from the reserve button.  The button
-     outline will be implied through colour changes on hover instead
-     of a static line. */
   border: none;
-  /* Remove rounded corners for a sharper look */
   border-radius: 0;
-  /* Increase the font size slightly for greater legibility */
   font-size: 1rem;
-  /* Use a medium weight to make the text stand out more */
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--accent);
   background-color: transparent;
   cursor: pointer;
-  /* Prepare the element for the fade overlay */
   position: relative;
   overflow: visible;
   text-align: center;
-  /* Slow down the colour transition so the fill effect feels more gradual */
   transition: color 1s ease;
+  color: var(--accent);
 }
 
 .room-reserve-btn:hover {
-  /* Change the text colour on hover */
-  color: #fff;
+  color: #ffffff !important;
 }
 
-/* Display the logo inside the reserve button on hover.  This pseudo‑element is
-   initially hidden; it becomes visible when hovering over the button. */
 .room-reserve-btn::before {
   content: "";
   position: absolute;
@@ -1933,7 +1006,7 @@ footer {
   transform: translateY(-50%);
   width: 1rem;
   height: 1rem;
-  background-image: url('assets/images/logo-symbol.png');
+  background-image: url("assets/images/logo-symbol.png");
   background-repeat: no-repeat;
   background-size: contain;
   opacity: 0;
@@ -1941,11 +1014,11 @@ footer {
   z-index: 1;
   pointer-events: none;
 }
+
 .room-reserve-btn:hover::before {
   opacity: 1;
 }
 
-/* Fade overlay for the room reserve button */
 .room-reserve-btn::after {
   content: "";
   position: absolute;
@@ -1955,7 +1028,6 @@ footer {
   height: 100%;
   background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
   opacity: 0;
-  /* Increase the duration of the fade‑in overlay for a more progressive fill */
   transition: opacity 1s ease-in-out;
   z-index: -1;
 }
@@ -1964,14 +1036,7 @@ footer {
   opacity: 1;
 }
 
-/*
- * When hovering over the entire room card, trigger the same reserve button
- * animations as when hovering directly over the button itself.  This makes
- * the gradient fill and logo appear as soon as the user moves the mouse
- * anywhere within the card, drawing attention to the call‑to‑action.
- */
 .room-card:hover .room-reserve-btn {
-  /* Match the hover text colour */
   color: #fff;
 }
 
@@ -1983,24 +1048,11 @@ footer {
   opacity: 1;
 }
 
-/*
- * Amenities list styles
- *
- * Each room card now includes a vertical list of amenities (grande douche
- * italienne, coffre, wifi, non fumeur, Canal+, etc.).  The `.amenities`
- * container stacks the items with a small gap and aligns them with the
- * card’s text content.  Each `.amenity` displays a small icon and a
- * descriptive label.  The Canal+ row has a special label styled to
- * resemble the broadcaster’s logo.
- */
 .amenities {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
-  /* Align with the horizontal padding used on headings and text in the
-     room card */
   padding: 0 0.8rem;
-  /* Provide breathing room below the amenities before the buttons */
   margin-bottom: 0.6rem;
 }
 
@@ -2008,26 +1060,15 @@ footer {
   display: flex;
   align-items: center;
   font-size: 0.8rem;
-  /* Use the main text colour for amenity labels */
   color: var(--text-color);
 }
 
 .amenity img {
-  /* Increase the size of amenity icons slightly for better legibility.
-     Keep them aligned with the text and provide a modest right margin. */
   width: 1.2rem;
   height: 1.2rem;
   margin-right: 0.4rem;
 }
 
-/* Canal+ logo styling.  The `.canal-logo` class is applied to
- * the amenity wrapper for the Canal+ feature.  The inner span is
- * styled with a black background and white text to evoke the Canal+
- * branding. */
-/* Canal+ label styling.  Displayed inline after the television
-   description.  A small black box with white text recalls the
-   original CANAL+ branding but scaled down to complement the
-   amenities text. */
 .amenity .canal-label {
   display: inline-block;
   margin-left: 0.4rem;
@@ -2041,42 +1082,24 @@ footer {
   line-height: 1.2;
 }
 
-/*
- * === Footer layout adjustments ===
- *
- * The original design used a dedicated `.footer-base` row containing a large
- * logo and address which contributed significantly to the overall height
- * of the footer.  To minimise the height while retaining the large logo,
- * we absolutely position the `.footer-base` inside the footer and add
- * bottom padding to the footer itself.  This allows the logo and address
- * to overlay the footer background without reserving additional vertical
- * space in the normal flow.  The large logo is scaled down slightly
- * compared to the previous version, and the address sits to its right.
- */
-
 .footer {
-  /* Ensure the footer can contain absolutely positioned elements */
   position: relative;
-  /* Reserve space at the bottom for the floating logo and address */
-  /* Further reduce the reserved space by roughly 25 % to shorten the
-     overall footer height.  The value of 4rem maintains enough room
-     for the logo and address while keeping the footer slim. */
   padding-bottom: 4rem;
 }
 
 .footer-base {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 1.2rem;
+  margin-top: 0;
   position: absolute;
   bottom: 1rem;
   left: 1.5rem;
-  display: flex;
-  align-items: flex-end;
-  gap: 1.2rem;
-  /* Remove margin so it does not add to the footer’s natural height */
   margin: 0;
 }
 
 .footer-base-logo img {
-  /* Further reduce the logo size to shrink the apparent height of the footer */
   height: 5rem;
   width: auto;
 }
@@ -2087,15 +1110,6 @@ footer {
   justify-content: flex-end;
 }
 
-/*
- * Details button styles
- *
- * The “Plus de détails” button below the amenities triggers the
- * room details overlay.  It reuses much of the styling from
- * `.room-reserve-btn`: outlined by default with the accent colour
- * and filling with the gradient on hover.  The text remains
- * uppercase and centered for consistency across actions.
- */
 .details-btn {
   display: inline-block;
   margin: 0.4rem 0.8rem;
@@ -2127,7 +1141,6 @@ footer {
   height: 100%;
   background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
   opacity: 0;
-  /* Lengthen the fade-in duration on hover for a more gradual fill */
   transition: opacity 1s ease-in-out;
   z-index: -1;
 }
@@ -2136,31 +1149,22 @@ footer {
   opacity: 1;
 }
 
-/*
- * Group room action buttons at the bottom of each card.
- *
- * The `.room-actions` container wraps the “Plus de détails” and
- * “réserver” buttons.  We set a top margin of auto so that this
- * container will push itself to the bottom of the flex column
- * defined on `.room-card`.  This ensures all cards, regardless of
- * the number of amenity lines, align their buttons along the same
- * baseline.
- */
 .room-card {
-  /* Already defined: display: flex; flex-direction: column; */
+  display: flex;
+  flex-direction: column;
+  background-color: var(--cream-bg2);
+  border: none;
+  border-radius: 0;
+  overflow: hidden;
+  transition: transform 0.2s ease;
 }
 
 .room-actions {
   margin-top: auto;
-  /* Use flex to stack the two buttons neatly on top of each other */
   display: flex;
   flex-direction: column;
 }
 
-/* Adjust the spacing of buttons inside the actions group.  The
-   existing margin declarations on .details-btn and .room-reserve-btn
-   provide horizontal padding and vertical spacing.  Remove the top
-   margin on the reserve button to tighten spacing within the group. */
 .room-actions .details-btn {
   margin-bottom: 0.4rem;
 }
@@ -2169,7 +1173,6 @@ footer {
   margin-top: 0;
 }
 
-/* Social icons (Instagram & Facebook) at the bottom-right of the hero */
 .social-icons {
   position: absolute;
   bottom: 1rem;
@@ -2178,13 +1181,6 @@ footer {
   gap: 1rem;
 }
 
-/*
- * Increase the size of the social icons in the hero section so
- * that the Instagram and Facebook logos on the landing page are
- * roughly twice as large as before.  Keep the fill colour white
- * and the hover scaling effect.  Specific overrides for the
- * footer icons remain later in the stylesheet.
- */
 .social-icons svg {
   width: 40px;
   height: 40px;
@@ -2196,12 +1192,10 @@ footer {
   transform: scale(1.3);
 }
 
-/* Room slider: show the active image */
 .room-image img.active {
   opacity: 1;
 }
 
-/* Dots navigation for each room slider */
 .room-image .room-dots {
   position: absolute;
   bottom: 12px;
@@ -2224,9 +1218,7 @@ footer {
   background: #fff;
 }
 
-/* Check In/Out section */
 .checkin-section {
-  /* The check‑in/out section adopts the rust palette with a gentle gradient */
   background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
   padding: 4rem 1rem;
 }
@@ -2261,38 +1253,23 @@ footer {
   margin: 0.25rem 0;
 }
 
-/* Services and Nota Bene section */
 .services-section {
   display: flex;
   flex-wrap: wrap;
-  /* Apply a subtle vertical gradient for the services and Nota Bene sections */
   background: linear-gradient(to bottom, var(--cream-bg), var(--cream-bg2));
   padding: 4rem 1rem;
 }
 
-/*
- * Banner-style section
- *
- * Apply the rust gradient and white typography to sections that should appear as
- * full-width bands (for example, the "L’histoire de la maison" section on the
- * home page).  The `.banner-section` class is added alongside existing
- * section classes (like `.about`) to preserve their layouts while changing
- * colours and padding.  This avoids affecting other pages that use the
- * `.about` class on a light background.
- */
 .banner-section {
-  /* Use the same gradient palette as the check-in/out band */
   background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
   padding: 4rem 1rem;
   color: #ffffff;
 }
 
-/* Ensure headings within banner sections are white */
 .banner-section .text h2 {
   color: #ffffff;
 }
 
-/* Override paragraph colour inside banner sections to white for readability */
 .banner-section .text p {
   color: #ffffff;
 }
@@ -2308,12 +1285,10 @@ footer {
   font-size: 1.6rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  /* Use the accent colour for services headings */
   color: var(--accent);
   margin: 2rem 0 0.5rem 0;
 }
 
-/* Remove top margin on the first heading inside services-left */
 .services-left h2:first-of-type {
   margin-top: 0;
 }
@@ -2329,16 +1304,14 @@ footer {
   padding-left: 1rem;
   margin-bottom: 0.4rem;
   font-size: 0.95rem;
-  /* Use the main text colour for services list items */
   color: var(--text-color);
 }
 
 .services-list li::before {
-  content: '\2022';
+  content: "•";
   position: absolute;
   left: 0;
   top: 0;
-  /* Use the accent colour for the bullet points in the services list */
   color: var(--accent);
 }
 
@@ -2352,34 +1325,25 @@ footer {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Remove rounded corners from the services image */
   border-radius: 0;
 }
 
-/* Ensure the room cards use the full page width on very large screens by fixing the number of columns */
 @media (min-width: 1400px) {
   .rooms-grid {
     grid-template-columns: repeat(5, 1fr);
   }
 }
 
-/* ======================== */
-/* Room details overlay
-   This overlay appears when clicking on a room card. It covers the viewport
-   with a dark backdrop and shows a large image carousel with navigation
-   arrows and a detailed description. */
-
 .room-overlay {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.8s ease;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  /* Use a semi‑opaque black backdrop similar to the gallery overlay so the site
-     remains visible around the enlarged photo.  This darkens the page
-     without overwhelming it, matching the gallery experience. */
   background: rgba(0, 0, 0, 0.85);
-  display: none;
   align-items: center;
   justify-content: center;
   z-index: 10000;
@@ -2389,17 +1353,16 @@ footer {
 
 .room-overlay.show {
   display: flex;
+  opacity: 1;
 }
 
 .room-overlay .overlay-content {
+  transform: scale(0.95);
+  transition: transform 0.8s ease;
   position: relative;
   width: 100%;
-  /* Widen the overlay content and apply a white panel and subtle shadow,
-     mirroring the gallery overlay styling.  This places the slider
-     on a card rather than directly on the dark backdrop. */
   max-width: 1320px;
   background: #fff;
-  /* Remove rounded corners from the room details overlay */
   border-radius: 0;
   overflow: hidden;
   display: flex;
@@ -2407,7 +1370,6 @@ footer {
   box-shadow: 0 20px 40px rgba(0,0,0,0.4);
 }
 
-/* Close button */
 .room-overlay .overlay-close {
   position: absolute;
   top: 0.5rem;
@@ -2416,8 +1378,6 @@ footer {
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  /* Use the accent colour for the close button to keep it visible on both
-     light and dark backgrounds */
   color: var(--accent);
   padding: 0.2rem;
   z-index: 3;
@@ -2425,21 +1385,7 @@ footer {
 }
 
 .room-overlay .overlay-close:hover {
-  /* On hover, darken the close button slightly */
   color: var(--accent-dark);
-}
-
-/* Overlay slider */
-.room-overlay .overlay-slider {
-  position: relative;
-  width: 100%;
-  /* Increase the slider height so enlarged room photos appear similar to
-     gallery photos. */
-  height: 60vh;
-  max-height: 600px;
-  overflow: hidden;
-  /* Match the slider background with the secondary cream colour */
-  background: var(--cream-bg2);
 }
 
 .room-overlay .overlay-slider img {
@@ -2457,297 +1403,133 @@ footer {
   opacity: 1;
 }
 
-/* Navigation arrows */
-.room-overlay .overlay-arrows {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-
-.room-overlay .overlay-arrows button {
-  pointer-events: auto;
-  background: rgba(255, 255, 255, 0.6);
-  border: none;
-  border-radius: 50%;
-  /* Make the overlay arrows smaller and more refined */
-  width: 26px;
-  height: 26px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  /* Use the accent colour for overlay arrow icons */
-  color: var(--accent);
-  cursor: pointer;
-  transition: background 0.3s, color 0.3s;
-}
-
-.room-overlay .overlay-arrows button:hover {
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--accent);
-}
-
-/* Description area */
-.room-overlay .overlay-description {
-  padding: 1.5rem;
-  /* Use the main text colour for overlay descriptions */
-  color: var(--text-color);
-}
-
-.room-overlay .overlay-description h3 {
-  margin: 0 0 0.5rem 0;
-  font-family: "Playfair Display", serif;
-  font-size: 1.6rem;
-  /* Use the heading colour for overlay headings */
-  color: var(--heading-color);
-}
-
 .room-overlay .overlay-description p {
-  /* Hide description paragraphs inside the overlay.  When a room
-     is opened, only the room name will be displayed above the
-     image. */
   display: none;
 }
 
-/* Dot navigation for overlay slider */
-.room-overlay .overlay-dots {
-  /*
-   * Position the dot navigation directly on top of the enlarged image.
-   * We anchor the dots to the bottom right corner of the slider so that
-   * they sit within the photo rather than below the text.  The
-   * `z-index` ensures the dots render above the image, and `pointer-events`
-   * enables them to be clickable.  See `.overlay-slider` for the parent
-   * context.
-   */
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-  /* Place the dot navigation above the image and watermark layers */
-  z-index: 3;
-  display: flex;
-  gap: 6px;
-  pointer-events: auto;
-}
-
-.room-overlay .overlay-dots button {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  /* Use a lighter border and semi‑transparent white background so the dots are clearly visible on
-     top of the darkened photo.  A thicker alpha on the border improves contrast. */
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  background: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-  transition: background 0.3s, border-color 0.3s;
-}
-
-.room-overlay .overlay-dots button.active {
-  background: var(--accent);
-  border-color: var(--accent);
-}
-
-/* ------------------------------------------------------------------
- * Sliding animations for the hero images.  These keyframes and helper
- * classes allow hero slides to move in and out horizontally rather
- * than simply appearing/disappearing.  They are applied via JS when
- * navigating between slides.  Each animation lasts 0.5s and uses a
- * gentle easing for smooth movement.  Opacity remains constant to
- * avoid fading; only the horizontal position changes.
- */
 @keyframes slideInRight {
-  from { transform: translateX(100%); opacity: 1; }
+from { transform: translateX(100%); opacity: 1; }
   to { transform: translateX(0); opacity: 1; }
 }
 
-/* ------------------------------------------------------------------
- * Room slider transitions
- *
- * Similar to the hero slider, animate room card images when
- * transitioning between slides.  The classes below mirror those
- * used for the hero and gallery overlays but are scoped to
- * `.room-slider img`.  They translate the incoming and outgoing
- * images horizontally and fade them in/out for a smooth carousel
- * effect.
- */
 .room-slider img.slide-in-right {
   animation: slideInRight 0.5s ease forwards;
   z-index: 2;
 }
+
 .room-slider img.slide-out-left {
   animation: slideOutLeft 0.5s ease forwards;
   z-index: 1;
 }
+
 .room-slider img.slide-in-left {
   animation: slideInLeft 0.5s ease forwards;
   z-index: 2;
 }
+
 .room-slider img.slide-out-right {
   animation: slideOutRight 0.5s ease forwards;
   z-index: 1;
 }
+
 @keyframes slideOutLeft {
-  from { transform: translateX(0); opacity: 1; }
+from { transform: translateX(0); opacity: 1; }
   to { transform: translateX(-100%); opacity: 1; }
 }
+
 @keyframes slideInLeft {
-  from { transform: translateX(-100%); opacity: 1; }
+from { transform: translateX(-100%); opacity: 1; }
   to { transform: translateX(0); opacity: 1; }
 }
+
 @keyframes slideOutRight {
-  from { transform: translateX(0); opacity: 1; }
+from { transform: translateX(0); opacity: 1; }
   to { transform: translateX(100%); opacity: 1; }
 }
+
 .hero img.slide-in-right {
   animation: slideInRight 0.5s ease forwards;
 }
+
 .hero img.slide-out-left {
   animation: slideOutLeft 0.5s ease forwards;
 }
+
 .hero img.slide-in-left {
   animation: slideInLeft 0.5s ease forwards;
 }
+
 .hero img.slide-out-right {
   animation: slideOutRight 0.5s ease forwards;
 }
 
-/* Apply the same sliding animations to images inside any gallery overlay.
-   The gallery overlays (gallery page and around page) use the class
-   .gallery-overlay for the lightbox.  Assign the slide classes to
-   overlay images so transitions mirror the hero slider. */
 .gallery-overlay img.slide-in-right {
   animation: slideInRight 0.5s ease forwards;
 }
+
 .gallery-overlay img.slide-out-left {
   animation: slideOutLeft 0.5s ease forwards;
 }
+
 .gallery-overlay img.slide-in-left {
   animation: slideInLeft 0.5s ease forwards;
 }
+
 .gallery-overlay img.slide-out-right {
   animation: slideOutRight 0.5s ease forwards;
 }
 
-/* -------------------------------------------------------------------
-   Extra small‑screen overrides for the Around page
-
-   The later sections of this stylesheet reset the nature and beaches
-   layouts to use `.content-row` containers.  On narrow viewports the
-   original side‑by‑side layouts still persist because those rules
-   override the earlier responsive styles.  To ensure that images
-   stack above or below the text on small screens, explicitly set the
-   `.content-row` to flex in column direction and remove any fixed
-   widths.  Using `!important` guarantees these rules have highest
-   priority.
-*/
-@media (max-width: 900px) {
-  /* Nature section: stack image and text vertically */
-  body.around-page .nature-section .content-row {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-  }
-  body.around-page .nature-section .text-container,
-  body.around-page .nature-section .image-container {
-    flex: none !important;
-    width: 100% !important;
-    max-width: none !important;
-  }
-  /* Beaches section: stack left image, text and right image vertically */
-  body.around-page .beaches-section .content-row {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-  }
-  body.around-page .beaches-section .image-left,
-  body.around-page .beaches-section .image-right,
-  body.around-page .beaches-section .text-container {
-    flex: none !important;
-    width: 100% !important;
-    max-width: none !important;
-  }
-}
-
-/*
- * Override to ensure the La Maison Brevan badge always has rounded
- * corners, regardless of earlier border-radius declarations.  Placing
- * this rule at the end of the stylesheet with increased specificity
- * and the !important flag ensures it takes precedence over any
- * previous declarations that might set border-radius to 0.
- */
 header .site-title-badge {
   border-radius: 2rem !important;
 }
 
-/* Hide overlay arrow navigation; use only dots for navigation */
-.room-overlay .overlay-arrows {
-  display: none;
-}
-
-/* Watermark overlay for full-photo mode
-   The watermark is hidden by default.  When the user enters full-photo mode by
-   clicking on an image in the overlay, the watermark appears behind the
-   image, filling the overlay content with a faint version of the Maison
-   Brevan symbol. */
 .overlay-watermark {
-  /* Always display the watermark in the overlay.  It fades gently
-     behind the photograph when the overlay is opened. */
+  background-size: 60%;
+  transition: background-size 1.5s ease;
   display: block;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('assets/images/logo-symbol.png');
+  background-image: url("assets/images/logo-symbol.png");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 60%;
-  /* Increase opacity so the watermark is visible behind the image. */
   opacity: 0.18;
   pointer-events: none;
   z-index: 1;
 }
 
-/* Adjust layering of overlay elements */
 .room-overlay .overlay-slider {
   position: relative;
-  /* Ensure the slider sits above the watermark but below the dots */
+  width: 100%;
+  height: 60vh;
+  max-height: 600px;
+  overflow: hidden;
+  background: var(--cream-bg2);
   z-index: 2;
 }
 
-/* Full-photo mode styles.  When the user clicks on a photo in the overlay,
-   toggle this class on the overlay element to hide the description and
-   display a larger image with a watermark background. */
 .room-overlay.full-photo-mode .overlay-watermark {
   display: block;
 }
+
 .room-overlay.full-photo-mode .overlay-description {
   display: none;
 }
+
 .room-overlay.full-photo-mode .overlay-content {
-  /* Remove background so the watermark is visible */
   background-color: transparent;
 }
+
 .room-overlay.full-photo-mode .overlay-slider {
-  /* Increase the slider height when in full-photo mode so the photo occupies
-     more of the viewport.  The remaining space will be filled by the
-     watermark background. */
   height: 85vh;
 }
 
-/* Reserve button inside overlay */
 .overlay-reserve-btn {
   display: inline-block;
   margin-top: 1rem;
   padding: 0.5rem 1rem;
-  /* Remove the visible border and rounded corners on the reserve button
-     inside the overlay.  The button will fill with colour on hover
-     without showing a static outline. */
   border: none;
   border-radius: 0;
   font-size: 0.9rem;
@@ -2757,35 +1539,17 @@ header .site-title-badge {
   background-color: transparent;
   cursor: pointer;
   text-decoration: none;
-  /* Prepare the element for the fade overlay */
   position: relative;
   overflow: hidden;
   transition: color 1s ease;
 }
 
-/* -------------------------------------------------------------------
- * New footer layout and enhancements
- *
- * The footer now uses a simplified 3‑column layout with separate rows
- * for the address + plan d'accès link, social follow section, and
- * contact details.  Legal links are centered on their own row.
- * These rules override earlier footer definitions to align with the
- * refined design requested by the client.  They are appended at the
- * end of the stylesheet to ensure precedence.
- */
 footer .footer-main-new {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-start;
   gap: 1.5rem;
-  /* Further reduce vertical padding to minimise overall footer height.  The height
-     has been cut roughly in half from the previous revision so the footer
-     appears less bulky while still allowing breathing room around the
-     content. */
-  /* Compress the main footer row even further by trimming the top and
-     bottom padding to nearly zero.  This halves the height again so
-     the footer feels light and unobtrusive. */
   padding: 0.1rem 0;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -2801,11 +1565,17 @@ footer .footer-main-new .footer-col {
   font-size: 0.95rem;
 }
 
-/* Address and plan access column */
 footer .footer-main-new .footer-address .address {
   margin: 0;
   font-size: 0.9rem;
   color: var(--cream-bg2);
+}
+
+footer .footer-main-new .footer-address .access-btn:hover {
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
+  padding: 0.1rem 0.4rem;
+  border-radius: 2px;
 }
 
 footer .footer-main-new .footer-address .access-btn {
@@ -2815,51 +1585,32 @@ footer .footer-main-new .footer-address .access-btn {
   transition: color 0.3s, background 0.3s;
   padding: 0.1rem 0;
   align-self: flex-start;
-}
-
-/* Plan d'accès hover: fill with nuanced rust gradient and lighten text */
-footer .footer-main-new .footer-address .access-btn:hover {
-  /* Ensure the text on the price tag stands out against the rich rust
-     gradient by using the cream background colour.  However, match the
-     button hover appearance by using white for greater contrast. */
-  color: #ffffff;
-  /* Match the hover appearance to the site title badge by using the
-     same angled rust gradient (from accent‑light to accent‑dark).
-     This ensures the button fills with identical nuanced tones when
-     hovered. */
-  background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
-  padding: 0.1rem 0.4rem;
-  border-radius: 2px;
-}
-
-/* Uppercase and icon for Plan d'accès button */
-footer .footer-main-new .footer-address .access-btn {
   text-transform: uppercase;
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
 }
-/* Add logo on hover to the plan d'accès button */
+
 footer .footer-main-new .footer-address .access-btn::after {
-  content: '';
+  content: "";
   position: absolute;
   right: 0.25rem;
   top: 50%;
   transform: translateY(-50%);
   width: 1rem;
   height: 1rem;
-  background-image: url('assets/images/logo-symbol.png');
+  background-image: url("assets/images/logo-symbol.png");
   background-size: contain;
   background-repeat: no-repeat;
   opacity: 0;
   transition: opacity 0.3s;
 }
+
 footer .footer-main-new .footer-address .access-btn:hover::after {
   opacity: 1;
 }
 
-/* Follow us column */
 footer .footer-main-new .footer-follow {
   align-items: center;
   text-align: center;
@@ -2892,7 +1643,6 @@ footer .footer-main-new .footer-follow .social-icons a:hover svg {
   fill: var(--accent);
 }
 
-/* Contact column */
 footer .footer-main-new .footer-contact {
   align-items: flex-end;
   text-align: right;
@@ -2911,11 +1661,9 @@ footer .footer-main-new .footer-contact .email:hover {
   color: var(--accent);
 }
 
-/* Bottom legal row */
 footer .footer-bottom {
   width: 100%;
   text-align: center;
-  /* Reduce the gap above the legal links to compress the overall footer height further. */
   margin-top: 0.18rem;
 }
 
@@ -2943,62 +1691,39 @@ footer .footer-legal .separator {
   margin: 0 0.5rem;
 }
 
-/* Ensure older footer elements are hidden when the new layout is used */
-footer .footer-content,
-footer .footer-base,
-footer .footer-brand,
-footer .footer-main {
-  display: none !important;
-}
-
-/* -------------------------------------------------------------------
- * End new footer layout
- */
-
-/*
- * Around page styling
- *
- * The "Autour de la maison" page presents curated content about the
- * region.  These rules define generous spacing, clear typography and
- * harmonious colours consistent with the rest of the site.  Each
- * section is padded and separated to aid readability.  Headings use
- * the accent colour and the serif font to evoke elegance.  Paragraphs
- * are limited in width on large screens to maintain comfortable line
- * lengths.
- */
 .around-section {
   padding: 4rem 1.5rem;
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
 }
+
 .around-section h2,
 .around-section h3 {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   color: var(--accent);
   margin-top: 0;
   margin-bottom: 1rem;
 }
+
 .around-section h3 {
   font-size: 1.5rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
+
 .around-section .emoji {
   font-size: 1.5rem;
   line-height: 1;
 }
+
 .around-section p {
   margin: 0 0 1rem 0;
   line-height: 1.7;
   max-width: 60ch;
 }
 
-/* Decorative separator for the "Autour de la maison" page.
-   This horizontal rule uses a subtle gradient so that it fades at the
-   edges.  It serves as an elegant divider between content blocks
-   without introducing a heavy border. */
 .around-separator {
   border: none;
   height: 1px;
@@ -3008,60 +1733,46 @@ footer .footer-main {
   background-image: linear-gradient(to right, transparent, var(--accent-light), transparent);
 }
 
-/*
- * Custom layout rules for the redesigned "Autour de la maison" page.
- *
- * The around page now contains mixed text and image sections arranged
- * side‑by‑side.  We define responsive grid layouts for each section,
- * align the images appropriately (top, bottom, or centre) and
- * override the default horizontal rule styling with a thicker, dark
- * accent colour.  These rules ensure the page remains elegant on
- * both large and small screens.
- */
-
-/* Thicker separators matching the footer colour */
 body.around-page hr.around-separator {
-  /* Thicker separator lines that span further across the page.  Use
-     the same dark accent colour as the footer and increase the
-     maximum width so that separators occupy more horizontal space on
-     large screens.  The opacity remains slightly reduced to soften
-     the contrast against the cream background. */
+  max-width: 1300px;
   border: none;
   height: 3px;
   width: 100%;
-  max-width: 1300px;
   margin: 2rem auto;
   background-color: var(--accent-dark);
   opacity: 0.6;
 }
 
-/* Nature section: two columns with text on the left and image on the right */
 .nature-section {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 2rem;
+  display: block !important;
+  justify-content: center;
   align-items: center;
+  gap: 2rem;
+  grid-template-columns: 2fr 1fr;
 }
+
 .nature-section .image-container img {
   width: 100%;
   height: auto;
-  display: block;
   border-radius: 0.5rem;
+  display: block;
 }
 
-/* Beaches section: three columns (image – text – image) */
 .beaches-section {
-  display: grid;
+  display: block !important;
   grid-template-columns: 1fr 2fr 1fr;
   gap: 2rem;
   align-items: stretch;
 }
+
 .beaches-section .image-left {
   align-self: start;
 }
+
 .beaches-section .image-right {
   align-self: end;
 }
+
 .beaches-section img {
   width: 100%;
   height: auto;
@@ -3069,97 +1780,63 @@ body.around-page hr.around-separator {
   border-radius: 0.5rem;
 }
 
-/* Villages section: stack text and image vertically */
 .villages-section {
-  display: flex;
+  display: block !important;
   flex-direction: column;
+  align-items: center;
   gap: 1.5rem;
 }
+
 .villages-section .image-container img {
   width: 100%;
   height: auto;
-  display: block;
   border-radius: 0.5rem;
+  display: block;
 }
 
-/* Ensure images in around page don't exceed their columns */
 body.around-page .around-section img {
+  border-radius: 0 !important;
   max-width: 100%;
   height: auto;
 }
 
-/* Responsive adjustments: stack columns on small screens */
-@media (max-width: 768px) {
-  .nature-section,
-  .beaches-section {
-    grid-template-columns: 1fr;
-  }
-  .beaches-section .image-left,
-  .beaches-section .image-right {
-    align-self: center;
-  }
-  .beaches-section img {
-    margin-bottom: 1rem;
-  }
-  .nature-section .image-container {
-    margin-top: 1rem;
-  }
-  .villages-section {
-    gap: 1rem;
-  }
-}
-
-/*
- * Around page watermark
- *
- * Display the Maison Brevan symbol faintly across the entire around page.
- * The watermark sits behind all content and scales to fill most of the
- * viewport.  Its low opacity ensures it remains a subtle backdrop,
- * complementing the rust palette without distracting from the text.
- */
 body.around-page::before {
-  content: '';
+  content: "";
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('assets/images/logo-symbol.png');
+  background-image: url("assets/images/logo-symbol.png");
   background-repeat: no-repeat;
   background-position: center;
-  /* Scale the watermark relative to the viewport; a large size gives
-     the impression that the symbol sits behind the content without
-     dominating the layout. */
   background-size: 60%;
-  /* A subtle opacity so the logo appears as a watermark. */
   opacity: 0.05;
   pointer-events: none;
   z-index: 0;
 }
 
-/* Price tag gradient: nuanced rust background */
 .price-tag {
-  /* Use the same nuanced rust gradient as the site badge so the price
-     tags blend seamlessly with other accent elements.  The diagonal
-     gradient echoes the header and footer for a cohesive look. */
-  background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: var(--accent-light);
   color: var(--cream-bg);
-  border: none;
-  padding: 0.25rem 0.5rem;
-  font-weight: bold;
   font-size: 0.9rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0;
+  overflow: visible;
+  background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
+  border: none;
+  font-weight: bold;
 }
 
 .overlay-reserve-btn:hover {
-  /* On hover, fill the button with the rust gradient and invert the
-     text colour.  This mirrors the behaviour of the reserve buttons on
-     the room cards. */
   color: #fff;
   background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
   border-color: var(--accent);
 }
 
-/* Fade overlay for the overlay reserve button */
 .overlay-reserve-btn::after {
   content: "";
   position: absolute;
@@ -3169,46 +1846,10 @@ body.around-page::before {
   height: 100%;
   background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
   opacity: 0;
-  /* Slow the overlay transition so the fill effect in the overlay view
-     appears more gradual */
   transition: opacity 1s ease;
   z-index: -1;
 }
 
-/* ===================================================================== */
-/*
- * Room overlay enhancements
- *
- * Restore arrow navigation, reposition the description panel and style
- * the title and reserve button.  These rules override earlier
- * definitions that hid the arrows and anchored the description to the
- * top left of the overlay.  Placing them near the end of the
- * stylesheet ensures they take precedence.
- */
-
-/* Show arrow navigation for room overlays */
-/* Show arrow navigation for room overlays.  We override the earlier rule
-   that hides arrows.  Leave positioning and pointer-events to the
-   default definitions declared earlier in the stylesheet. */
-.room-overlay .overlay-arrows {
-  display: flex !important;
-  /* Elevate arrows above the slider images so they are always visible */
-  z-index: 2;
-}
-
-/* Position the description panel at the bottom of the overlay card and
-   restore interactive elements. */
-.room-overlay .overlay-description {
-  position: static !important;
-  pointer-events: auto !important;
-  background: var(--cream-bg2);
-  margin: 0;
-  padding: 1.5rem;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* Arrange the room title and reserve button on a single row */
 .room-overlay .overlay-description .overlay-header {
   display: flex;
   justify-content: space-between;
@@ -3216,16 +1857,6 @@ body.around-page::before {
   gap: 1rem;
 }
 
-/* Style the room title using the rust accent colour */
-.room-overlay .overlay-description h3 {
-  margin: 0;
-  font-family: "Playfair Display", serif;
-  font-size: 1.6rem;
-  color: var(--accent);
-  text-shadow: none;
-}
-
-/* Style the reserve button in the overlay */
 .room-overlay .overlay-description .overlay-reserve-btn {
   display: inline-block;
   padding: 0.5rem 1rem;
@@ -3245,32 +1876,22 @@ body.around-page::before {
   background: linear-gradient(135deg, var(--accent-dark), var(--accent-light));
 }
 
-/* Hide extended details by default; can be toggled if desired */
 .room-overlay .overlay-details {
   display: none;
 }
+
 .overlay-reserve-btn:hover::after {
   opacity: 1;
 }
 
-/*
- * Scroll reveal animations
- * Elements with these classes start hidden and slide/fade into view when
- * they enter the viewport. An IntersectionObserver in script.js adds
- * the `in-view` class to trigger the transition. Use `scroll-fade-up`
- * for vertical motion, `scroll-fade-left` for left-to-right, and
- * `scroll-fade-right` for right-to-left.
- */
 .scroll-fade-up,
 .scroll-fade-left,
 .scroll-fade-right {
   opacity: 0;
   transform: translateY(50px);
-  /* Slow down the fade/slide animation a bit (0.8s → 1.3s) */
   transition: opacity 1.3s ease, transform 1.3s ease;
 }
 
-/* Override initial transform for horizontal animations */
 .scroll-fade-left {
   transform: translateX(-50px);
 }
@@ -3279,7 +1900,6 @@ body.around-page::before {
   transform: translateX(50px);
 }
 
-/* When an animated element is in view, make it visible */
 .scroll-fade-up.in-view,
 .scroll-fade-left.in-view,
 .scroll-fade-right.in-view {
@@ -3287,28 +1907,14 @@ body.around-page::before {
   transform: translate(0, 0);
 }
 
-/*
- * ========================
- * Gallery page styles
- * The gallery page uses a responsive grid layout with subtle animations.  On
- * hover, each image zooms slightly and reveals a plus icon to indicate
- * that it can be opened.  Clicking an image opens a full-screen
- * lightbox with navigation arrows and dot indicators.
- */
-
 .gallery-section {
-  /* Increase top padding so the first row of photos does not overlap
-     with the fixed header and badge.  This extra space ensures
-     gallery items are fully visible upon navigating to the page. */
+  padding-top: 8rem;
   padding: 8rem 1rem 4rem;
   background-color: var(--cream-bg2);
 }
 
 .gallery-grid {
   display: grid;
-  /* Define four equal columns to allow for a masonry‑like layout.  Using
-     dense auto placement ensures that larger items occupy available
-     space while smaller items fill gaps naturally. */
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   grid-auto-flow: dense;
   gap: 1rem;
@@ -3323,17 +1929,11 @@ body.around-page::before {
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  /* Use a slight border radius to soften edges */
-  /* Remove rounded corners so gallery items have square edges */
   border-radius: 0;
-  /* Default grid span for small items */
   grid-column: span 1;
   grid-row: span 1;
 }
 
-/* Larger mosaic sizes for the gallery.  These classes assign different
-   column and row spans to individual items in the grid, creating a
-   dynamic masonry pattern reminiscent of the reference gallery. */
 .gallery-item.big {
   grid-column: span 2;
   grid-row: span 2;
@@ -3385,7 +1985,6 @@ body.around-page::before {
   opacity: 1;
 }
 
-/* Gallery overlay */
 .gallery-overlay {
   position: fixed;
   top: 0;
@@ -3408,15 +2007,8 @@ body.around-page::before {
 .gallery-overlay-content {
   position: relative;
   width: 100%;
-  /* Increase the maximum width for full‑screen photos by ~10% compared
-     to the previous version so that enlarged images occupy more of the
-     viewport.  Formerly 1100px. */
-  /* Increase the maximum width for full‑screen photos by ~20% compared
-     to the original version so that enlarged images occupy more of
-     the viewport.  Formerly 1100px. */
   max-width: 1320px;
   background: #fff;
-  /* Remove rounded corners from the gallery overlay container */
   border-radius: 0;
   overflow: hidden;
   display: flex;
@@ -3424,15 +2016,7 @@ body.around-page::before {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
-/* Limit the height of images inside the gallery overlay so that
-   oversized photos do not push the modal off‑screen.  Scaling to
-   80% of the viewport height keeps images large while allowing
-   space for navigation dots and the close button. */
 .gallery-overlay-content img {
-  /* Increase the maximum height of images displayed in the full‑screen
-     overlay by roughly 20% (from 80vh to 96vh).  This allows photos
-     to appear larger while still reserving space for navigation
-     controls above and below. */
   max-height: 96vh;
   width: 100%;
   object-fit: contain;
@@ -3446,7 +2030,6 @@ body.around-page::before {
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  /* Use the main text colour for the gallery close button */
   color: var(--text-color);
   padding: 0.2rem;
   z-index: 2;
@@ -3460,13 +2043,9 @@ body.around-page::before {
 .gallery-slider {
   position: relative;
   width: 100%;
-  /* Increase the height of the gallery overlay to better showcase
-     photos when opened.  The overlay now takes up 60% of the
-     viewport height and caps at 600px for large screens. */
   height: 60vh;
   max-height: 600px;
   overflow: hidden;
-  /* Use secondary cream colour for gallery slider background */
   background: var(--cream-bg2);
 }
 
@@ -3508,7 +2087,6 @@ body.around-page::before {
   align-items: center;
   justify-content: center;
   font-size: 1rem;
-  /* Use the main text colour for gallery arrow buttons */
   color: var(--text-color);
   cursor: pointer;
   transition: background 0.3s, color 0.3s;
@@ -3542,22 +2120,7 @@ body.around-page::before {
   border-color: var(--accent);
 }
 
-/*
- * Booking calendar styles
- *
- * The calendar appears in two columns within the reserve page overlay.
- * Each month card has a soft white background with a subtle shadow,
- * rounded corners and a centred title.  Day cells default to
- * uppercase numbers with smaller price text underneath.  Past dates
- * are faded and unclickable, while available dates highlight on
- * hover and when selected.  Selected ranges are filled with the
- * accent light colour for easy visualisation.
- */
 .booking-calendar {
-  /* Layout for the booking calendar container.  Display months in a
-     row with a generous gap so they resemble the two large
-     calendars shown in the example screenshot.  On small screens
-     the months will wrap to the next line. */
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
@@ -3566,10 +2129,6 @@ body.around-page::before {
 }
 
 .calendar-month {
-  /* Each month is displayed as a card with a semi‑transparent
-     background so that the underlying hero photo subtly shows
-     through.  Increase the minimum width and padding to create a
-     generous grid comparable to the inspiration calendar. */
   background-color: rgba(255, 255, 255, 0.95);
   padding: 1.5rem;
   border-radius: 8px;
@@ -3604,20 +2163,12 @@ body.around-page::before {
   font-weight: 600;
 }
 
-.calendar-month td.unavailable {
-  color: #aaa;
-  pointer-events: none;
-}
-
 .calendar-month td.available {
   cursor: pointer;
   transition: background-color 0.2s, color 0.2s;
 }
 
 .calendar-month td.available:hover {
-  /* On hover, subtly darken the available cell to indicate
-     interactivity.  The text colour remains dark for contrast
-     unless selected. */
   background-color: rgba(166, 138, 109, 0.1);
   color: inherit;
 }
@@ -3627,39 +2178,26 @@ body.around-page::before {
   color: #fff;
 }
 
-/*
- * Colour coding for the booking calendar.  Weekdays (Monday through
- * Thursday) use a subtle green tone, weekends (Friday and Saturday)
- * use a warm beige, and Sundays use a pale red.  Past dates remain
- * grey and unclickable.  Prices inherit the text colour of their
- * parent cell.
- */
-/*
- * Availability colour coding: green means all rooms are available
- * (3 or more), beige signals low availability (1 or 2 rooms), and
- * red denotes no availability.  These classes are assigned in
- * reserve.js based on the return value of getAvailability().
- */
 .calendar-month td.high-availability {
-  background-color: #eaf7ea; /* pale green */
+  background-color: #eaf7ea;
   color: #333;
 }
 
 .calendar-month td.low-availability {
-  background-color: #f7f1eb; /* pale beige */
+  background-color: #f7f1eb;
   color: #333;
 }
 
 .calendar-month td.no-availability {
-  background-color: #fbeeee; /* pale red */
+  background-color: #fbeeee;
   color: #999;
   pointer-events: none;
 }
 
 .calendar-month td.unavailable {
-  background-color: #f2f2f2;
   color: #aaa;
   pointer-events: none;
+  background-color: #f2f2f2;
 }
 
 .calendar-month .price {
@@ -3669,14 +2207,6 @@ body.around-page::before {
   color: var(--accent);
 }
 
-/*
- * Language flag icons styles
- *
- * Replace the textual FR/EN language switcher with flag icons.  Each
- * flag is displayed inline with a small margin.  On hover the
- * opacity decreases slightly to indicate interactivity.  The
- * .flag-icon class ensures consistent sizing and rounding.
- */
 .nav-right.lang-icons a {
   display: inline-block;
   margin-left: 0.5rem;
@@ -3689,7 +2219,6 @@ body.around-page::before {
 .flag-icon {
   width: 24px;
   height: auto;
-  /* Remove rounded corners from flag icons */
   border-radius: 0;
   vertical-align: middle;
   transition: opacity 0.2s ease;
@@ -3699,17 +2228,8 @@ body.around-page::before {
   opacity: 0.7;
 }
 
-/*
- * Custom language selector.  Displays the current language flag and
- * reveals a dropdown of other languages on click.  When the
- * .open class is added to .lang-selector the menu becomes visible.
- */
 .lang-selector {
   position: relative;
-  /* When using the simplified language selector layout (all flags visible),
-     display the buttons in a row.  The legacy dropdown still uses
-     absolute positioning for the menu; this flex style applies to
-     the wrapper containing the buttons. */
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -3724,16 +2244,6 @@ body.around-page::before {
   padding: 0;
 }
 
-/* Flag images inside the language selector */
-/*
- * Increase the size of the flag icons in the language selector.  The
- * original design used 1.25rem wide flags which rendered very
- * small on high‑resolution displays.  We multiply the width by
- * roughly three so the flags are clearly visible.  The height is
- * set to auto to preserve the aspect ratio of the images.  These
- * rules apply both to the button showing the current language and
- * to each entry inside the dropdown menu.
- */
 .lang-selector button img {
   width: 3.75rem;
   height: auto;
@@ -3778,22 +2288,13 @@ body.around-page::before {
   background-color: var(--cream-bg2);
 }
 
-/* Highlight the currently selected language.  When the simplified
-   selector layout is used, the active button receives the .active
-   class; draw an outline around the flag to indicate selection. */
 .lang-selector button.active img {
   outline: 2px solid var(--accent-light);
   border-radius: 4px;
 }
 
-/*
- * Styles for informational pages such as Mentions légales, Gestion
- * des cookies et CGV.  These pages use the same font families as
- * the rest of the site but ensure the text is clearly visible on
- * the cream background.
- */
 .legal-content h1 {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-weight: 600;
   font-size: 2rem;
   margin-bottom: 1rem;
@@ -3801,128 +2302,46 @@ body.around-page::before {
 }
 
 .legal-content p {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 1rem;
   margin-bottom: 1rem;
   line-height: 1.6;
   color: var(--text-color);
 }
 
-/*
- * In the legal pages (privacy policy, terms, etc.) list items should
- * inherit the same dark text colour as the paragraphs.  Without
- * explicitly defining the colour here the li elements inherit the
- * body colour (white), making them difficult to read on a light
- * background.  Apply the text colour variable to ensure proper
- * contrast.
- */
 .legal-content li {
   color: var(--text-color);
 }
 
-/* Ensure links within legal content adopt a readable colour instead
-   of inheriting the white body colour. */
 .legal-content a {
   color: var(--accent-dark);
   text-decoration: underline;
 }
 
-/*
- * Hide detailed room descriptions in the card itself while still
- * allowing the overlay script to read the text.  The overlay
- * aggregates all paragraph text within the card, including hidden
- * paragraphs, to build a more comprehensive description when
- * the user clicks “Plus de détails”.
- */
 .detail-hidden {
   display: none;
 }
 
-/*
- * Hide footer elements from the previous layout.  The updated footer
- * uses a separate .footer-base section to display the Maison Brevan
- * logo and address on a single row.  The old .footer-logo and
- * .address-group elements are hidden to prevent duplicate content
- * and reduce the overall height of the footer.
- */
-.footer-logo,
-.address-group {
-  display: none !important;
-}
-
-/*
- * Hide the legacy footer rows.  These older layouts (identified by
- * `.footer-content` and `.footer-base`) are superseded by the
- * consolidated `.footer-main-new` row.  Hiding them eliminates
- * duplicate content and dramatically reduces the vertical footprint
- * of the footer.
- */
-.footer-content,
-.footer-base {
-  display: none !important;
-}
-
-/* Also hide the old consolidated `.footer-main` row.  A newer footer layout
-   is defined by `.footer-main-new` on each page.  Without hiding the
-   `.footer-main` container, legacy markup can appear alongside the new
-   layout, resulting in duplicate footer sections.  Setting display: none
-   ensures only the modern footer is visible. */
-footer .footer-main {
-  display: none !important;
-}
-
-/*
- * Consolidated footer layout.  The `.footer-main` row combines
- * the Maison Brevan brand (logo and address), the social follow
- * section and the contact details into a single flex container.
- * Use flexbox to align items neatly on a single row with flexible
- * wrapping on smaller screens.  Padding is kept modest to avoid
- * unnecessary height.
- */
 .footer-main {
   display: flex;
-  /* Align items to the top so that varying content heights (e.g., logo vs.
-     phone number) don’t increase the overall footer height. */
   align-items: flex-start;
-  /* Align the three columns to the start so they sit closer together.  Using
-     flex-start instead of space-between reduces the perceived spread and
-     groups the content more clearly.  Columns will wrap on narrow screens
-     thanks to flex-wrap below. */
   justify-content: flex-start;
   flex-wrap: wrap;
-  /* Reduce the horizontal gap so the three columns sit closer together,
-     avoiding an overly stretched layout. */
   gap: 1rem;
-  /* Keep a very small vertical padding to minimise footer height */
   padding: 0.25rem 0;
 }
 
-/* Allow each child of footer-main to grow or shrink equally.  This rule
-   ensures a three-column layout where each section occupies roughly a
-   third of the available width on larger screens, while still
-   wrapping gracefully on smaller viewports. */
 .footer-main > div {
-  /* Let each column size itself based on its content.  The columns can shrink
-     to fit smaller viewports but will not stretch to fill leftover space.
-     This prevents excessive horizontal spreading and keeps the grouping
-     tight. */
   flex: 0 1 auto;
 }
 
-/* Brand: logo plus address and map link */
 .footer-brand {
   display: flex;
-  /* Stack the logo and text vertically on smaller screens while keeping
-     them aligned to the left.  This reduces horizontal space used
-     and prevents overflow. */
   align-items: flex-start;
   gap: 1rem;
 }
 
 .footer-brand img {
-  /* Further reduce the footer logo height to save vertical space while
-     maintaining a clear presence.  A 3rem height keeps the emblem
-     recognisable without dominating the footer. */
   height: 3rem;
   width: auto;
 }
@@ -3930,8 +2349,6 @@ footer .footer-main {
 .footer-brand .brand-info {
   display: flex;
   flex-direction: column;
-  /* Tighten the gap between the address and the plan button so the
-     button appears more clearly attached to the address. */
   gap: 0.25rem;
 }
 
@@ -3941,24 +2358,18 @@ footer .footer-main {
   color: #ffffff;
 }
 
-/* Social follow column */
 .footer-follow,
 .footer-contact {
   display: flex;
   flex-direction: column;
-  /* Reduce the gap between the follow heading and the social icons to
-     compact the follow section. */
   gap: 0.25rem;
-  /* Each column defines its own alignment below */
 }
 
-/* Centre align the "follow us" section content and social icons */
 .footer-follow {
   align-items: center;
   text-align: center;
 }
 
-/* Right-align the contact column for a balanced three-column layout */
 .footer-contact {
   align-items: flex-end;
   text-align: right;
@@ -3972,14 +2383,6 @@ footer .footer-main {
   letter-spacing: 0.15em;
 }
 
-.footer-follow .social-icons {
-  display: flex;
-  /* Bring the social icons closer together to tighten the grouping */
-  gap: 0.5rem;
-  /* Center the social icons horizontally within the follow column */
-  justify-content: center;
-}
-
 .footer-follow .social-icons svg {
   width: 24px;
   height: 24px;
@@ -3987,11 +2390,10 @@ footer .footer-main {
   transition: transform 0.3s, fill 0.3s;
 }
 
-/* Override absolute positioning on social icons inherited from the global
-   `.social-icons` class.  In the footer’s follow section the icons
-   should simply flow within the flex column, not be pulled to the
-   bottom right of the page. */
 .footer-follow .social-icons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
   position: static;
 }
 
@@ -4000,7 +2402,6 @@ footer .footer-main {
   fill: var(--cream-bg);
 }
 
-/* Contact details styling */
 .footer-contact .phone,
 .footer-contact .email {
   font-size: 0.95rem;
@@ -4013,29 +2414,14 @@ footer .footer-main {
   text-decoration: underline;
 }
 
-/* Ensure the plan d'accès button in the footer brand has a slight top margin when stacked */
 .footer-main .access-btn {
   margin-top: 0.5rem;
 }
 
-/*
- * If multiple `.footer-main` rows exist (e.g., due to legacy markup or accidental duplication),
- * hide all but the first.  This rule selects any `.footer-main` that immediately
- * follows another `.footer-main` within the same footer and hides it.  On
- * pages with only one consolidated row, this has no effect.
- */
 footer .footer-main + .footer-main {
   display: none;
 }
 
-/*
- * Global square edges
- *
- * To achieve a refined and contemporary look, remove rounded corners from
- * all major cards, images, buttons and containers.  These selectors
- * ensure straight edges throughout the site.  The !important flag
- * guarantees these rules take precedence over earlier definitions.
- */
 .room-card,
 .room-card img,
 .room-image,
@@ -4058,14 +2444,6 @@ footer .footer-main + .footer-main {
   border-radius: 0 !important;
 }
 
-/*
- * .visually-hidden class
- *
- * Hide elements visually but keep them accessible for assistive
- * technologies.  This technique is used for offscreen headings or
- * labels that shouldn’t impact the design.  Adapted from the WAI-ARIA
- * Authoring Practices.
- */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -4078,231 +2456,148 @@ footer .footer-main + .footer-main {
   border: 0;
 }
 
-/* Added styles for room header displaying name and price */
-.room-header {display:flex;justify-content:space-between;align-items:baseline;margin-top:0.5rem;}
-.room-header h3 {margin:0;font-size:1.25rem;}
-.room-header .price-tag {font-size:1rem;font-weight:600;color:var(--accent-dark);}
+.room-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 0.5rem;
+}
 
-/* Grid layouts for around page */
-.around-grid {display:grid;gap:2rem;align-items:center;margin-top:1rem;}
-.around-grid-two {grid-template-columns:repeat(auto-fit,minmax(280px,1fr));}
-.around-grid-three {grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}
-.around-grid img {width:100%;height:auto;border-radius:0;}
+.room-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.around-grid {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.around-grid-two {
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+}
+
+.around-grid-three {
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+}
+
+.around-grid img {
+  width: 100%;
+  height: auto;
+  border-radius: 0;
+}
+
 .around-page .page-wrapper {
-  /* Increase top padding so the header doesn't overlap the intro section on mobile.
-     A larger offset ensures that the fixed navigation bar clears the first
-     heading when the viewport height is small or when the user has a large
-     browser toolbar. */
-  /* Provide room for the fixed header on small screens while keeping
-     content visible above the fold.  A moderate padding avoids hiding
-     the intro section behind the navigation bar. */
-  /* Provide ample room for the fixed navigation bar.  On most viewports,
-     leave a generous margin above the main content so the header never
-     overlaps the page title. */
   padding-top: 12rem;
 }
 
-/* On narrower viewports, the navigation bar may wrap onto multiple lines,
-   increasing its height.  Increase the top padding of the page wrapper
-   accordingly so the main content is not overlapped by the header. */
 @media (max-width: 1000px) {
   .around-page .page-wrapper {
-    /* On narrower viewports the header wraps onto multiple rows. Increase
-       the top padding further to avoid overlap. */
     padding-top: 16rem;
   }
 }
 
-/* Centre the introduction section on the around page.  Align text and
-   headings to the centre and constrain paragraphs to a reasonable
-   width by using automatic margins. */
 .around-intro {
   text-align: center;
 }
+
 .around-intro h2 {
   text-align: center;
 }
+
 .around-intro p {
   margin-left: auto;
   margin-right: auto;
 }
 
-/* Align the first and last columns in the three‑column around grid.  The
-   leftmost image aligns to the top of the adjacent text, and the
-   rightmost image aligns to the bottom. */
 .around-grid-three > *:first-child {
   align-self: flex-start;
 }
+
 .around-grid-three > *:last-child {
   align-self: flex-end;
 }
 
-/* Reduce language flag size */
 .lang-selector button img, .lang-selector .lang-menu button img {
   width: 1rem;
   height: auto;
 }
 
-/* Responsive nav adjustments */
-@media (max-width:900px){
-  .nav-row {flex-direction:column;align-items:flex-start;}
-  .nav-left {flex-wrap:wrap;gap:1rem;margin-top:1rem;}
-  .nav-left a, .nav-right a {font-size:0.9rem;}
-  .site-title-badge {
-    /* On very small screens, keep the badge within the normal flow and centre it */
-    position: relative;
-    transform: none;
-    margin: 0 auto;
-    margin-top: 0.5rem;
-    left: auto;
-    top: auto;
-    pointer-events: auto;
-    /* Reduce the badge text size and spacing so it fits comfortably within the header.
-       The original font size (1.4rem) and generous spacing caused the badge to spill
-       outside the header on mobile.  Shrink the font, reduce letter spacing and gap,
-       and decrease horizontal padding. */
-    font-size: 1.1rem;
-    letter-spacing: 0.2em;
-    gap: 0.5rem;
-    padding: 0 1.5rem;
-  }
-  .site-title-badge img.logo-symbol {
-    /* Scale down the logo inside the badge on mobile.  A smaller height keeps
-       the badge from occupying too much vertical space while preserving
-       readability. */
-    height: 2.5rem;
-  }
-}
-
-/* Additional responsive header adjustments for widths up to 1200px
-   to prevent navigation links from being hidden behind the central logo. */
 @media (max-width: 1200px) {
+  .site-title-badge:hover {
+    transform: none;
+  }
+
   .nav-row {
     flex-direction: column;
     align-items: center;
   }
+
   .site-title-badge {
-    /* Use relative positioning on mid-sized screens to keep the badge in the flow
-       and allow its ::after pseudo-element to overlay the text on hover. */
     position: relative;
     transform: none;
     margin: 0.5rem auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Reset any left/top values defined in the base rule so the badge stays centred */
     left: auto;
     top: auto;
-
-    /* Ensure the badge remains clickable on mid-sized screens */
     pointer-events: auto;
   }
+
   .nav-left {
     flex-wrap: wrap;
     justify-content: center;
     margin: 0.5rem 0;
     gap: 1rem;
   }
+
   .nav-left a {
     font-size: 0.95rem;
     letter-spacing: 0.1em;
   }
+
   .nav-right {
     margin-top: 0.5rem;
   }
-  /* Further shrink the language flags on smaller screens */
+
   .lang-selector button img,
   .lang-selector .lang-menu button img {
     width: 0.9rem;
   }
 }
 
-/* Extra small screens: further reduce nav font size */
 @media (max-width: 768px) {
+  .nature-section,
+  .beaches-section {
+    grid-template-columns: 1fr;
+  }
+
+  .beaches-section .image-left,
+  .beaches-section .image-right {
+    align-self: center;
+  }
+
+  .beaches-section img {
+    margin-bottom: 1rem;
+  }
+
+  .nature-section .image-container {
+    margin-top: 1rem;
+  }
+
+  .villages-section {
+    gap: 1rem;
+  }
+
   .nav-left a {
     font-size: 0.85rem;
   }
 }
 
-/* -------------------------------------------------------------------
- * Enhanced mobile header layout
- *
- * On very small screens display the navigation row as a single horizontal
- * bar with the "MENU" button on the left, the site title in the middle and
- * the language selector on the right.  Position the site-title-badge
- * absolutely within the nav-row and shrink its font and logo size.  Use
- * !important flags to override earlier declarations.
- */
-@media (max-width: 900px) {
-  .nav-row {
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    position: relative;
-  }
-  .site-title-badge {
-    position: absolute !important;
-    left: 50% !important;
-    top: 50% !important;
-    /* Optically centre the logo + text group on mobile screens by offsetting the
-       translation by approximately half the width of the logo minus half the gap.
-       Increasing the horizontal offset from 0.6rem to 0.8rem shifts the group
-       further right, compensating for the logo’s footprint.  The !important
-       flag ensures this transform prevails over any later declarations. */
-    /* Adjust the horizontal translation to 0.7rem.  With the asymmetric padding removed
-       below, this single offset provides sufficient optical centring without pushing
-       the text too far toward the right edge. */
-    transform: translate(calc(-50% + 0.7rem), -50%) !important;
-    margin: 0 !important;
-    /* Apply symmetrical horizontal padding (top/bottom remain zero) so the badge
-       expands equally on both sides of its contents.  Combined with the
-       adjusted transform above, this helps align the visual centre of the
-       badge with the mathematical centre of the navigation bar. */
-    padding: 0 1rem !important;
-    font-size: 1rem !important;
-    letter-spacing: 0.15em !important;
-    gap: 0.4rem !important;
-  }
-  .site-title-badge img.logo-symbol {
-    height: 2rem !important;
-  }
-  /* Hide the horizontal navigation links on very small screens.  They are replaced by
-     a hamburger button that opens the mobile menu.  Use !important to override
-     earlier declarations. */
-  .nav-left {
-    display: none !important;
-  }
-  .hamburger {
-    display: block !important;
-  }
-
-  /* Ensure the language selector appears to the right of the menu button on mobile.
-     Explicitly set the flex direction so the elements are laid out in
-     source order (hamburger first, language selector second). */
-  .nav-right {
-    flex-direction: row !important;
-  }
-}
-
-/* DEBUG: Force the hamburger menu to be visible and hide the horizontal navigation
-   on all viewport widths.  Add the `debug-show-hamburger` class to the body in
-   your HTML to enable this mode.  This is only for testing purposes and
-   should be removed before production. */
-
-/* Removed .nav-toggle styles.  The mobile navigation is now toggled via
-   JavaScript by adding/removing the `.open` class on `.mobile-nav`. */
-
-/* Mobile hamburger menu
-   On viewports narrower than 900px the traditional horizontal navigation
-   links in .nav-left are hidden and replaced by a hamburger button that
-   toggles a vertical mobile menu.  The mobile menu slides in from the
-   right and contains the same navigation items plus a link to the access
-   map.  The button consists of three horizontal bars. */
 .hamburger {
-  /* Show the hamburger button on small screens only.  Instead of the
-     traditional three bar icon we display a "MENU" label so the
-     purpose of the button is obvious.  Remove the flex settings
-     used for the bars and size the button by its text. */
   display: none;
   background: transparent;
   border: none;
@@ -4315,13 +2610,11 @@ footer .footer-main + .footer-main {
   padding: 0.25rem 0.5rem;
   margin-left: 1rem;
 }
+
 .hamburger span {
-  /* Hide the bar elements inside the hamburger when using the "MENU"
-     label.  Spans remain in the markup for legacy reasons but are not
-     displayed. */
   display: none;
 }
-/* Mobile navigation overlay */
+
 .mobile-nav {
   display: none;
   flex-direction: column;
@@ -4330,9 +2623,6 @@ footer .footer-main + .footer-main {
   right: 0;
   width: 80%;
   max-width: 320px;
-  /* Allow the mobile nav to size itself based on its content and stop before
-     reaching the bottom of the page.  Setting a max-height prevents it from
-     stretching all the way down to the footer on short pages. */
   height: auto;
   max-height: calc(100vh - 120px);
   background: var(--cream-bg);
@@ -4341,6 +2631,7 @@ footer .footer-main + .footer-main {
   box-shadow: -4px 0 8px rgba(0,0,0,0.15);
   overflow-y: auto;
 }
+
 .mobile-nav a {
   margin: 0.75rem 0;
   font-size: 1.2rem;
@@ -4351,20 +2642,18 @@ footer .footer-main + .footer-main {
   text-decoration: none;
   transition: color 0.3s;
 }
+
 .mobile-nav a:hover {
   color: var(--accent-light);
 }
-  .mobile-nav.open {
-    display: flex;
-  }
 
-/* Add a subtle watermark logo to the bottom of the mobile navigation.
-   The pseudo-element appears behind the menu items and does not
-   interfere with clicks. */
+.mobile-nav.open {
+  display: flex;
+}
+
 .mobile-nav::after {
   content: "";
   position: absolute;
-  /* Expand the watermark to fill the entire mobile menu background */
   top: 0;
   left: 0;
   right: 0;
@@ -4372,56 +2661,109 @@ footer .footer-main + .footer-main {
   width: 100%;
   height: 100%;
   transform: none;
-  background-image: url('assets/images/logo-symbol.png');
+  background-image: url("assets/images/logo-symbol.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
   opacity: 0.1;
   pointer-events: none;
 }
-/* Show hamburger and hide horizontal nav on small screens */
+
 @media (max-width: 900px) {
-  .hamburger {
-    /* Use a block-level button with a text label on small screens.  The button’s
-       own styling defines typography and spacing. */
-    display: block;
+  body.around-page .nature-section {
+    flex-direction: column;
+    align-items: stretch;
   }
+
+  body.around-page .beaches-section {
+    display: flex !important;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  body.around-page .nature-section .content-row {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  body.around-page .nature-section .text-container,
+  body.around-page .nature-section .image-container {
+    flex: none !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  body.around-page .beaches-section .content-row {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  body.around-page .beaches-section .image-left,
+  body.around-page .beaches-section .image-right,
+  body.around-page .beaches-section .text-container {
+    flex: none !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .nav-left a, .nav-right a {
+    font-size: 0.9rem;
+  }
+
+  .nav-row {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    position: relative;
+  }
+
+  .site-title-badge {
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 !important;
+    padding: 0 0.5rem 0 1.5rem !important;
+    font-size: 1rem !important;
+    letter-spacing: 0.15em !important;
+    gap: 0.4rem !important;
+    margin-top: 0.5rem;
+    pointer-events: auto;
+  }
+
+  .site-title-badge img.logo-symbol {
+    height: 2rem !important;
+  }
+
+  .nav-right {
+    flex-direction: row !important;
+  }
+
+  .hamburger {
+    display: block !important;
+  }
+
   .nav-left {
-    display: none;
+    display: none !important;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
   }
 }
 
-/* Hide mobile nav and hamburger on larger screens */
 @media (min-width: 901px) {
   .mobile-nav {
     display: none !important;
   }
+
   .hamburger {
     display: none !important;
   }
 }
 
-/* --------------------------------------------------------------------
- * Mobile enhancements
- *
- * The following rules adjust the header, menu button, and footer layout on
- * very narrow viewports (<=600px).  The default styles defined earlier
- * assume moderate widths; on phones the site title badge can overflow
- * its container and the menu button looks detached.  We reduce the
- * typography and padding of the badge, style the "Menu" button like
- * a pill and reorganise the footer into a grid with a coloured
- * access button.  All declarations use !important to override
- * preceding rules.
- */
 @media (max-width: 600px) {
-  /*
-   * Ensure the site title badge and the Menu button share identical
-   * sizing on mobile.  Use inline‑flex to vertically centre the
-   * contents, apply equal vertical padding and consistent font
-   * styling.  The margins separate the two badges so they never
-   * appear stuck together.  Letter spacing and font size are
-   * slightly reduced to fit comfortably on small screens.
-   */
   .site-title-badge,
   .hamburger {
     display: inline-flex !important;
@@ -4437,38 +2779,16 @@ footer .footer-main + .footer-main {
     border: none !important;
   }
 
-  /* Specific styling for the site title badge: lighten the background,
-     add a right margin so it doesn’t touch the Menu button, and use
-     rust text.  On narrow screens we use symmetrical horizontal
-     padding and a balanced gap to centre the title text precisely
-     between the logo and the rounded end of the pill. */
   .site-title-badge {
     background: var(--cream-bg2) !important;
     color: var(--accent) !important;
     border-radius: 2rem !important;
-    /* Absolutely position the badge so it remains centred within the nav row.
-       Left and top offsets combined with a calc() translation keep the badge’s
-       combined logo and text centred optically rather than mathematically. */
-    position: absolute !important;
-    left: 50% !important;
-    top: 50% !important;
-    transform: translate(calc(-50% + 0.7rem), -50%) !important;
-    /* Remove the right margin used when the badge was inline; absolute positioning
-       no longer requires horizontal margins. */
-    margin: 0 !important;
-    /* Reduce the gap between the logo and text so the text sits closer
-       to the centre of the badge. A small gap ensures the words do not
-       drift toward the right edge on very narrow screens. */
+    margin-right: 1rem !important;
     gap: 0.35rem !important;
-    /* Rely on the generic padding defined in the combined .site-title-badge,
-       .hamburger rule above (0.35rem top/bottom and 1rem left/right).  Avoid
-       adding asymmetrical padding here so that the transform offset alone
-       controls the optical centring. */
+    padding-left: 1.1rem !important;
+    padding-right: 1.1rem !important;
   }
 
-  /* Specific styling for the Menu badge: mirror the title badge styles
-     and add a left margin to separate it from the title.  Remove
-     bold weight to match the title’s typestyle. */
   .hamburger {
     background: var(--cream-bg2) !important;
     color: var(--accent) !important;
@@ -4477,51 +2797,36 @@ footer .footer-main + .footer-main {
     font-weight: normal !important;
   }
 
-  /* Reformat the footer into a two‑row grid.  The address spans
-     the full width on the first row and the follow/contact columns
-     share the second row. */
   .footer-main-new {
     display: grid !important;
-    /* Use a single column on narrow viewports so each section stacks vertically.
-       This prevents text like the phone number and email address from being cut off.
-       The row gap provides breathing space between sections. */
     grid-template-columns: 1fr !important;
     grid-row-gap: 1.25rem !important;
     align-items: center !important;
     text-align: center !important;
   }
+
   .footer-address {
     grid-column: 1 / -1 !important;
     display: flex !important;
     flex-direction: column-reverse !important;
     align-items: center !important;
-    /* Centre the address text within the column */
     text-align: center !important;
   }
 
-  /* Centre the Plan d'accès button within its container and remove default margin */
-  .footer-address .access-btn {
-    margin: 0 auto !important;
-    display: inline-block !important;
-  }
-
-  /* Centre and allow wrapping of the address text */
   .footer-address .address {
     margin: 0 auto !important;
     text-align: center !important;
   }
+
   .footer-follow,
   .footer-contact {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    /* Allow these columns to occupy the full width so contact details wrap nicely */
     width: 100% !important;
-    /* Add space below each column for separation */
     margin-bottom: 1rem !important;
   }
 
-  /* Improve wrapping and legibility of phone and email on narrow screens */
   .footer-contact .phone,
   .footer-contact .email {
     white-space: normal !important;
@@ -4532,39 +2837,10 @@ footer .footer-main + .footer-main {
     line-height: 1.2 !important;
   }
 
-  /* Further reduce font size and compress legal links to avoid overflow.  Split
-     the links across two lines by allowing wrapping and centering text. */
-  .footer-bottom .footer-legal {
-    white-space: normal !important;
-    font-size: 0.6rem !important;
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    gap: 0.25rem !important;
-  }
   .footer-bottom .footer-legal a {
     padding: 0 0.25rem !important;
   }
 
-  /* -----------------------------------------------------------------
-   * Hero responsiveness on small screens
-   * Restore the full‑bleed effect by using object‑fit: cover and a
-   * moderate height.  The hero occupies most of the viewport (80vh)
-   * without introducing grey bars above or below the image.  The
-   * navigation dots and social icons are positioned at the bottom
-   * centre of the hero for better visibility.  Absolute positioning
-   * of the images preserves the cross‑fade animation.
-   */
-  /* Make the hero responsive to the viewport width by using an
-     aspect‑ratio instead of a fixed height.  The height will scale
-     automatically with the width, avoiding grey bars and preserving
-     the full image. */
-  .hero {
-    height: auto !important;
-    max-height: none !important;
-    aspect-ratio: 16 / 9 !important;
-    overflow: hidden !important;
-  }
   .hero img {
     position: absolute !important;
     top: 0 !important;
@@ -4573,51 +2849,43 @@ footer .footer-main + .footer-main {
     height: 100% !important;
     object-fit: cover !important;
   }
+
   .hero .social-icons {
-    position: absolute !important;
-    /* Position the icons well above the navigation dots so they never
-       overlap.  By placing them higher and further to the right the
-       dots remain centred on the bottom edge of the hero. */
     bottom: 4rem !important;
     right: 1rem !important;
     left: auto !important;
-    transform: none !important;
     justify-content: flex-end !important;
     gap: 0.35rem !important;
+    position: absolute !important;
+    transform: none !important;
     z-index: 5 !important;
   }
-  /* Shrink hero social icons on small screens so they don't overlap
-     the navigation dots */
+
   .hero .social-icons svg {
     width: 1.1rem !important;
     height: 1.1rem !important;
   }
-  /* On small screens hide the navigation dots entirely.  The user
-     can still swipe through the slides and the social icons stay
-     visible on the opposite side. */
+
   .hero .dots {
     display: none !important;
   }
 
-  /* Offset the hero by the height of the fixed header to prevent
-     it from sliding underneath the top bar on small screens.
-     Increase the top margin slightly (5rem) so the hero sits a bit further
-     below the header, as requested, without creating an excessive gap. */
   .hero {
- margin-top: 6.5rem !important;
+    margin-top: 6.5rem !important;
+    height: auto !important;
+    max-height: none !important;
+    aspect-ratio: 16 / 9 !important;
+    overflow: hidden !important;
   }
 
-  /* On very narrow screens display room cards one per row to prevent
-     thumbnails from being cut off */
   .rooms-grid {
     grid-template-columns: 1fr !important;
   }
 
-  /* Ensure gallery items stack vertically on very small screens and
-     remove multi-span classes to avoid partial thumbnails */
   .gallery-grid {
     grid-template-columns: 1fr !important;
   }
+
   .gallery-item.big,
   .gallery-item.wide,
   .gallery-item.tall {
@@ -4625,60 +2893,53 @@ footer .footer-main + .footer-main {
     grid-row: span 1 !important;
   }
 
-  /* Style the Plan d'accès button as a coloured pill and place it
-     above the address by virtue of column‑reverse. */
   .footer-address .access-btn {
+    margin: 0 auto !important;
+    display: inline-block !important;
     background: var(--accent) !important;
     color: #fff !important;
     border-radius: 2rem !important;
     padding: 0.4rem 1rem !important;
     margin-bottom: 0.5rem !important;
-    display: inline-block !important;
     text-transform: uppercase !important;
     font-size: 0.85rem !important;
     letter-spacing: 0.05em !important;
   }
+
   .footer-address .access-btn:hover {
     background: var(--accent-dark) !important;
   }
 
-  /* Compress the legal links to maintain a single line and reduce
-     separators’ spacing. */
   .footer-bottom .footer-legal {
-    font-size: 0.65rem !important;
     white-space: normal !important;
+    font-size: 0.65rem !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 0.25rem !important;
   }
+
   .footer-bottom .separator {
     margin: 0 0.25rem !important;
   }
 
-  /* -----------------------------------------------------------------
-   * Reservation buttons on mobile
-   * On small screens, preserve the same rust gradient as the hover
-   * state on desktop by keeping the button background transparent and
-   * showing the overlay at full opacity.  The text colour becomes
-   * white by default to match the hover state.  Hover overrides are
-   * unnecessary because the button is already filled.  */
   .room-reserve-btn {
-    /* Use the same rust gradient as the hover state on desktop for
-       mobile.  This ensures consistent colour across devices. */
     background: linear-gradient(135deg, var(--accent-light), var(--accent-dark)) !important;
     color: #ffffff !important;
   }
+
   .room-reserve-btn::after {
     opacity: 1 !important;
   }
+
   .room-reserve-btn::before {
     opacity: 1 !important;
   }
+
   .room-reserve-btn:hover {
     color: #ffffff !important;
   }
 
-  /* Also style the primary navigation reserve links (e.g. in the hero
-     header) so they appear as rust badges on mobile.  Use the same
-     gradient fill by applying the overlay class directly and white
-     text. */
   a[data-i18n="nav.reserve"] {
     display: inline-flex !important;
     align-items: center !important;
@@ -4694,175 +2955,151 @@ footer .footer-main + .footer-main {
   }
 }
 
-/*
- * Prevent the site title badge from overlapping or shifting navigation links on
- * mid‑sized viewports.  When the browser window is relatively narrow (up to
- * 1300px wide) the navigation often wraps onto multiple lines.  In this
- * state the badge should be part of the normal document flow rather than
- * absolutely positioned on top of the header.  Pointer events are disabled
- * so the badge never intercepts clicks on adjacent links, and the hover
- * scale effect is removed to avoid jarring shifts in layout.  We use
- * !important to ensure these overrides take precedence over earlier
- * declarations.
- */
+.room-header .price-tag {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  position: static;
+  display: inline-block;
+  background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
+  padding: 0.15rem 0.6rem;
+  margin-left: 0.5rem;
+  text-decoration: none;
+  border: none;
+}
+
 @media (max-width: 1300px) {
+  .site-title-badge:hover {
+    transform: none !important;
+  }
+
   .site-title-badge {
-    /* Use relative positioning so the ::after pseudo-element can cover the
-       badge and reveal its gradient fill on hover.  Relative keeps the
-       element in normal flow but establishes a positioning context. */
     position: relative !important;
     transform: none !important;
     margin: 0.5rem auto !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    /* Allow interactions with the badge on smaller screens */
     pointer-events: auto !important;
-
-    /* Reset absolute positioning offsets from the base rule.  When the badge
-       becomes part of the normal flow, any left/top coordinates defined
-       on the base selector would push it off centre.  Removing these
-       values ensures margin: auto centres the badge horizontally. */
     left: auto !important;
     top: auto !important;
   }
-  .site-title-badge:hover {
-    transform: none !important;
+
+  .nav-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-left {
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0.5rem 0;
+    gap: 1rem;
+  }
+
+  .nav-left a, .nav-right a {
+    margin: 0.5rem;
   }
 }
 
-/* Style price tags inside room-header
-   Display them as small pill-shaped buttons with the maison’s rust gradient
-   and white text.  Making them inline-block allows the padding to apply
-   without pushing adjacent elements to a new line. */
-.room-header .price-tag {
-  position: static;
-  display: inline-block;
-  background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
-  color: #fff;
-  padding: 0.15rem 0.6rem;
-  margin-left: 0.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  text-decoration: none;
-  border: none;
-}
-
-/* Responsive header adjustments for widths up to 1300px */
-@media (max-width: 1300px) {
-  .site-title-badge { position: relative; transform: none; margin: 0.5rem auto; display: flex; justify-content: center; left: auto; top: auto; }
-  .nav-row { flex-direction: column; align-items: center; }
-  .nav-left { flex-wrap: wrap; justify-content: center; margin: 0.5rem 0; gap: 1rem; }
-  .nav-left a, .nav-right a { margin: 0.5rem; }
-}
-
-/* ------------------------------------------------------------------- */
-/* Overrides for room overlay styling to match the gallery experience.     */
-/* These rules adjust the dark rust modal used for room photos to behave */
-/* like the gallery: semi‑opaque black backdrop, white card container,    */
-/* and no watermark background.  They also restore the overlay            */
-/* description container to normal flow while keeping detailed text and  */
-/* reserve buttons hidden.                                               */
-
-/* Hide the watermark on room overlays entirely.  The logo watermark used
-   in full‑photo mode for rooms creates a brown backdrop that conflicts
-   with the desired gallery‑style modal.  By default, do not display the
-   watermark. */
 .room-overlay .overlay-watermark {
   display: none;
 }
 
-/* Restore the room overlay description container to static positioning.
-   Paragraphs and the reserve button remain hidden for a minimalist
-   presentation similar to the gallery. */
 .room-overlay .overlay-description {
-  position: static;
+  position: static !important;
+  top: 1rem;
+  left: 1rem;
   margin: 0;
   padding: 1.5rem;
-  pointer-events: auto;
   background: none;
+  z-index: 4;
+  pointer-events: auto !important;
+  color: var(--text-color);
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* Ensure the heading colour in the overlay matches the page headings. */
 .room-overlay .overlay-description h3 {
+  margin: 0;
+  font-family: "Playfair Display", serif;
+  font-size: 1.6rem;
   color: var(--heading-color);
+  text-shadow: none;
 }
 
-/* Keep detailed paragraphs and reserve button hidden inside the overlay. */
 .room-overlay .overlay-description p,
 .room-overlay .overlay-description a {
   display: none;
 }
 
-/*
- * Ensure the dot navigation and arrow navigation are visible in the room
- * overlay.  By default these elements were hidden to minimise the UI.
- * These overrides display the arrows and dots, position them over the
- * image, and style them with appropriate colours so they stand out
- * against the photo.  The arrows mirror the gallery overlay behaviour,
- * and the dots allow users to jump directly to any slide.
- */
 .room-overlay .overlay-arrows {
-  display: flex !important;
-  justify-content: space-between;
-  align-items: center;
   position: absolute;
   top: 50%;
   left: 0.5rem;
   right: 0.5rem;
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
   transform: translateY(-50%);
-  z-index: 4;
   pointer-events: auto;
+  z-index: 4;
 }
+
 .room-overlay .overlay-arrows button {
+  pointer-events: auto;
   background: none;
   border: none;
-  color: var(--cream-bg);
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 2.5rem;
+  color: var(--cream-bg);
   cursor: pointer;
-  padding: 0.5rem;
   transition: color 0.3s;
+  padding: 0.5rem;
 }
+
 .room-overlay .overlay-arrows button:hover {
+  background: rgba(255, 255, 255, 0.9);
   color: var(--accent);
 }
 
-/*
- * Adjust the appearance and positioning of the dot navigation for the
- * room overlay.  The dots should be clearly visible against the
- * photo and sit just above the description bar.  Increasing the
- * size makes them easier to click on.  We also use a semi‑opaque
- * cream background so they contrast with both light and dark photos.
- */
 .room-overlay .overlay-dots {
-  display: flex !important;
   position: absolute;
-  /* Center the dot navigation horizontally at the bottom of the photo
-     so that it remains visible regardless of the underlying image.
-     Setting left: 50% and translating by -50% ensures the dots are
-     horizontally centered.  Increase the z-index so dots appear above
-     arrows and other content. */
   bottom: 1.5rem;
+  right: 1rem;
+  z-index: 5;
+  display: flex !important;
+  gap: 10px;
+  pointer-events: auto;
   left: 50%;
   transform: translateX(-50%);
-  gap: 10px;
-  z-index: 5;
-  pointer-events: auto;
 }
+
 .room-overlay .overlay-dots button {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  /* A subtle border helps the dots stand out on dark backgrounds */
   border: 2px solid rgba(255, 255, 255, 0.8);
-  /* Use the accent colour for the dot fill so that the navigation
-     indicators remain visible on both light and dark photos.  The
-     border reinforces the circle shape. */
   background: var(--accent-light);
   cursor: pointer;
   transition: background 0.3s, border-color 0.3s;
 }
+
 .room-overlay .overlay-dots button.active {
   background: var(--accent);
   border-color: var(--accent);
+}
+
+footer:has(.footer-main-new) .footer-content,
+footer:has(.footer-main-new) .footer-base,
+footer:has(.footer-main-new) .footer-brand,
+footer:has(.footer-main-new) .footer-main,
+footer:has(.footer-main-new) .footer-logo,
+footer:has(.footer-main-new) .address-group {
+  display: none !important;
 }
