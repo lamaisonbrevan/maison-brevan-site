@@ -376,6 +376,7 @@
         if (!aroundDragging || aroundStartX === null) return;
         var diff = ev.changedTouches[0].clientX - aroundStartX;
         var imgs = slider.querySelectorAll('img');
+        // Restore transitions on touchend so animations apply
         imgs.forEach(function(img) {
           img.style.transition = '';
         });
@@ -391,14 +392,41 @@
           ev.stopPropagation();
           var direction = diff < 0 ? 1 : -1;
           var newIndex = (current + direction + imgSources.length) % imgSources.length;
-          // reset transforms before animating
-          imgs.forEach(function(img) {
-            img.style.transform = '';
-          });
-          animateAroundSlide(newIndex, direction);
+          // Identify current and next images
+          var currentImg = imgs[current];
+          var nextImg = imgs[newIndex];
+          // Ensure the next image is visible
+          nextImg.style.opacity = '1';
+          // Compute final translation for current slide to finish offscreen
+          var finalCurrent = direction > 0 ? -aroundContainerWidth : aroundContainerWidth;
+          // Apply transitions for a smooth animation
+          currentImg.style.transition = 'transform 0.35s ease-out';
+          nextImg.style.transition = 'transform 0.35s ease-out';
+          // Animate from current drag position to final positions
+          currentImg.style.transform = 'translateX(' + finalCurrent + 'px)';
+          nextImg.style.transform = 'translateX(0)';
+          // After animation completes, clean up and update the slide
+          nextImg.addEventListener('transitionend', function() {
+            imgs.forEach(function(img) {
+              img.style.transition = '';
+              img.style.transform = '';
+              img.style.opacity = '';
+            });
+            // Update active slide via showSlide (defined above)
+            showSlide(newIndex);
+          }, { once: true });
         } else {
+          // Revert slides smoothly without bounce. Disable transitions to avoid snap back.
           imgs.forEach(function(img) {
+            img.style.transition = 'none';
             img.style.transform = '';
+            img.style.opacity = '';
+          });
+          // Force reflow to ensure transition removal takes effect
+          void slider.offsetWidth;
+          // Restore transitions for subsequent drags
+          imgs.forEach(function(img) {
+            img.style.transition = '';
           });
         }
         aroundStartX = null;

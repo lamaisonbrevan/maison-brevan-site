@@ -229,7 +229,11 @@ const slides = document.querySelectorAll(".hero img");
   // The handler updates the global `current` and uses
   // animateHeroSlide() to perform the slide once the swipe ends.
   attachSwipe(hero, slides, () => current, (newIndex, direction) => {
-    animateHeroSlide(newIndex, direction);
+    // When a swipe triggers a slide change, avoid triggering a second animated slide.
+    // Instead update the current index immediately and show the slide without
+    // additional animation.  This ensures the swipe animation seamlessly
+    // transitions into the final position without a snap back.
+    showSlide(newIndex);
   });
 
   // Show initial slide
@@ -311,7 +315,8 @@ const slides = document.querySelectorAll(".hero img");
     container.addEventListener('touchend', (e) => {
       if (!isDragging || startX === null) return;
       const diff = e.changedTouches[0].clientX - startX;
-      // Restore transitions
+      // Ensure CSS transitions are restored for final animation. We'll reassign
+      // individual transitions on the current and next images later.
       imgList.forEach(img => {
         img.style.transition = '';
       });
@@ -326,22 +331,46 @@ const slides = document.querySelectorAll(".hero img");
       const velocityThreshold = 0.5;
       const threshold = containerWidth * 0.2;
       if (Math.abs(diff) > threshold || Math.abs(velocity) > velocityThreshold) {
-        // Determine direction and compute new index
+        // Determine direction and compute the new index for the slide change.
         const direction = diff < 0 ? +1 : -1;
         const newIndex = (currentIndex + direction + imgList.length) % imgList.length;
-        // Reset transforms before animating with our slide functions
+        // Identify the current and next images in the slider.
+        const currentImg = imgList[currentIndex];
+        const nextImg = imgList[newIndex];
+        // Ensure the next image is visible and prepared to slide in.
+        nextImg.style.opacity = '1';
+        // Compute the final translation for the current slide to complete offscreen.
+        const finalCurrent = direction > 0 ? -containerWidth : containerWidth;
+        // Apply transitions on current and next images for a smooth animation.
+        currentImg.style.transition = 'transform 0.35s ease-out';
+        nextImg.style.transition = 'transform 0.35s ease-out';
+        // Animate from the current drag position to the final positions.
+        currentImg.style.transform = `translateX(${finalCurrent}px)`;
+        nextImg.style.transform = 'translateX(0)';
+        // When the animation completes, clean up transitions and transforms,
+        // then invoke the setIndex callback to update the active slide.
+        nextImg.addEventListener('transitionend', () => {
+          imgList.forEach(img => {
+            img.style.transition = '';
+            img.style.transform = '';
+            img.style.opacity = '';
+          });
+          // Call setIndex with the new index and direction. The callback should update
+          // the active slide without triggering a second animation.
+          setIndex(newIndex, direction);
+        }, { once: true });
+      } else {
+        // Revert slides smoothly without bounce. Disable transitions to avoid snap back.
         imgList.forEach(img => {
+          img.style.transition = 'none';
           img.style.transform = '';
-          // Reset temporary opacity so animation can control it via CSS classes
           img.style.opacity = '';
         });
-        setIndex(newIndex, direction);
-      } else {
-        // Revert translation
+        // Force a reflow to ensure transition removal takes effect
+        void container.offsetWidth;
+        // Restore transitions for subsequent drags
         imgList.forEach(img => {
-          img.style.transform = '';
-          // Revert any temporary opacity applied during drag
-          img.style.opacity = '';
+          img.style.transition = '';
         });
       }
       startX = null;
@@ -481,9 +510,11 @@ const slides = document.querySelectorAll(".hero img");
       images,
       () => index,
       (newIndex, direction) => {
+        // Pause autoplay during the drag and update slide immediately on release.
         clearInterval(roomInterval);
-        animateRoomSlide(newIndex, direction);
-        // Restart autoplay interval after the animation
+        // Use showRoomSlide to update the active image without triggering a second animation.
+        showRoomSlide(newIndex);
+        // Restart autoplay interval after updating the slide.
         roomInterval = setInterval(() => {
           const next = (index + 1) % images.length;
           animateRoomSlide(next, +1);

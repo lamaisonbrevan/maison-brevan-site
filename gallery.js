@@ -307,11 +307,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!galleryDragging || galleryStartX === null) return;
     const diffX = e.changedTouches[0].clientX - galleryStartX;
     const slides = slider.querySelectorAll('img');
-    // restore transitions
+    // Restore transitions on touchend so animations apply
     slides.forEach((img) => {
       img.style.transition = '';
     });
-    // Compute drag velocity and thresholds.  We use both distance and velocity
+    // Compute drag velocity and thresholds.  Use both distance and velocity
     // thresholds to decide whether to change slides.  A smaller distance
     // threshold (20% of container width) combined with a velocity threshold
     // yields a more natural, momentum‑driven swipe.
@@ -320,21 +320,44 @@ document.addEventListener("DOMContentLoaded", () => {
     const velocityThreshold = 0.5;
     const distanceThreshold = galleryContainerWidth * 0.2;
     if (Math.abs(diffX) > distanceThreshold || Math.abs(velocity) > velocityThreshold) {
+      // Determine direction and new index
       e.stopPropagation();
       const direction = diffX < 0 ? +1 : -1;
       const newIndex = (currentIndex + direction + images.length) % images.length;
-      // reset transforms before performing the animated slide
+      // Identify current and next images
+      const currentImg = slides[currentIndex];
+      const nextImg = slides[newIndex];
+      // Ensure the next image is visible
+      nextImg.style.opacity = '1';
+      // Compute final translation for the current slide to finish offscreen
+      const finalCurrent = direction > 0 ? -galleryContainerWidth : galleryContainerWidth;
+      // Apply transitions for a smooth animation
+      currentImg.style.transition = 'transform 0.35s ease-out';
+      nextImg.style.transition = 'transform 0.35s ease-out';
+      // Animate from the current drag position to the final positions
+      currentImg.style.transform = `translateX(${finalCurrent}px)`;
+      nextImg.style.transform = 'translateX(0)';
+      // After animation completes, clean up and update the active slide
+      nextImg.addEventListener('transitionend', () => {
+        slides.forEach((img) => {
+          img.style.transition = '';
+          img.style.transform = '';
+          img.style.opacity = '';
+        });
+        showSlide(newIndex);
+      }, { once: true });
+    } else {
+      // Revert slides smoothly without bounce. Disable transitions to avoid snap back.
       slides.forEach((img) => {
+        img.style.transition = 'none';
         img.style.transform = '';
-        // Reset temporary opacity to allow animation to manage it
         img.style.opacity = '';
       });
-      animateGallerySlide(newIndex, direction);
-    } else {
-      // revert transforms
+      // Force reflow to ensure transition removal takes effect
+      void slider.offsetWidth;
+      // Restore transitions for subsequent drags
       slides.forEach((img) => {
-        img.style.transform = '';
-        img.style.opacity = '';
+        img.style.transition = '';
       });
     }
     galleryStartX = null;
