@@ -4247,16 +4247,15 @@ footer .footer-main + .footer-main {
     transform: translate(-50%, -50%) !important;
     margin: 0 !important;
     /*
-     * Adjust horizontal padding on small screens so the logo+wordmark
-     * appears optically centred within the badge.  When the logo and
-     * spaced wordmark sit inside equal side paddings the text feels
-     * slightly off‑centre because the logo occupies substantial width
-     * on the left.  Using asymmetric left/right padding shifts the
-  * Using asymmetric left/right padding shifts the group a little to the left and restores visual balance.
- * Four-value shorthand specifies: top 0, right 0.5rem, bottom 0, left 1.5rem. The !important flag ensures the values override earlier declarations.ag ensures the values override
-     * earlier declarations.
+     * Centre the badge contents on small screens by using equal left and
+     * right padding.  As the logo sits to the left of the wordmark, a
+     * symmetrical horizontal padding ensures the visual centre of the
+     * group aligns with the mathematical centre defined by the
+     * translate(-50%, -50%) transform.  A two‑value padding shorthand
+     * sets top/bottom to 0 and left/right to 1rem.  The !important flag
+     * guarantees these values override earlier declarations.
      */
-  padding: 0 0.5rem 0 1.5rem !important;
+    padding: 0 1rem !important;
     font-size: 1rem !important;
     letter-spacing: 0.15em !important;
     gap: 0.4rem !important;
