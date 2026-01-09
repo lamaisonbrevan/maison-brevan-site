@@ -4249,7 +4249,10 @@ footer .footer-main + .footer-main {
        Increasing the horizontal offset from 0.6rem to 0.8rem shifts the group
        further right, compensating for the logo’s footprint.  The !important
        flag ensures this transform prevails over any later declarations. */
-    transform: translate(calc(-50% + 0.8rem), -50%) !important;
+    /* Adjust the horizontal translation to 0.7rem.  With the asymmetric padding removed
+       below, this single offset provides sufficient optical centring without pushing
+       the text too far toward the right edge. */
+    transform: translate(calc(-50% + 0.7rem), -50%) !important;
     margin: 0 !important;
     /* Apply symmetrical horizontal padding (top/bottom remain zero) so the badge
        expands equally on both sides of its contents.  Combined with the
@@ -4449,7 +4452,7 @@ footer .footer-main + .footer-main {
     position: absolute !important;
     left: 50% !important;
     top: 50% !important;
-    transform: translate(calc(-50% + 0.8rem), -50%) !important;
+    transform: translate(calc(-50% + 0.7rem), -50%) !important;
     /* Remove the right margin used when the badge was inline; absolute positioning
        no longer requires horizontal margins. */
     margin: 0 !important;
@@ -4457,10 +4460,10 @@ footer .footer-main + .footer-main {
        to the centre of the badge. A small gap ensures the words do not
        drift toward the right edge on very narrow screens. */
     gap: 0.35rem !important;
-    /* Use asymmetric padding to offset the logo’s width: a larger left padding and smaller
-       right padding move the text slightly right, centring the logo + text group. */
-    padding-left: 1.6rem !important;
-    padding-right: 0.6rem !important;
+    /* Rely on the generic padding defined in the combined .site-title-badge,
+       .hamburger rule above (0.35rem top/bottom and 1rem left/right).  Avoid
+       adding asymmetrical padding here so that the transform offset alone
+       controls the optical centring. */
   }
 
   /* Specific styling for the Menu badge: mirror the title badge styles
