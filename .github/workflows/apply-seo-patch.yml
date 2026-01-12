@@ -1,0 +1,42 @@
+name: Apply SEO patch
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "seo-indexation-fix" ]
+    paths:
+      - "site-fix.patch"
+      - ".github/workflows/apply-seo-patch.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: seo-indexation-fix
+          fetch-depth: 0
+
+      - name: Apply patch (if present)
+        run: |
+          if [ ! -f "site-fix.patch" ]; then
+            echo "No patch file found; nothing to do."
+            exit 0
+          fi
+
+          git apply --check site-fix.patch
+          git apply site-fix.patch
+
+          # (optionnel) supprimer le patch pour éviter de le réappliquer
+          rm -f site-fix.patch
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -A
+          git commit -m "SEO: apply patch (canonicals + sitemap + page locale)" || echo "Nothing to commit"
+          git push

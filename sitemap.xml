@@ -4,9 +4,6 @@
     <loc>https://lamaisonbrevan.fr/</loc>
   </url>
   <url>
-    <loc>https://lamaisonbrevan.fr/index.html</loc>
-  </url>
-  <url>
     <loc>https://lamaisonbrevan.fr/autour.html</loc>
   </url>
   <url>
@@ -23,5 +20,8 @@
   </url>
   <url>
     <loc>https://lamaisonbrevan.fr/mentions.html</loc>
+  </url>
+  <url>
+    <loc>https://lamaisonbrevan.fr/chambre-hotes-chateaulin.html</loc>
   </url>
 </urlset>

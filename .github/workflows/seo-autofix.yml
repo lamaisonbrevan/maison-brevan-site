@@ -1,0 +1,38 @@
+name: SEO AutoFix
+
+on:
+  push:
+    branches: ["seo-indexation-fix"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  autofix:
+    # évite les boucles : le commit créé par l’action contient [skip-seo]
+    if: ${{ github.event_name == 'workflow_dispatch' || !contains(github.event.head_commit.message, '[skip-seo]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: seo-indexation-fix
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run SEO autofix
+        run: python scripts/seo_autofix.py
+
+      - name: Commit & push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "SEO: auto-fix canonicals + sitemap + landing page [skip-seo]"
+          git push
