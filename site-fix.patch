@@ -1,0 +1,136 @@
+*** Begin Patch
+*** Add File: robots.txt
++User-agent: *
++Allow: /
++Sitemap: https://lamaisonbrevan.fr/sitemap.xml
+
+*** End Patch
+*** Begin Patch
+*** Add File: sitemap.xml
++<?xml version="1.0" encoding="UTF-8"?>
++<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
++  <url>
++    <loc>https://lamaisonbrevan.fr/</loc>
++  </url>
++  <url>
++    <loc>https://lamaisonbrevan.fr/autour.html</loc>
++  </url>
++  <url>
++    <loc>https://lamaisonbrevan.fr/gallery.html</loc>
++  </url>
++  <url>
++    <loc>https://lamaisonbrevan.fr/cgv.html</loc>
++  </url>
++  <url>
++    <loc>https://lamaisonbrevan.fr/confidentialite.html</loc>
++  </url>
++  <url>
++    <loc>https://lamaisonbrevan.fr/cookies.html</loc>
++  </url>
++  <url>
++    <loc>https://lamaisonbrevan.fr/mentions.html</loc>
++  </url>
++</urlset>
+
+*** End Patch
+*** Begin Patch
+*** Update File: index.html
+@@ <head>
+-  <title>La Maison Brevan</title><meta content="Chambres d’hôtes de charme à Châteaulin (Bretagne) — La Maison Brevan. Suites élégantes, matériaux naturels, accueil chaleureux." name="description">
++  <!-- Mise à jour SEO : titre, description, canonical et Schema.org -->
++  <title>Chambres d’hôtes à Châteaulin – La Maison Brevan</title>
++  <meta name="description" content="La Maison Brevan propose des chambres d’hôtes de charme à Châteaulin, dans le Finistère : suites élégantes, matériaux naturels, accueil chaleureux et proximité de la nature.">
++  <link rel="canonical" href="https://lamaisonbrevan.fr/">
++  <script type="application/ld+json">
++  {
++    "@context": "https://schema.org",
++    "@type": "BedAndBreakfast",
++    "name": "La Maison Brevan",
++    "description": "Chambres d’hôtes de charme à Châteaulin, Finistère. Suites élégantes, matériaux naturels, accueil chaleureux.",
++    "url": "https://lamaisonbrevan.fr/",
++    "telephone": "+33 7 62 57 69 58",
++    "email": "contact@lamaisonbrevan.fr",
++    "address": {
++      "@type": "PostalAddress",
++      "streetAddress": "29 Grand Rue",
++      "addressLocality": "Châteaulin",
++      "postalCode": "29150",
++      "addressRegion": "Bretagne",
++      "addressCountry": "FR"
++    },
++    "geo": {
++      "@type": "GeoCoordinates",
++      "latitude": 48.195389,
++      "longitude": -4.094207
++    },
++    "priceRange": "€€",
++    "image": [
++      "https://lamaisonbrevan.fr/assets/images/logo-symbol.png"
++    ],
++    "amenityFeature": [
++      {"@type": "LocationFeatureSpecification", "name": "Wifi gratuit", "value": true},
++      {"@type": "LocationFeatureSpecification", "name": "Lit king-size", "value": true},
++      {"@type": "LocationFeatureSpecification", "name": "Douche italienne", "value": true},
++      {"@type": "LocationFeatureSpecification", "name": "Non fumeur", "value": true}
++    ],
++    "sameAs": [
++      "https://www.instagram.com/maisonbrevan/"
++    ]
++  }
++  </script>
+*** End Patch
+*** Begin Patch
+*** Update File: autour.html
+@@ <head>
+-  <title>La Maison Brevan – Autour de la Maison</title>
+-  <meta name="description" content="Découvrez la région autour de La Maison Brévan : nature, plages et villages du Finistère.">
++  <title>Autour de Châteaulin – La Maison Brevan</title>
++  <meta name="description" content="Explorez Châteaulin et le Finistère depuis La Maison Brevan : nature, plages, patrimoine et villages bretons à découvrir autour de nos chambres d’hôtes.">
++  <link rel="canonical" href="https://lamaisonbrevan.fr/autour.html">
+*** End Patch
+*** Begin Patch
+*** Update File: gallery.html
+@@ <head>
+-  <title>La Maison Brevan – Galerie</title>
+-  <meta content="La Maison Brevan vous invite à parcourir sa galerie photo : découvrez nos chambres, les espaces communs et l'atmosphère de notre maison d'hôtes." name="description">
++  <title>Galerie – Chambres et maison d’hôtes La Maison Brevan à Châteaulin</title>
++  <meta name="description" content="Parcourez la galerie photo de La Maison Brevan : découvrez nos chambres, les espaces communs et l’atmosphère unique de notre maison d’hôtes à Châteaulin.">
++  <link rel="canonical" href="https://lamaisonbrevan.fr/gallery.html">
+*** End Patch
+*** Begin Patch
+*** Update File: cgv.html
+@@ <head>
+-  <title>La Maison Brevan – CGV</title>
+-  <meta name="description" content="Conditions générales de vente de La Maison Brevan.">
++  <title>Conditions générales de vente – La Maison Brevan</title>
++  <meta name="description" content="Consultez les conditions générales de vente et d’annulation de La Maison Brevan pour vos réservations de chambres d’hôtes.">
++  <link rel="canonical" href="https://lamaisonbrevan.fr/cgv.html">
+*** End Patch
+*** Begin Patch
+*** Update File: confidentialite.html
+@@ <head>
+-  <title>La Maison Brevan – Politique de confidentialité</title>
+-  <meta name="description" content="Politique de confidentialité de La Maison Brevan.">
++  <title>Politique de confidentialité – La Maison Brevan</title>
++  <meta name="description" content="Politique de confidentialité de La Maison Brevan : informations sur la collecte et le traitement de vos données lors de la réservation ou de la navigation.">
++  <link rel="canonical" href="https://lamaisonbrevan.fr/confidentialite.html">
+*** End Patch
+*** Begin Patch
+*** Update File: cookies.html
+@@ <head>
+-  <title>La Maison Brevan – Cookies</title>
+-  <meta name="description" content="Politique de cookies de La Maison Brevan.">
++  <title>Politique cookies – La Maison Brevan</title>
++  <meta name="description" content="Politique d’utilisation des cookies de La Maison Brevan : découvrez comment nous utilisons les cookies et comment les gérer lors de votre visite.">
++  <link rel="canonical" href="https://lamaisonbrevan.fr/cookies.html">
+*** End Patch
+*** Begin Patch
+*** Update File: mentions.html
+@@ <head>
+-  <title>La Maison Brevan – Mentions légales</title>
+-  <meta content="Mentions légales de La Maison Brevan : retrouvez nos informations juridiques, la propriété du site et les coordonnées de contact." name="description">
++  <title>Mentions légales – La Maison Brevan</title>
++  <meta name="description" content="Mentions légales de La Maison Brevan : informations juridiques, propriété du site et coordonnées de contact.">
++  <link rel="canonical" href="https://lamaisonbrevan.fr/mentions.html">
+*** End Patch
+*** End Patch
