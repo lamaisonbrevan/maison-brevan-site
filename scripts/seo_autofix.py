@@ -106,7 +106,7 @@ def _update_head(html: str, title: str, desc: str, canonical: str) -> str:
     )
 
     inject = (
-        f'\n<link rel="canonical" href="{canonical}">'\
+        f'\n<link rel="canonical" href="{canonical}">' \
         f'\n<script type="application/ld+json">\n{JSONLD_BASE}\n</script>\n'
     )
 
@@ -118,7 +118,7 @@ def _add_footer_link_to_landing(index_html: str) -> str:
         return index_html
 
     # Try to append after first CGV link
-    pattern = r'(href=[\"'](?:/)?cgv\.html[\"'][^>]*>.*?</a>)'
+    pattern = r'(href=["\'](?:/)?cgv\.html["\'][^>]*>.*?</a>)'
     if re.search(pattern, index_html, flags=re.I | re.S):
         return re.sub(
             pattern,
