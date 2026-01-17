@@ -45,17 +45,31 @@ document.addEventListener("DOMContentLoaded", () => {
   // CSS class pattern: big, tall, wide, default, default, wide, tall, big
   const patternClasses = ['big', 'tall', 'wide', '', '', 'wide', 'tall', 'big'];
   const NUM_GALLERY_IMAGES = 99;
-  // Build an array of image descriptors.  Use two‑digit numbers for
-  // consistency (01 to 99).  If a corresponding file does not exist,
-  // the browser will fall back to a broken link; users should
-  // populate the gallery folder with their own photos.
+  // Some indices have been deleted from the gallery folder (e.g., 1, 2, 3, 7, 9,
+  // 18, 19, 30, 32, 36, 40, 41, 49, 50, 57, 65, 74, 75, 77, 79, 84, 85, 86, 88,
+  // 98, 99). If the script tried to load these missing files, the layout would
+  // include blank spaces for broken images. Define a set of excluded indices
+  // (1‑based) so that they are skipped when building the list of images. The
+  // numbers correspond to the original numbering of gallery images.
+  const excludedIndices = new Set([
+    1, 2, 3, 7, 9, 18, 19, 30, 32, 36, 40, 41, 49, 50, 57, 65, 74, 75, 77, 79,
+    84, 85, 86, 88, 98, 99
+  ]);
+
+  // Build an array of image descriptors while skipping excluded indices. Use
+  // two‑digit numbers for consistency (01 to 99). Filtering out the excluded
+  // indices prevents gaps in the gallery layout when some images are missing.
   const localImages = Array.from({ length: NUM_GALLERY_IMAGES }, (_, i) => {
-    const num = String(i + 1).padStart(2, '0');
+    const index = i + 1;
+    if (excludedIndices.has(index)) {
+      return null;
+    }
+    const num = String(index).padStart(2, '0');
     return {
       src: `assets/images/gallery/gallery-${num}.jpg`,
-      alt: `Photo ${i + 1}`
+      alt: `Photo ${index}`
     };
-  });
+  }).filter(Boolean);
   // Clear existing static thumbnails
   galleryGrid.innerHTML = '';
   // Create gallery items dynamically
