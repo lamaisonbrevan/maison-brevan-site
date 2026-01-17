@@ -2768,7 +2768,9 @@ footer .footer-main + .footer-main {
   }
 
   .hamburger {
-    display: block !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
   .nav-left {
@@ -3135,4 +3137,102 @@ footer:has(.footer-main-new) .footer-main,
 footer:has(.footer-main-new) .footer-logo,
 footer:has(.footer-main-new) .address-group {
   display: none !important;
+}
+/* --------------------------------------------------------------------------
+   Mobile header tweaks
+   - Replace the "MENU" label by a hamburger icon on non-desktop screens
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  /* Keep the same button (same click/JS), only change its look */
+  .hamburger {
+    font-size: 0 !important;          /* hide the MENU text */
+    letter-spacing: 0 !important;
+    line-height: 0 !important;
+    position: relative;
+  }
+
+  .hamburger::before {
+    content: "";
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 2px;
+    /* 3 lines */
+    box-shadow: 0 6px 0 currentColor, 0 12px 0 currentColor;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Carousel performance (smoother swipes / transitions)
+   -------------------------------------------------------------------------- */
+
+.hero img,
+.room-image img,
+.room-overlay .overlay-slider img,
+.gallery-slider img {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile: ultra-smooth native swipes (Instagram-like)
+   Uses horizontal scroll + scroll-snap on touch devices.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 900px) and (pointer: coarse) {
+  .room-image,
+  .room-slider,
+  .room-overlay .overlay-slider,
+  .gallery-slider {
+    touch-action: pan-x pan-y;
+  }
+
+  .room-slider {
+    height: 100%;
+  }
+
+  .room-slider,
+  .room-overlay .overlay-slider,
+  .gallery-slider {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-snap-stop: always;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  .room-slider::-webkit-scrollbar,
+  .room-overlay .overlay-slider::-webkit-scrollbar,
+  .gallery-slider::-webkit-scrollbar {
+    display: none;
+  }
+
+  .room-image img,
+  .room-overlay .overlay-slider img,
+  .gallery-slider img {
+    position: relative;
+    flex: 0 0 100%;
+    width: 100%;
+    opacity: 1 !important;
+    transition: none !important;
+    transform: none !important;
+    scroll-snap-align: start;
+  }
+
+  /* Prevent legacy keyframe classes from interfering if present */
+  .room-slider img.slide-in-right,
+  .room-slider img.slide-out-left,
+  .room-slider img.slide-in-left,
+  .room-slider img.slide-out-right,
+  .gallery-slider img.slide-in-right,
+  .gallery-slider img.slide-out-left,
+  .gallery-slider img.slide-in-left,
+  .gallery-slider img.slide-out-right {
+    animation: none !important;
+  }
 }

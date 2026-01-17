@@ -45,27 +45,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // CSS class pattern: big, tall, wide, default, default, wide, tall, big
   const patternClasses = ['big', 'tall', 'wide', '', '', 'wide', 'tall', 'big'];
   const NUM_GALLERY_IMAGES = 99;
-  // Indices (1‑based) of photos to exclude from the gallery.
-  // The gallery script will skip these indices when building the list of local images.
-  const excludedIndices = new Set([1, 2, 3, 7, 9, 18, 19, 30, 32, 36, 40, 41, 49, 50, 57, 65, 74, 75, 77, 79, 84, 85, 86, 88, 98, 99]);
   // Build an array of image descriptors.  Use two‑digit numbers for
   // consistency (01 to 99).  If a corresponding file does not exist,
   // the browser will fall back to a broken link; users should
   // populate the gallery folder with their own photos.
-  // Build the list of gallery images while filtering out excluded indices.
-  // Use a let declaration because we post‑filter the array based on excludedIndices.
-  let localImages = Array.from({ length: NUM_GALLERY_IMAGES }, (_, i) => {
-    const index = i + 1;
-    // Skip any indices that are marked as excluded
-    if (excludedIndices.has(index)) {
-      return null;
-    }
-    const num = String(index).padStart(2, '0');
+  const localImages = Array.from({ length: NUM_GALLERY_IMAGES }, (_, i) => {
+    const num = String(i + 1).padStart(2, '0');
     return {
       src: `assets/images/gallery/gallery-${num}.jpg`,
-      alt: `Photo ${index}`
+      alt: `Photo ${i + 1}`
     };
-  }).filter(Boolean);
+  });
   // Clear existing static thumbnails
   galleryGrid.innerHTML = '';
   // Create gallery items dynamically
@@ -136,6 +126,53 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentIndex = 0;
 
   // ------------------------------------------------------------------
+  // Native (Instagram-like) swipe mode on touch mobiles
+  // We use scroll-snap (CSS) + scrollLeft (JS for dots/arrows sync).
+  const nativeCarousel = (() => {
+    try {
+      return !!(window.matchMedia && window.matchMedia('(max-width: 900px) and (pointer: coarse)').matches);
+    } catch (_) {
+      return false;
+    }
+  })();
+
+  const safeScrollTo = (el, left, behavior) => {
+    if (!el) return;
+    try {
+      el.scrollTo({ left, behavior });
+    } catch (_) {
+      el.scrollLeft = left;
+    }
+  };
+
+
+  // Sync dots + active state while using native scroll-snap
+  let nativeScrollBound = false;
+  const bindNativeScroll = () => {
+    if (!nativeCarousel || nativeScrollBound) return;
+    nativeScrollBound = true;
+
+    let raf = 0;
+    slider.addEventListener('scroll', () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const w = slider.clientWidth || 1;
+        const idx = Math.round(slider.scrollLeft / w);
+        if (idx !== currentIndex) {
+          showSlide(idx);
+        }
+      });
+    }, { passive: true });
+  };
+
+  const scrollToSlide = (idx, behavior = 'smooth') => {
+    const w = slider.clientWidth || 1;
+    safeScrollTo(slider, idx * w, behavior);
+    showSlide(idx);
+  };
+
+  // ------------------------------------------------------------------
   // Sliding animation for gallery overlay
   // This helper animates transitions between slides in the gallery
   // overlay using CSS keyframes defined in style.css.  The direction
@@ -191,6 +228,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const img = document.createElement('img');
       img.src = src;
       img.alt = `Galerie photo ${i + 1}`;
+      img.decoding = 'async';
+      img.loading = (i === index) ? 'eager' : 'lazy';
       if (i === index) {
         img.classList.add('active');
       }
@@ -203,6 +242,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (i === index) btn.classList.add('active');
       btn.addEventListener('click', (ev) => {
         ev.stopPropagation();
+        if (nativeCarousel) {
+          scrollToSlide(i, 'smooth');
+          return;
+        }
         const dir = i > currentIndex ? 1 : -1;
         animateGallerySlide(i, dir);
       });
@@ -214,6 +257,12 @@ document.addEventListener("DOMContentLoaded", () => {
     overlay.classList.add('show');
     overlay.setAttribute('aria-hidden', 'false');
     currentIndex = index;
+
+    if (nativeCarousel) {
+      bindNativeScroll();
+      // Wait a frame for layout so clientWidth is correct
+      requestAnimationFrame(() => scrollToSlide(index, 'auto'));
+    }
   }
 
   galleryItems.forEach((item, i) => {
@@ -229,11 +278,19 @@ document.addEventListener("DOMContentLoaded", () => {
   prevBtn.addEventListener('click', (ev) => {
     ev.stopPropagation();
     const newIndex = (currentIndex - 1 + images.length) % images.length;
+    if (nativeCarousel) {
+      scrollToSlide(newIndex, 'smooth');
+      return;
+    }
     animateGallerySlide(newIndex, -1);
   });
   nextBtn.addEventListener('click', (ev) => {
     ev.stopPropagation();
     const newIndex = (currentIndex + 1) % images.length;
+    if (nativeCarousel) {
+      scrollToSlide(newIndex, 'smooth');
+      return;
+    }
     animateGallerySlide(newIndex, +1);
   });
   closeBtn.addEventListener('click', () => {
@@ -259,120 +316,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // --------------------------------------------------------------
-  // Touch drag navigation for gallery overlay
-  // Allow users to drag the current slide left or right.  While dragging,
-  // the current and neighbouring slides follow the finger.  Only on
-  // touchend do we decide whether to change slides based on a distance
-  // threshold.  If the drag is too short, the slides snap back to
-  // their original positions.  This behaviour matches the hero and
-  // room carousels implemented in script.js.
-  let galleryStartX = null;
-  let galleryDragging = false;
-  let galleryContainerWidth = null;
-  // Track timing and finger position during gallery drags.  These variables
-  // allow us to compute the drag velocity on touchend and decide whether
-  // to switch slides based on speed as well as distance.
-  let galleryStartTime = null;
-  let galleryLastX = null;
-  let galleryLastTime = null;
-  slider.addEventListener('touchstart', (e) => {
-    galleryStartX = e.touches[0].clientX;
-    galleryDragging = true;
-    galleryContainerWidth = slider.offsetWidth;
-    // Initialise timing variables for velocity calculation.
-    galleryStartTime = Date.now();
-    galleryLastX = galleryStartX;
-    galleryLastTime = galleryStartTime;
-    // disable transitions during drag
-    const slides = slider.querySelectorAll('img');
-    slides.forEach((img) => {
-      img.style.transition = 'none';
-    });
-  }, { passive: true });
-  slider.addEventListener('touchmove', (e) => {
-    if (!galleryDragging || galleryStartX === null) return;
-    const diffX = e.touches[0].clientX - galleryStartX;
-    const slides = slider.querySelectorAll('img');
-    const currentImg = slides[currentIndex];
-    currentImg.style.transform = `translateX(${diffX}px)`;
-    // Update last position and time for velocity calculation.
-    galleryLastX = e.touches[0].clientX;
-    galleryLastTime = Date.now();
-    // Determine neighbour based on drag direction
-    if (diffX < 0) {
-      const neighbourIndex = (currentIndex + 1) % slides.length;
-      const neighbourImg = slides[neighbourIndex];
-      // Ensure the neighbouring image is visible during the drag
-      neighbourImg.style.opacity = '1';
-      neighbourImg.style.transform = `translateX(${galleryContainerWidth + diffX}px)`;
-    } else if (diffX > 0) {
-      const neighbourIndex = (currentIndex - 1 + slides.length) % slides.length;
-      const neighbourImg = slides[neighbourIndex];
-      // Ensure the neighbouring image is visible during the drag
-      neighbourImg.style.opacity = '1';
-      neighbourImg.style.transform = `translateX(${-galleryContainerWidth + diffX}px)`;
-    }
-  }, { passive: true });
-  slider.addEventListener('touchend', (e) => {
-    if (!galleryDragging || galleryStartX === null) return;
-    const diffX = e.changedTouches[0].clientX - galleryStartX;
-    const slides = slider.querySelectorAll('img');
-    // Restore transitions on touchend so animations apply
-    slides.forEach((img) => {
-      img.style.transition = '';
-    });
-    // Compute drag velocity and thresholds.  Use both distance and velocity
-    // thresholds to decide whether to change slides.  A smaller distance
-    // threshold (20% of container width) combined with a velocity threshold
-    // yields a more natural, momentum‑driven swipe.
-    const elapsed = (galleryLastTime - galleryStartTime) || 1;
-    const velocity = diffX / elapsed;
-    const velocityThreshold = 0.5;
-    const distanceThreshold = galleryContainerWidth * 0.2;
-    if (Math.abs(diffX) > distanceThreshold || Math.abs(velocity) > velocityThreshold) {
-      // Determine direction and new index
-      e.stopPropagation();
-      const direction = diffX < 0 ? +1 : -1;
-      const newIndex = (currentIndex + direction + images.length) % images.length;
-      // Identify current and next images
-      const currentImg = slides[currentIndex];
-      const nextImg = slides[newIndex];
-      // Ensure the next image is visible
-      nextImg.style.opacity = '1';
-      // Compute final translation for the current slide to finish offscreen
-      const finalCurrent = direction > 0 ? -galleryContainerWidth : galleryContainerWidth;
-      // Apply transitions for a smooth animation
-      currentImg.style.transition = 'transform 0.35s ease-out';
-      nextImg.style.transition = 'transform 0.35s ease-out';
-      // Animate from the current drag position to the final positions
-      currentImg.style.transform = `translateX(${finalCurrent}px)`;
-      nextImg.style.transform = 'translateX(0)';
-      // After animation completes, clean up and update the active slide
-      nextImg.addEventListener('transitionend', () => {
-        slides.forEach((img) => {
-          img.style.transition = '';
-          img.style.transform = '';
-          img.style.opacity = '';
-        });
-        showSlide(newIndex);
-      }, { once: true });
-    } else {
-      // Revert slides smoothly without bounce. Disable transitions to avoid snap back.
-      slides.forEach((img) => {
-        img.style.transition = 'none';
-        img.style.transform = '';
-        img.style.opacity = '';
-      });
-      // Force reflow to ensure transition removal takes effect
-      void slider.offsetWidth;
-      // Restore transitions for subsequent drags
-      slides.forEach((img) => {
-        img.style.transition = '';
-      });
-    }
-    galleryStartX = null;
-    galleryDragging = false;
-  });
+  // Touch swipe navigation for the gallery overlay
+  // Re-use the global attachSwipe helper (script.js) for consistent, smooth
+  // behaviour across all carousels (native-like snap + velocity threshold).
+  if (!nativeCarousel && window.attachSwipe) {
+    window.attachSwipe(
+      slider,
+      () => slider.querySelectorAll('img'),
+      () => currentIndex,
+      (newIndex) => showSlide(newIndex)
+    );
+  }
 
   // Page transitions are handled globally via transition.js using
   // a page-turn effect applied to the `.page-wrapper`.  Fade

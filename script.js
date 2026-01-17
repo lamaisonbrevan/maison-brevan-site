@@ -44,6 +44,29 @@
   };
 
   // ---------------------------------------------------------------------------
+  // Environment helpers (used to switch to native, ultra-smooth carousels on mobile)
+  // ---------------------------------------------------------------------------
+  const isCoarsePointer = () => {
+    try {
+      return !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+    } catch (_) {
+      // ignore
+    }
+    return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+  };
+
+  const isSmallScreen = () => {
+    try {
+      return !!(window.matchMedia && window.matchMedia('(max-width: 900px)').matches);
+    } catch (_) {
+      // ignore
+    }
+    return (window.innerWidth || 0) <= 900;
+  };
+
+  const useNativeCarousels = () => isCoarsePointer() && isSmallScreen();
+
+  // ---------------------------------------------------------------------------
   // Swipe utility (exported globally for other scripts)
   // ---------------------------------------------------------------------------
   /**
@@ -74,7 +97,6 @@
     let isTracking = false;
     let axisLocked = false;
     let isHorizontal = false;
-    let didStart = false;
 
     let containerWidth = 0;
     let currentIndex = 0;
@@ -84,11 +106,42 @@
     let lastTime = 0;
     let lastX = 0;
 
+    // rAF batching (reduces jank on low-end mobiles)
+    let rafId = 0;
+    let pendingDx = 0;
+
+    // Autoplay pause/resume (optional)
+    let didPauseAuto = false;
+    const pauseAuto = () => {
+      if (didPauseAuto) return;
+      didPauseAuto = true;
+      if (typeof opts.onStart === 'function') opts.onStart();
+    };
+
+    const resumeAuto = () => {
+      if (!didPauseAuto) return;
+      didPauseAuto = false;
+      if (typeof opts.onEnd === 'function') opts.onEnd();
+    };
+
     const resetInlineStyles = (imgs) => {
       imgs.forEach((img) => {
         img.style.transition = '';
         img.style.transform = '';
         img.style.opacity = '';
+      });
+    };
+
+    const forceNoTransition = (imgs) => {
+      imgs.forEach((img) => {
+        img.style.transition = 'none';
+      });
+    };
+
+    const restoreTransition = (imgs) => {
+      // Remove inline override (re-enable CSS transitions)
+      imgs.forEach((img) => {
+        img.style.transition = '';
       });
     };
 
@@ -98,7 +151,144 @@
       isTracking = false;
       axisLocked = false;
       isHorizontal = false;
-      didStart = false;
+      containerWidth = 0;
+
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = 0;
+      }
+    };
+
+    const applyDx = (dx) => {
+      const imgs = resolveImgs();
+      if (imgs.length < 2) return;
+
+      const currentImg = imgs[currentIndex];
+      if (!currentImg) return;
+
+      // Drag current image
+      currentImg.style.transform = `translate3d(${dx}px, 0, 0)`;
+
+      // Drag neighbour alongside (gives a "native" feel)
+      if (dx < 0) {
+        const neighbourIdx = (currentIndex + 1) % imgs.length;
+        const neighbourImg = imgs[neighbourIdx];
+        if (neighbourImg) {
+          neighbourImg.style.opacity = '1';
+          neighbourImg.style.transform = `translate3d(${containerWidth + dx}px, 0, 0)`;
+        }
+      } else if (dx > 0) {
+        const neighbourIdx = (currentIndex - 1 + imgs.length) % imgs.length;
+        const neighbourImg = imgs[neighbourIdx];
+        if (neighbourImg) {
+          neighbourImg.style.opacity = '1';
+          neighbourImg.style.transform = `translate3d(${-containerWidth + dx}px, 0, 0)`;
+        }
+      }
+    };
+
+    const scheduleApply = (dx) => {
+      pendingDx = dx;
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = 0;
+        applyDx(pendingDx);
+      });
+    };
+
+    const animateToIndex = (imgs, newIndex, direction) => {
+      const currentImg = imgs[currentIndex];
+      const nextImg = imgs[newIndex];
+      if (!currentImg || !nextImg) {
+        resetInlineStyles(imgs);
+        resumeAuto();
+        finish();
+        return;
+      }
+
+      // Ensure the next image is visible during the transition
+      nextImg.style.opacity = '1';
+
+      // iOS-like easing
+      const easing = 'cubic-bezier(0.22, 0.61, 0.36, 1)';
+      const duration = 280;
+
+      currentImg.style.transition = `transform ${duration}ms ${easing}`;
+      nextImg.style.transition = `transform ${duration}ms ${easing}`;
+
+      const finalCurrent = direction > 0 ? -containerWidth : containerWidth;
+
+      // Snap to final positions
+      currentImg.style.transform = `translate3d(${finalCurrent}px, 0, 0)`;
+      nextImg.style.transform = 'translate3d(0, 0, 0)';
+
+      nextImg.addEventListener('transitionend', () => {
+        // IMPORTANT:
+        // Disable transitions while we toggle the "active" classes.
+        // Otherwise, the base "opacity" transitions can cause a visible fade/flicker
+        // right after the swipe.
+        forceNoTransition(imgs);
+
+        // Update index + dots while transitions are disabled
+        setIndex(newIndex, direction);
+
+        // Clean inline styles
+        resetInlineStyles(imgs);
+
+        // Force reflow so the browser applies "transition: none" before removing it
+        void container.offsetWidth;
+        restoreTransition(imgs);
+
+        resumeAuto();
+        finish();
+      }, { once: true });
+    };
+
+    const animateBack = (imgs, dx) => {
+      const currentImg = imgs[currentIndex];
+      if (!currentImg) {
+        resetInlineStyles(imgs);
+        resumeAuto();
+        finish();
+        return;
+      }
+
+      // Determine neighbour based on drag direction so it slides back too
+      let neighbourImg = null;
+      let neighbourTarget = null;
+
+      if (dx < 0) {
+        const neighbourIdx = (currentIndex + 1) % imgs.length;
+        neighbourImg = imgs[neighbourIdx];
+        neighbourTarget = containerWidth;
+      } else if (dx > 0) {
+        const neighbourIdx = (currentIndex - 1 + imgs.length) % imgs.length;
+        neighbourImg = imgs[neighbourIdx];
+        neighbourTarget = -containerWidth;
+      }
+
+      const easing = 'cubic-bezier(0.22, 0.61, 0.36, 1)';
+      const duration = 200;
+
+      currentImg.style.transition = `transform ${duration}ms ${easing}`;
+      currentImg.style.transform = 'translate3d(0, 0, 0)';
+
+      if (neighbourImg) {
+        neighbourImg.style.opacity = '1';
+        neighbourImg.style.transition = `transform ${duration}ms ${easing}`;
+        neighbourImg.style.transform = `translate3d(${neighbourTarget}px, 0, 0)`;
+      }
+
+      currentImg.addEventListener('transitionend', () => {
+        // Clean up without additional fades
+        forceNoTransition(imgs);
+        resetInlineStyles(imgs);
+        void container.offsetWidth;
+        restoreTransition(imgs);
+
+        resumeAuto();
+        finish();
+      }, { once: true });
     };
 
     on(container, 'touchstart', (e) => {
@@ -111,7 +301,6 @@
       isTracking = true;
       axisLocked = false;
       isHorizontal = false;
-      didStart = false;
 
       containerWidth = container.offsetWidth || 1;
       currentIndex = Number(getIndex()) || 0;
@@ -119,6 +308,12 @@
       startTime = Date.now();
       lastTime = startTime;
       lastX = startX;
+
+      // Pause autoplay as soon as the user touches the carousel
+      pauseAuto();
+
+      // Disable transitions during drag (we'll re-enable on end)
+      forceNoTransition(imgs);
     }, { passive: true });
 
     on(container, 'touchmove', (e) => {
@@ -143,19 +338,12 @@
         isHorizontal = absX > absY;
 
         if (!isHorizontal) {
-          // Let the page scroll vertically.
+          // Vertical scroll: restore transitions and resume autoplay.
+          restoreTransition(imgs);
+          resumeAuto();
           finish();
           return;
         }
-
-        // Horizontal swipe has started: pause autoplay etc.
-        didStart = true;
-        if (typeof opts.onStart === 'function') opts.onStart();
-
-        // Disable transitions during drag
-        imgs.forEach((img) => {
-          img.style.transition = 'none';
-        });
       }
 
       if (!isHorizontal) return;
@@ -163,30 +351,10 @@
       // Prevent vertical scrolling while swiping horizontally.
       if (e.cancelable) e.preventDefault();
 
-      const currentImg = imgs[currentIndex];
-      if (!currentImg) return;
-
-      currentImg.style.transform = `translateX(${diffX}px)`;
+      scheduleApply(diffX);
 
       lastX = t.clientX;
       lastTime = Date.now();
-
-      // Move neighbour alongside
-      if (diffX < 0) {
-        const neighbourIdx = (currentIndex + 1) % imgs.length;
-        const neighbourImg = imgs[neighbourIdx];
-        if (neighbourImg) {
-          neighbourImg.style.opacity = '1';
-          neighbourImg.style.transform = `translateX(${containerWidth + diffX}px)`;
-        }
-      } else if (diffX > 0) {
-        const neighbourIdx = (currentIndex - 1 + imgs.length) % imgs.length;
-        const neighbourImg = imgs[neighbourIdx];
-        if (neighbourImg) {
-          neighbourImg.style.opacity = '1';
-          neighbourImg.style.transform = `translateX(${-containerWidth + diffX}px)`;
-        }
-      }
     }, { passive: false });
 
     on(container, 'touchend', (e) => {
@@ -194,12 +362,16 @@
 
       const imgs = resolveImgs();
       if (imgs.length < 2) {
+        restoreTransition(imgs);
+        resumeAuto();
         finish();
         return;
       }
 
-      // If we never locked the axis (tap) or it wasn't a horizontal swipe, do nothing.
+      // Tap (no axis lock) or vertical gesture: nothing to do
       if (!axisLocked || !isHorizontal) {
+        restoreTransition(imgs);
+        resumeAuto();
         finish();
         return;
       }
@@ -207,15 +379,10 @@
       const endX = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientX : lastX;
       const diff = endX - startX;
 
-      // Restore transitions (we will set precise ones on the 2 relevant slides)
-      imgs.forEach((img) => {
-        img.style.transition = '';
-      });
-
       const elapsed = (lastTime - startTime) || 1;
       const velocity = diff / elapsed;
 
-      const threshold = containerWidth * 0.2;  // distance threshold (20%)
+      const threshold = containerWidth * 0.2;  // 20%
       const velocityThreshold = 0.5;          // px/ms
 
       const shouldAdvance = (Math.abs(diff) > threshold) || (Math.abs(velocity) > velocityThreshold);
@@ -224,56 +391,21 @@
         const direction = diff < 0 ? +1 : -1;
         const newIndex = (currentIndex + direction + imgs.length) % imgs.length;
 
-        const currentImg = imgs[currentIndex];
-        const nextImg = imgs[newIndex];
-
-        if (!currentImg || !nextImg) {
-          resetInlineStyles(imgs);
-          if (typeof opts.onEnd === 'function') opts.onEnd();
-          finish();
-          return;
-        }
-
-        nextImg.style.opacity = '1';
-
-        const finalCurrent = direction > 0 ? -containerWidth : containerWidth;
-
-        currentImg.style.transition = 'transform 0.35s ease-out';
-        nextImg.style.transition = 'transform 0.35s ease-out';
-
-        currentImg.style.transform = `translateX(${finalCurrent}px)`;
-        nextImg.style.transform = 'translateX(0)';
-
-        nextImg.addEventListener('transitionend', () => {
-          resetInlineStyles(imgs);
-          setIndex(newIndex, direction);
-          if (typeof opts.onEnd === 'function') opts.onEnd();
-        }, { once: true });
+        // Re-enable transitions (we'll set specific ones for the 2 slides)
+        restoreTransition(imgs);
+        animateToIndex(imgs, newIndex, direction);
       } else {
-        // Revert (no bounce)
-        imgs.forEach((img) => {
-          img.style.transition = 'none';
-          img.style.transform = '';
-          img.style.opacity = '';
-        });
-        // Force reflow so "transition: none" takes effect
-        void container.offsetWidth;
-        imgs.forEach((img) => {
-          img.style.transition = '';
-        });
-
-        if (typeof opts.onEnd === 'function') opts.onEnd();
+        // Smooth snap-back
+        restoreTransition(imgs);
+        animateBack(imgs, diff);
       }
-
-      finish();
-    });
+    }, { passive: true });
 
     on(container, 'touchcancel', () => {
       const imgs = resolveImgs();
-      if (didStart) {
-        resetInlineStyles(imgs);
-        if (typeof opts.onEnd === 'function') opts.onEnd();
-      }
+      resetInlineStyles(imgs);
+      restoreTransition(imgs);
+      resumeAuto();
       finish();
     });
   }
@@ -557,12 +689,114 @@
     // Mark room images as lazy (safe on all pages)
     qsa('.room-slider img').forEach((img) => img.setAttribute('loading', 'lazy'));
 
+    const native = useNativeCarousels();
+
+    const safeScrollTo = (el, left, behavior) => {
+      if (!el) return;
+      try {
+        el.scrollTo({ left, behavior });
+      } catch (_) {
+        el.scrollLeft = left;
+      }
+    };
+
+    // Touch drag flag to avoid opening the overlay when the user swipes
+    const installDragFlag = (el) => {
+      if (!el) return;
+      let startX = 0;
+      let startY = 0;
+      let dragging = false;
+
+      on(el, 'touchstart', (ev) => {
+        const t = ev.touches && ev.touches[0];
+        if (!t) return;
+        startX = t.clientX;
+        startY = t.clientY;
+        dragging = false;
+        el.dataset.dragging = '0';
+      }, { passive: true });
+
+      on(el, 'touchmove', (ev) => {
+        const t = ev.touches && ev.touches[0];
+        if (!t) return;
+        const dx = Math.abs(t.clientX - startX);
+        const dy = Math.abs(t.clientY - startY);
+        if (dx > 8 && dx > dy) {
+          dragging = true;
+          el.dataset.dragging = '1';
+        }
+      }, { passive: true });
+
+      const end = () => {
+        if (dragging) {
+          // Keep the flag alive for the synthetic click event that follows a swipe
+          setTimeout(() => { el.dataset.dragging = '0'; }, 250);
+        } else {
+          el.dataset.dragging = '0';
+        }
+      };
+
+      on(el, 'touchend', end, { passive: true });
+      on(el, 'touchcancel', end, { passive: true });
+    };
+
     roomCards.forEach((card) => {
       const imgContainer = card.querySelector('.room-image');
-      const images = Array.from(card.querySelectorAll('.room-slider img'));
+      const slider = card.querySelector('.room-slider');
+      const images = slider ? Array.from(slider.querySelectorAll('img')) : [];
       const navDots = Array.from(card.querySelectorAll('.room-dots button'));
 
-      if (!imgContainer || images.length === 0) return;
+      if (!imgContainer || !slider || images.length === 0) return;
+
+      // ------------------------------------------------------------------
+      // Native (Instagram-like) mode on touch mobiles: use scroll-snap + scrollLeft
+      // ------------------------------------------------------------------
+      if (native) {
+        let index = 0;
+
+        const setActiveDot = (i) => {
+          if (navDots.length) navDots.forEach((dot, idx) => dot.classList.toggle('active', idx === i));
+          index = i;
+        };
+
+        const scrollToIndex = (i, behavior = 'smooth') => {
+          const w = slider.clientWidth || imgContainer.offsetWidth || 1;
+          safeScrollTo(slider, i * w, behavior);
+          setActiveDot(i);
+        };
+
+        // rAF-throttled scroll handler (keeps dots synced while swiping)
+        let raf = 0;
+        const onScroll = () => {
+          if (raf) return;
+          raf = requestAnimationFrame(() => {
+            raf = 0;
+            const w = slider.clientWidth || imgContainer.offsetWidth || 1;
+            const newIndex = Math.round(slider.scrollLeft / w);
+            if (newIndex !== index) setActiveDot(newIndex);
+          });
+        };
+
+        on(slider, 'scroll', onScroll, { passive: true });
+
+        navDots.forEach((dot, i) => {
+          on(dot, 'click', (ev) => {
+            ev.stopPropagation();
+            scrollToIndex(i, 'smooth');
+          });
+        });
+
+        installDragFlag(slider);
+
+        // Start on the first slide without animation
+        scrollToIndex(0, 'auto');
+        setActiveDot(0);
+        return;
+      }
+
+      // ------------------------------------------------------------------
+      // Desktop / non-touch mode: keep the original autoplay + swipe logic
+      // ------------------------------------------------------------------
 
       let index = 0;
       let intervalId = null;
@@ -657,6 +891,7 @@
     });
   };
 
+
   // ---------------------------------------------------------------------------
   // Room overlay (modal)
   // ---------------------------------------------------------------------------
@@ -675,6 +910,59 @@
     const prevBtn = overlay.querySelector('.overlay-prev');
     const nextBtn = overlay.querySelector('.overlay-next');
 
+    const native = useNativeCarousels();
+
+    const safeScrollTo = (el, left, behavior) => {
+      if (!el) return;
+      try {
+        el.scrollTo({ left, behavior });
+      } catch (_) {
+        el.scrollLeft = left;
+      }
+    };
+
+    // Prevent accidental "tap" actions right after a swipe
+    const installDragFlag = (el) => {
+      if (!el) return;
+      let startX = 0;
+      let startY = 0;
+      let dragging = false;
+
+      on(el, 'touchstart', (ev) => {
+        const t = ev.touches && ev.touches[0];
+        if (!t) return;
+        startX = t.clientX;
+        startY = t.clientY;
+        dragging = false;
+        el.dataset.dragging = '0';
+      }, { passive: true });
+
+      on(el, 'touchmove', (ev) => {
+        const t = ev.touches && ev.touches[0];
+        if (!t) return;
+        const dx = Math.abs(t.clientX - startX);
+        const dy = Math.abs(t.clientY - startY);
+        if (dx > 8 && dx > dy) {
+          dragging = true;
+          el.dataset.dragging = '1';
+        }
+      }, { passive: true });
+
+      const end = () => {
+        if (dragging) {
+          // Keep the flag alive for the synthetic click event that follows a swipe
+          setTimeout(() => { el.dataset.dragging = '0'; }, 250);
+        } else {
+          el.dataset.dragging = '0';
+        }
+      };
+
+      on(el, 'touchend', end, { passive: true });
+      on(el, 'touchcancel', end, { passive: true });
+    };
+
+    if (native) installDragFlag(overlaySlider);
+
     let images = [];
     let current = 0;
 
@@ -690,6 +978,13 @@
       current = i;
     };
 
+    const scrollToIndex = (idx, behavior = 'smooth') => {
+      const w = overlaySlider.clientWidth || 1;
+      safeScrollTo(overlaySlider, idx * w, behavior);
+      updateActive(idx);
+    };
+
+    // Desktop animation (kept for non-touch / non-native mode)
     const animateTo = (newIndex, direction) => {
       const imgs = Array.from(getOverlayImgs());
       if (!imgs.length) return;
@@ -704,7 +999,7 @@
       });
 
       const outClass = direction > 0 ? 'slide-out-left' : 'slide-out-right';
-      const inClass  = direction > 0 ? 'slide-in-right' : 'slide-in-left';
+      const inClass = direction > 0 ? 'slide-in-right' : 'slide-in-left';
 
       currentImg.classList.add(outClass);
       nextImg.classList.add(inClass);
@@ -724,6 +1019,31 @@
       }, 500);
     };
 
+    const goTo = (idx, direction = +1) => {
+      if (images.length < 2) return;
+      if (idx === current) return;
+
+      if (native) {
+        scrollToIndex(idx, 'smooth');
+      } else {
+        animateTo(idx, direction);
+      }
+    };
+
+    // Native mode: keep dots synced while the user swipes (scroll-snap).
+    if (native) {
+      let raf = 0;
+      on(overlaySlider, 'scroll', () => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          raf = 0;
+          const w = overlaySlider.clientWidth || 1;
+          const idx = Math.round(overlaySlider.scrollLeft / w);
+          if (idx !== current) updateActive(idx);
+        });
+      }, { passive: true });
+    }
+
     const open = (card) => {
       // Build image list from the card
       images = Array.from(card.querySelectorAll('.room-slider img')).map((img) => ({
@@ -737,6 +1057,8 @@
         const el = document.createElement('img');
         el.src = data.src;
         el.alt = data.alt;
+        el.decoding = 'async';
+        el.loading = (idx === 0) ? 'eager' : 'lazy';
         if (idx === 0) el.classList.add('active');
         overlaySlider.appendChild(el);
       });
@@ -756,7 +1078,7 @@
         btn.addEventListener('click', (ev) => {
           ev.stopPropagation();
           const dir = idx > current ? 1 : -1;
-          animateTo(idx, dir);
+          goTo(idx, dir);
         });
         overlayDots.appendChild(btn);
       });
@@ -765,6 +1087,8 @@
       Array.from(getOverlayImgs()).forEach((imgEl) => {
         imgEl.addEventListener('click', (ev) => {
           ev.stopPropagation();
+          // If the user just swiped, ignore the synthetic click
+          if (native && overlaySlider.dataset.dragging === '1') return;
           overlay.classList.toggle('full-photo-mode');
         });
       });
@@ -778,7 +1102,11 @@
       overlay.classList.toggle('single-image', images.length <= 1);
 
       // Ensure first state is correct
-      updateActive(0);
+      if (native) {
+        scrollToIndex(0, 'auto');
+      } else {
+        updateActive(0);
+      }
     };
 
     const close = () => {
@@ -806,23 +1134,26 @@
       ev.stopPropagation();
       if (images.length < 2) return;
       const prevIndex = (current - 1 + images.length) % images.length;
-      animateTo(prevIndex, -1);
+      goTo(prevIndex, -1);
     });
 
     on(nextBtn, 'click', (ev) => {
       ev.stopPropagation();
       if (images.length < 2) return;
       const nextIndex = (current + 1) % images.length;
-      animateTo(nextIndex, +1);
+      goTo(nextIndex, +1);
     });
 
-    // Swipe on overlay slider (use a getter because slides are rebuilt on open)
-    attachSwipe(
-      overlaySlider,
-      () => overlaySlider.querySelectorAll('img'),
-      () => current,
-      (newIndex) => updateActive(newIndex)
-    );
+    // Swipe on overlay slider
+    if (!native) {
+      // Use a getter because slides are rebuilt on open
+      attachSwipe(
+        overlaySlider,
+        () => overlaySlider.querySelectorAll('img'),
+        () => current,
+        (newIndex) => updateActive(newIndex)
+      );
+    }
 
     // Wire room cards to open overlay (only if overlay exists)
     qsa('.room-card').forEach((card) => {
@@ -831,6 +1162,10 @@
         if (event.target.closest('.room-reserve-btn')) return;
         if (event.target.closest('.details-btn')) return;
         if (event.target.closest('.room-dots')) return;
+
+        // If the user is swiping the room carousel, ignore the synthetic click
+        const roomSlider = event.target.closest('.room-slider');
+        if (roomSlider && roomSlider.dataset && roomSlider.dataset.dragging === '1') return;
 
         // Only open when clicking an actual image
         const clickedImg = event.target.closest('.room-image img');
