@@ -45,17 +45,27 @@ document.addEventListener("DOMContentLoaded", () => {
   // CSS class pattern: big, tall, wide, default, default, wide, tall, big
   const patternClasses = ['big', 'tall', 'wide', '', '', 'wide', 'tall', 'big'];
   const NUM_GALLERY_IMAGES = 99;
+  // Indices (1‑based) of photos to exclude from the gallery.  The gallery
+  // script will skip these indices when building the list of local images.
+  const excludedIndices = new Set([1, 2, 3, 7, 9, 18, 19, 30, 32, 36, 40, 41, 49, 50, 57, 65, 74, 75, 77, 79, 84, 85, 86, 88, 98, 99]);
   // Build an array of image descriptors.  Use two‑digit numbers for
   // consistency (01 to 99).  If a corresponding file does not exist,
   // the browser will fall back to a broken link; users should
   // populate the gallery folder with their own photos.
-  const localImages = Array.from({ length: NUM_GALLERY_IMAGES }, (_, i) => {
-    const num = String(i + 1).padStart(2, '0');
+  // Build the list of gallery images while filtering out excluded indices.
+  // Use a let declaration because we post-filter the array based on excludedIndices.
+  let localImages = Array.from({ length: NUM_GALLERY_IMAGES }, (_, i) => {
+    const index = i + 1;
+    // Skip any indices that are marked as excluded
+    if (excludedIndices.has(index)) {
+      return null;
+    }
+    const num = String(index).padStart(2, '0');
     return {
       src: `assets/images/gallery/gallery-${num}.jpg`,
-      alt: `Photo ${i + 1}`
+      alt: `Photo ${index}`
     };
-  });
+  }).filter(Boolean);
   // Clear existing static thumbnails
   galleryGrid.innerHTML = '';
   // Create gallery items dynamically
