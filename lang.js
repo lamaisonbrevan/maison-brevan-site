@@ -116,11 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
       'cgv.title': 'Conditions générales de vente'
       ,
       // Price tags for each room (à partir de ... / nuit)
-      'price.brevan': 'à partir de 115€ / nuit',
-      'price.aulne': 'à partir de 105€ / nuit',
-      'price.havel': 'à partir de 105€ / nuit',
-      'price.heol': 'à partir de 95€ / nuit',
-      'price.linenn': 'à partir de 95€ / nuit',
+      'price.brevan': 'à partir de 120€ / nuit',
+      'price.aulne': 'à partir de 110€ / nuit',
+      // (Avel price is defined later under 'price.avel')
+      'price.heol': 'à partir de 100€ / nuit',
+      'price.linenn': 'à partir de 100€ / nuit',
       // Amenities
       'amenity.shower': 'Grande douche italienne',
       'amenity.fire': 'Cheminée',
@@ -128,6 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'amenity.wifi': 'Wifi gratuit',
       'amenity.nosmoking': 'Non fumeur',
       'amenity.bed': 'Lit King‑size',
+      'amenity.breakfastIncluded': 'Petit déjeuner inclus',
       'amenity.tv': 'Télévision',
       // Buttons
       'button.details': 'Plus de détails',
@@ -149,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'room.avel.desc': 'Authentique et équilibrée, Avel reflète l’âme de la maison. Pierre, bois et volumes généreux composent une chambre chaleureuse et intemporelle.',
       'room.avel.detail': 'Cette chambre met à l’honneur les pierres bleues de la région qui habillent ses murs. L’espace de 20 m² est optimisé pour le confort avec un lit king‑size et une grande douche. La décoration mêle bois et textiles naturels pour une ambiance sereine.',
       'room.avel.features': 'Lit king‑size (2 clients) • 20 m²',
-      'price.avel': 'à partir de 105€ / nuit',
+      'price.avel': 'à partir de 110€ / nuit',
       // Feature lines for each room: bed size and surface area
       'room.chemin.features': 'Lit king‑size (2 clients) • 25 m²',
       'room.baign.features': 'Lit king‑size (2 clients) • 25 m²',
@@ -251,11 +252,11 @@ document.addEventListener('DOMContentLoaded', () => {
       'cgv.title': 'Terms and conditions'
       ,
       // Price tags for each room (from ... / night)
-      'price.brevan': 'from €110 / night',
-      'price.aulne': 'from €100 / night',
-      'price.havel': 'from €100 / night',
-      'price.heol': 'from €90 / night',
-      'price.linenn': 'from €90 / night',
+      'price.brevan': 'from €115 / night',
+      'price.aulne': 'from €105 / night',
+      // (Avel price is defined later under 'price.avel')
+      'price.heol': 'from €95 / night',
+      'price.linenn': 'from €95 / night',
       // Amenities
       'amenity.shower': 'Italian shower',
       'amenity.fire': 'Fireplace',
@@ -263,6 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'amenity.wifi': 'Free wifi',
       'amenity.nosmoking': 'Non smoking',
       'amenity.bed': 'King-size bed',
+      'amenity.breakfastIncluded': 'Breakfast included',
       'amenity.tv': 'Television',
       // Buttons
       'button.details': 'More details',
@@ -284,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'room.avel.desc': 'Authentic and balanced, Avel reflects the soul of the house. Stone, wood and generous volumes compose a warm and timeless room.',
       'room.avel.detail': 'This room celebrates the region’s blue stones adorning its walls. The 20 m² space is optimised for comfort with a king-size bed and a large shower. The décor blends wood and natural textiles for a serene ambience.',
       'room.avel.features': 'King-size bed (2 guests) • 20 m²',
-      'price.avel': 'from €100 / night',
+      'price.avel': 'from €105 / night',
       // Feature lines for each room: bed size and surface area
       'room.chemin.features': 'King-size bed (2 guests) • 25 m²',
       'room.baign.features': 'King-size bed (2 guests) • 25 m²',
@@ -430,11 +432,11 @@ document.addEventListener('DOMContentLoaded', () => {
       'around.conclusion.p1': 'Alojarse en La Maison Brévan es elegir un lugar central y apacible, en la encrucijada entre mar, naturaleza y patrimonio.',
       'around.conclusion.p2': 'Una dirección pensada para quienes desean descubrir Bretaña con elegancia, libertad y serenidad',
       // Price tags for each room (desde ... / noche)
-      'price.chemin': 'desde 110€ / noche',
-      'price.baign': 'desde 100€ / noche',
-      'price.pierre': 'desde 95€ / noche',
-      'price.ensoleil': 'desde 90€ / noche',
-      'price.petite': 'desde 85€ / noche',
+      'price.chemin': 'desde 115€ / noche',
+      'price.baign': 'desde 105€ / noche',
+      'price.pierre': 'desde 100€ / noche',
+      'price.ensoleil': 'desde 95€ / noche',
+      'price.petite': 'desde 90€ / noche',
       // Amenities
       'amenity.shower': 'Ducha italiana',
       'amenity.fire': 'Chimenea',
@@ -442,6 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'amenity.wifi': 'Wifi gratuito',
       'amenity.nosmoking': 'No fumadores',
       'amenity.bed': 'Cama King-size',
+      'amenity.breakfastIncluded': 'Desayuno incluido',
       'amenity.tv': 'Televisión',
       // Buttons
       'button.details': 'Más detalles',
@@ -463,7 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'room.avel.desc': 'Auténtica y equilibrada, Avel refleja el alma de la casa. Piedra, madera y generosos volúmenes componen una habitación cálida e intemporal.',
       'room.avel.detail': 'Esta habitación rinde homenaje a las piedras azules de la región que visten sus muros. El espacio de 20 m² está optimizado para el confort con una cama king‑size y una gran ducha. La decoración mezcla madera y tejidos naturales para un ambiente sereno.',
       'room.avel.features': 'Cama king‑size (2 huéspedes) • 20 m²',
-      'price.avel': 'desde 100€ / noche',
+      'price.avel': 'desde 105€ / noche',
       // Feature lines for each room: bed size and surface area
       'room.chemin.features': 'Cama king‑size (2 huéspedes) • 25 m²',
       'room.baign.features': 'Cama king‑size (2 huéspedes) • 25 m²',
@@ -498,11 +501,10 @@ document.addEventListener('DOMContentLoaded', () => {
       'room.linenn.detail': 'Esta acogedora habitación de 16 m² es ideal para una escapada íntima. A pesar de su tamaño, ofrece una cama king‑size, una ducha italiana y soluciones de almacenamiento ingeniosas. La decoración cuidadosa y la iluminación suave crean un capullo reposante.',
       'room.linenn.features': 'Cama king‑size (2 huéspedes) • 16 m²',
       // Price tags for the renamed rooms (desde ... / noche)
-      'price.brevan': 'desde 115€ / noche',
-      'price.aulne': 'desde 105€ / noche',
-      'price.havel': 'desde 105€ / noche',
-      'price.heol': 'desde 95€ / noche',
-      'price.linenn': 'desde 95€ / noche',
+      'price.brevan': 'desde 120€ / noche',
+      'price.aulne': 'desde 110€ / noche',
+      'price.heol': 'desde 100€ / noche',
+      'price.linenn': 'desde 100€ / noche',
       // Around page content (Spanish translation)
       'around.title': 'Alrededor de la Maison Brévan',
       'around.intro.p1': 'Situada en el corazón de Châteaulin, La Maison Brévan goza de una ubicación privilegiada, entre valles verdes, litoral salvaje y pueblos con carácter.',
@@ -616,11 +618,11 @@ document.addEventListener('DOMContentLoaded', () => {
       'around.conclusion.p1': 'Ein Aufenthalt in La Maison Brévan bedeutet, einen zentralen und ruhigen Ort an der Kreuzung zwischen Meer, Natur und Kulturerbe zu wählen.',
       'around.conclusion.p2': 'Eine Adresse für jene, die die Bretagne mit Eleganz, Freiheit und Gelassenheit entdecken möchten',
       // Price tags for each room (ab ... / Nacht)
-      'price.chemin': 'ab 110€ / Nacht',
-      'price.baign': 'ab 100€ / Nacht',
-      'price.pierre': 'ab 95€ / Nacht',
-      'price.ensoleil': 'ab 90€ / Nacht',
-      'price.petite': 'ab 85€ / Nacht',
+      'price.chemin': 'ab 115€ / Nacht',
+      'price.baign': 'ab 105€ / Nacht',
+      'price.pierre': 'ab 100€ / Nacht',
+      'price.ensoleil': 'ab 95€ / Nacht',
+      'price.petite': 'ab 90€ / Nacht',
       // Amenities
       'amenity.shower': 'Italienische Dusche',
       'amenity.fire': 'Kamin',
@@ -628,6 +630,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'amenity.wifi': 'Kostenloses WLAN',
       'amenity.nosmoking': 'Nichtraucher',
       'amenity.bed': 'Kingsize‑Bett',
+      'amenity.breakfastIncluded': 'Frühstück inklusive',
       'amenity.tv': 'Fernseher',
       // Buttons
       'button.details': 'Mehr Details',
@@ -649,7 +652,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'room.avel.desc': 'Authentisch und ausgewogen spiegelt Avel die Seele des Hauses wider. Stein, Holz und großzügige Volumen bilden ein warmes und zeitloses Zimmer.',
       'room.avel.detail': 'Dieses Zimmer stellt die blauen Steine der Region in den Mittelpunkt, die seine Wände schmücken. Der 20 m² große Raum ist für den Komfort optimiert mit einem Kingsize‑Bett und einer großen Dusche. Die Dekoration verbindet Holz und natürliche Stoffe für eine ruhige Atmosphäre.',
       'room.avel.features': 'Kingsize‑Bett (2 Gäste) • 20 m²',
-      'price.avel': 'ab 105€ / Nacht',
+      'price.avel': 'ab 110€ / Nacht',
       // Feature lines for each room: bed size and surface area
       'room.chemin.features': 'Kingsize‑Bett (2 Gäste) • 25 m²',
       'room.baign.features': 'Kingsize‑Bett (2 Gäste) • 25 m²',
@@ -684,11 +687,11 @@ document.addEventListener('DOMContentLoaded', () => {
       'room.linenn.detail': 'Dieses gemütliche 16 m² große Zimmer ist ideal für einen intimen Kurzurlaub. Trotz seiner Größe bietet es ein Kingsize‑Bett, eine italienische Dusche und clevere Stauraumlösungen. Die sorgfältige Dekoration und die sanfte Beleuchtung schaffen einen erholsamen Kokon.',
       'room.linenn.features': 'Kingsize‑Bett (2 Gäste) • 16 m²',
       // Price tags for the renamed rooms (ab ... / Nacht)
-      'price.brevan': 'ab 115€ / Nacht',
-      'price.aulne': 'ab 105€ / Nacht',
-      'price.havel': 'ab 105€ / Nacht',
-      'price.heol': 'ab 95€ / Nacht',
-      'price.linenn': 'ab 95€ / Nacht',
+      'price.brevan': 'ab 120€ / Nacht',
+      'price.aulne': 'ab 110€ / Nacht',
+      'price.havel': 'ab 110€ / Nacht',
+      'price.heol': 'ab 100€ / Nacht',
+      'price.linenn': 'ab 100€ / Nacht',
       // Around page content (German translation)
       'around.title': 'Rund um die Maison Brévan',
       'around.intro.p1': 'Im Herzen von Châteaulin gelegen, genießt La Maison Brévan eine privilegierte Lage zwischen grünen Tälern, wilder Küste und charaktervollen Dörfern.',

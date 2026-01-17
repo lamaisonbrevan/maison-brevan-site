@@ -57,8 +57,8 @@
    * - OR a function returning a fresh NodeList/Array (useful when slides are rebuilt)
    *
    * options:
-   * - onStart(): called on touchstart
-   * - onEnd(): called at the end of touchend processing
+   * - onStart(): called when a *horizontal* swipe is detected (useful to pause autoplay)
+   * - onEnd(): called at the end of swipe processing
    */
   function attachSwipe(container, imgList, getIndex, setIndex, options = {}) {
     if (!container) return;
@@ -70,81 +70,142 @@
     };
 
     let startX = null;
-    let isDragging = false;
+    let startY = null;
+    let isTracking = false;
+    let axisLocked = false;
+    let isHorizontal = false;
+    let didStart = false;
+
     let containerWidth = 0;
     let currentIndex = 0;
 
     // Velocity tracking
     let startTime = 0;
-    let lastX = 0;
     let lastTime = 0;
+    let lastX = 0;
+
+    const resetInlineStyles = (imgs) => {
+      imgs.forEach((img) => {
+        img.style.transition = '';
+        img.style.transform = '';
+        img.style.opacity = '';
+      });
+    };
+
+    const finish = () => {
+      startX = null;
+      startY = null;
+      isTracking = false;
+      axisLocked = false;
+      isHorizontal = false;
+      didStart = false;
+    };
 
     on(container, 'touchstart', (e) => {
       const imgs = resolveImgs();
       if (imgs.length < 2) return;
 
-      startX = e.touches[0].clientX;
-      isDragging = true;
+      const t = e.touches[0];
+      startX = t.clientX;
+      startY = t.clientY;
+      isTracking = true;
+      axisLocked = false;
+      isHorizontal = false;
+      didStart = false;
+
       containerWidth = container.offsetWidth || 1;
       currentIndex = Number(getIndex()) || 0;
 
       startTime = Date.now();
-      lastX = startX;
       lastTime = startTime;
-
-      // Disable transitions during drag
-      imgs.forEach((img) => {
-        img.style.transition = 'none';
-      });
-
-      if (typeof opts.onStart === 'function') opts.onStart();
+      lastX = startX;
     }, { passive: true });
 
     on(container, 'touchmove', (e) => {
-      if (!isDragging || startX === null) return;
+      if (!isTracking || startX === null || startY === null) return;
 
       const imgs = resolveImgs();
       if (imgs.length < 2) return;
 
-      const diff = e.touches[0].clientX - startX;
+      const t = e.touches[0];
+      const diffX = t.clientX - startX;
+      const diffY = t.clientY - startY;
+
+      // Decide once whether the gesture is horizontal or vertical.
+      if (!axisLocked) {
+        const absX = Math.abs(diffX);
+        const absY = Math.abs(diffY);
+        const axisThreshold = 6; // px
+
+        if (absX < axisThreshold && absY < axisThreshold) return;
+
+        axisLocked = true;
+        isHorizontal = absX > absY;
+
+        if (!isHorizontal) {
+          // Let the page scroll vertically.
+          finish();
+          return;
+        }
+
+        // Horizontal swipe has started: pause autoplay etc.
+        didStart = true;
+        if (typeof opts.onStart === 'function') opts.onStart();
+
+        // Disable transitions during drag
+        imgs.forEach((img) => {
+          img.style.transition = 'none';
+        });
+      }
+
+      if (!isHorizontal) return;
+
+      // Prevent vertical scrolling while swiping horizontally.
+      if (e.cancelable) e.preventDefault();
+
       const currentImg = imgs[currentIndex];
       if (!currentImg) return;
 
-      currentImg.style.transform = `translateX(${diff}px)`;
+      currentImg.style.transform = `translateX(${diffX}px)`;
 
-      lastX = e.touches[0].clientX;
+      lastX = t.clientX;
       lastTime = Date.now();
 
       // Move neighbour alongside
-      if (diff < 0) {
+      if (diffX < 0) {
         const neighbourIdx = (currentIndex + 1) % imgs.length;
         const neighbourImg = imgs[neighbourIdx];
         if (neighbourImg) {
           neighbourImg.style.opacity = '1';
-          neighbourImg.style.transform = `translateX(${containerWidth + diff}px)`;
+          neighbourImg.style.transform = `translateX(${containerWidth + diffX}px)`;
         }
-      } else if (diff > 0) {
+      } else if (diffX > 0) {
         const neighbourIdx = (currentIndex - 1 + imgs.length) % imgs.length;
         const neighbourImg = imgs[neighbourIdx];
         if (neighbourImg) {
           neighbourImg.style.opacity = '1';
-          neighbourImg.style.transform = `translateX(${-containerWidth + diff}px)`;
+          neighbourImg.style.transform = `translateX(${-containerWidth + diffX}px)`;
         }
       }
-    }, { passive: true });
+    }, { passive: false });
 
     on(container, 'touchend', (e) => {
-      if (!isDragging || startX === null) return;
+      if (!isTracking || startX === null || startY === null) return;
 
       const imgs = resolveImgs();
       if (imgs.length < 2) {
-        startX = null;
-        isDragging = false;
-        if (typeof opts.onEnd === 'function') opts.onEnd();
+        finish();
         return;
       }
 
-      const diff = e.changedTouches[0].clientX - startX;
+      // If we never locked the axis (tap) or it wasn't a horizontal swipe, do nothing.
+      if (!axisLocked || !isHorizontal) {
+        finish();
+        return;
+      }
+
+      const endX = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientX : lastX;
+      const diff = endX - startX;
 
       // Restore transitions (we will set precise ones on the 2 relevant slides)
       imgs.forEach((img) => {
@@ -154,8 +215,8 @@
       const elapsed = (lastTime - startTime) || 1;
       const velocity = diff / elapsed;
 
-      const threshold = containerWidth * 0.2;        // distance threshold (20%)
-      const velocityThreshold = 0.5;                // px/ms
+      const threshold = containerWidth * 0.2;  // distance threshold (20%)
+      const velocityThreshold = 0.5;          // px/ms
 
       const shouldAdvance = (Math.abs(diff) > threshold) || (Math.abs(velocity) > velocityThreshold);
 
@@ -165,16 +226,11 @@
 
         const currentImg = imgs[currentIndex];
         const nextImg = imgs[newIndex];
+
         if (!currentImg || !nextImg) {
-          // Fallback reset
-          imgs.forEach((img) => {
-            img.style.transform = '';
-            img.style.opacity = '';
-            img.style.transition = '';
-          });
-          startX = null;
-          isDragging = false;
+          resetInlineStyles(imgs);
           if (typeof opts.onEnd === 'function') opts.onEnd();
+          finish();
           return;
         }
 
@@ -189,16 +245,8 @@
         nextImg.style.transform = 'translateX(0)';
 
         nextImg.addEventListener('transitionend', () => {
-          // Cleanup inline drag styles
-          imgs.forEach((img) => {
-            img.style.transition = '';
-            img.style.transform = '';
-            img.style.opacity = '';
-          });
-
-          // Update index without triggering a second animation
+          resetInlineStyles(imgs);
           setIndex(newIndex, direction);
-
           if (typeof opts.onEnd === 'function') opts.onEnd();
         }, { once: true });
       } else {
@@ -217,8 +265,16 @@
         if (typeof opts.onEnd === 'function') opts.onEnd();
       }
 
-      startX = null;
-      isDragging = false;
+      finish();
+    });
+
+    on(container, 'touchcancel', () => {
+      const imgs = resolveImgs();
+      if (didStart) {
+        resetInlineStyles(imgs);
+        if (typeof opts.onEnd === 'function') opts.onEnd();
+      }
+      finish();
     });
   }
 
@@ -284,7 +340,12 @@
   // Nav letter wave wrapper (exported for lang.js)
   // ---------------------------------------------------------------------------
   window.wrapNavLetters = function wrapNavLetters() {
-    const targets = qsa('.nav-left a, .nav-right a, .room-reserve-btn, .price-tag');
+    // NOTE:
+    // Do NOT apply the per-letter wrapping effect to price tags.
+    // Wrapping each character in <span> elements allows line-breaks
+    // *between* letters (e.g. "nui" + "t"), which breaks readability
+    // on mobile and was the root cause of the reported issue.
+    const targets = qsa('.nav-left a, .nav-right a, .room-reserve-btn');
 
     targets.forEach((el) => {
       const text = (el.textContent || '').trim();

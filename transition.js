@@ -66,8 +66,13 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('pageshow', (event) => {
   // When navigating back/forward via the browser, the page may be
   // restored from the back‑forward cache (bfcache) and DOMContentLoaded
-  // will not fire.  Regardless of whether the event is persisted, clear
-  // any exit/enter classes and replay the entry animation on the
+  // will not fire.  Only handle the bfcache case; running this on every
+  // normal page load causes a visible “double load” because the entry
+  // animation gets reset and replayed immediately.
+
+  if (!event.persisted) return;
+
+  // Clear any exit/enter classes and replay the entry animation on the
   // wrapper or body.  Without this, pages loaded from the bfcache
   // sometimes remain hidden behind an exit transformation.
   const wrapper = document.querySelector('.page-wrapper');

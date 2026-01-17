@@ -9,7 +9,12 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;family=Playfair+Display:wght@400;600&amp;display=swap" rel="stylesheet"/>
 <link href="style.css" rel="stylesheet"/>
-<script defer="" src="lang.js"></script>
+<!-- Performance: preload the first hero image for faster LCP on mobile. -->
+<link rel="preload" as="image" href="assets/images/hero/hero-01.jpg" fetchpriority="high" />
+
+<script defer src="lang.js"></script>
+<script defer src="script.js"></script>
+<script defer src="transition.js"></script>
 <link href="assets/images/logo-symbol.png" rel="icon"/><meta content="La Maison Brevan" property="og:title"/><meta content="Chambres d’hôtes de charme à Châteaulin (Bretagne) — La Maison Brevan. Suites élégantes, matériaux naturels, accueil chaleureux." property="og:description"/><meta content="website" property="og:type"/><meta content="assets/images/logo-symbol.png" property="og:image"/><meta content="fr_FR" property="og:locale"/><meta content="summary_large_image" name="twitter:card"/><meta content="La Maison Brevan" name="twitter:title"/><meta content="Chambres d’hôtes de charme à Châteaulin (Bretagne) — La Maison Brevan. Suites élégantes, matériaux naturels, accueil chaleureux." name="twitter:description"/><meta content="assets/images/logo-symbol.png" name="twitter:image"/>
 <link rel="canonical" href="https://lamaisonbrevan.fr/">
 <script type="application/ld+json">
@@ -39,46 +44,6 @@
 }
 </script>
 </head>
-
-      <link rel="canonical" href="https://lamaisonbrevan.fr/" />
-    <meta name="description" content="Chambres d’hôtes de charme à Châteaulin dans le Finistère (Bretagne). Suites élégantes, matériaux naturels, accueil chaleureux à La Maison Brevan." />
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BedAndBreakfast",
-      "name": "La Maison Brevan",
-      "description": "Chambres d’hôtes de charme à Châteaulin, Finistère. Suites élégantes, matériaux naturels et accueil chaleureux.",
-      "url": "https://lamaisonbrevan.fr/",
-      "telephone": "+33 7 62 57 69 58",
-      "email": "contact@lamaisonbrevan.fr",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "29 Grand Rue",
-        "addressLocality": "Châteaulin",
-        "postalCode": "29150",
-        "addressRegion": "Bretagne",
-        "addressCountry": "FR"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 48.195389,
-        "longitude": -4.094207
-      },
-      "priceRange": "€€",
-      "image": [
-        "https://lamaisonbrevan.fr/assets/images/logo-symbol.png"
-      ],
-      "amenityFeature": [
-        {"@type": "LocationFeatureSpecification", "name": "Wifi gratuit", "value": true},
-        {"@type": "LocationFeatureSpecification", "name": "Lit king-size", "value": true},
-        {"@type": "LocationFeatureSpecification", "name": "Douche italienne", "value": true},
-        {"@type": "LocationFeatureSpecification", "name": "Non fumeur", "value": true}
-      ],
-      "sameAs": [
-        "https://www.instagram.com/maisonbrevan/"
-      ]
-    }
-    </script>
 <body>
 <!-- Header -->
 <!-- Site header with central badge and navigation -->
@@ -102,7 +67,7 @@
     <!-- Badge linking back to the top of this page (home section).  On mobile
          the badge will be centered between the menu and language selector. -->
     <a class="site-title-badge" href="#home" onclick="scrollToTop(event)">
-      <img alt="Logo Maison Brevan" class="logo-symbol" decoding="async" loading="lazy" src="assets/images/logo-symbol.png"/>
+      <img alt="Logo Maison Brevan" class="logo-symbol" decoding="async" loading="eager" src="assets/images/logo-symbol.png"/>
       <span>LA MAISON BREVAN</span>
     </a>
 <!-- Language selector: shows current language flag and opens a dropdown on click -->
@@ -170,9 +135,13 @@
 <img alt="Suite Brévan 1" decoding="async" loading="lazy" src="assets/images/rooms/brevan/brevan-01.jpg"/><img alt="Suite Brévan 2" decoding="async" loading="lazy" src="assets/images/rooms/brevan/brevan-02.jpg"/><img alt="Suite Brévan 3" decoding="async" loading="lazy" src="assets/images/rooms/brevan/brevan-03.jpg"/><img alt="Suite Brévan 4" decoding="async" loading="lazy" src="assets/images/rooms/brevan/brevan-04.jpg"/><img alt="Suite Brévan 5" decoding="async" loading="lazy" src="assets/images/rooms/brevan/brevan-05.jpg"/></div>
 <div class="room-dots">
 <button aria-label="Slide 1"></button><button aria-label="Slide 2"></button><button aria-label="Slide 3"></button><button aria-label="Slide 4"></button><button aria-label="Slide 5"></button></div>
-</div><div class="room-header"><h3 data-i18n="room.brevan.name">Suite Brévan</h3><a class="price-tag" data-i18n="price.brevan" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE" data-transition="">à partir de 110€ / nuit</a></div>
+</div><div class="room-header"><h3 data-i18n="room.brevan.name">Suite Brévan</h3><a class="price-tag" data-i18n="price.brevan" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE" data-transition="">à partir de 120€ / nuit</a></div>
 <!-- Updated name and description for Suite Minérale -->
 <p data-i18n="room.brevan.desc">Une suite élégante mêlant pierre naturelle et design contemporain. La baignoire intégrée et l’atmosphère feutrée en font un véritable cocon dédié à la détente et au confort.</p>
+<div class="breakfast-info">
+  <img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/breakfast.svg"/>
+  <span data-i18n="amenity.breakfastIncluded">Petit déjeuner inclus</span>
+</div>
 <!-- Replace the features line with a bed icon and text -->
 <div class="bed-info">
 <img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/bed.svg"/>
@@ -202,9 +171,13 @@
 <!-- Updated price tag for La Canopée (100 €) -->
 <div class="room-dots">
 <button aria-label="Slide 1"></button><button aria-label="Slide 2"></button><button aria-label="Slide 3"></button><button aria-label="Slide 4"></button><button aria-label="Slide 5"></button></div>
-</div><div class="room-header"><h3 data-i18n="room.aulne.name">L’Aulne</h3><a class="price-tag" data-i18n="price.aulne" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE" data-transition="">à partir de 100€ / nuit</a></div>
+</div><div class="room-header"><h3 data-i18n="room.aulne.name">L’Aulne</h3><a class="price-tag" data-i18n="price.aulne" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE" data-transition="">à partir de 110€ / nuit</a></div>
 <!-- Updated name and description for La Canopée -->
 <p data-i18n="room.aulne.desc">Douce et lumineuse, La Canopée séduit par son esprit bohème et ses matières naturelles. Une chambre pleine de charme, propice au lâcher‑prise.</p>
+<div class="breakfast-info">
+  <img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/breakfast.svg"/>
+  <span data-i18n="amenity.breakfastIncluded">Petit déjeuner inclus</span>
+</div>
 <!-- Replace the features line with a bed icon and text -->
 <div class="bed-info">
 <img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/bed.svg"/>
@@ -230,9 +203,13 @@
 <!-- Updated price tag for La Brévan (95 €) -->
 <div class="room-dots">
 <button aria-label="Slide 1"></button><button aria-label="Slide 2"></button><button aria-label="Slide 3"></button><button aria-label="Slide 4"></button><button aria-label="Slide 5"></button></div>
-</div><div class="room-header"><h3 data-i18n="room.avel.name">Avel</h3><a class="price-tag" data-i18n="price.avel" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE" data-transition="">à partir de 100€ / nuit</a></div>
+</div><div class="room-header"><h3 data-i18n="room.avel.name">Avel</h3><a class="price-tag" data-i18n="price.avel" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE" data-transition="">à partir de 110€ / nuit</a></div>
 <!-- Updated name and description for La Brévan -->
 <p data-i18n="room.avel.desc">Authentique et équilibrée, La Brévan reflète l’âme de la maison. Pierre, bois et volumes généreux composent une chambre chaleureuse et intemporelle.</p>
+<div class="breakfast-info">
+  <img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/breakfast.svg"/>
+  <span data-i18n="amenity.breakfastIncluded">Petit déjeuner inclus</span>
+</div>
 <!-- Replace the features line with a bed icon and text -->
 <div class="bed-info">
 <img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/bed.svg"/>
@@ -257,9 +234,13 @@
 <!-- Updated price tag for La Clairière (90 €) -->
 <div class="room-dots">
 <button aria-label="Slide 1"></button><button aria-label="Slide 2"></button><button aria-label="Slide 3"></button><button aria-label="Slide 4"></button><button aria-label="Slide 5"></button></div>
-</div><div class="room-header"><h3 data-i18n="room.heol.name">Heol</h3><a class="price-tag" data-i18n="price.heol" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE" data-transition="">à partir de 90€ / nuit</a></div>
+</div><div class="room-header"><h3 data-i18n="room.heol.name">Heol</h3><a class="price-tag" data-i18n="price.heol" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE" data-transition="">à partir de 100€ / nuit</a></div>
 <!-- Updated name and description for La Clairière -->
 <p data-i18n="room.heol.desc">Claire et accueillante, La Clairière offre une atmosphère simple et élégante. Un refuge lumineux pour un séjour tout en douceur.</p>
+<div class="breakfast-info">
+  <img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/breakfast.svg"/>
+  <span data-i18n="amenity.breakfastIncluded">Petit déjeuner inclus</span>
+</div>
 <!-- Replace the features line with a bed icon and text -->
 <div class="bed-info">
 <img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/bed.svg"/>
@@ -284,9 +265,13 @@
 <!-- Updated price tag for Le Cocon (85 €) -->
 <div class="room-dots">
 <button aria-label="Slide 1"></button><button aria-label="Slide 2"></button><button aria-label="Slide 3"></button><button aria-label="Slide 4"></button><button aria-label="Slide 5"></button></div>
-</div><div class="room-header"><h3 data-i18n="room.linenn.name">Linenn</h3><a class="price-tag" data-i18n="price.linenn" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE" data-transition="">à partir de 90€ / nuit</a></div>
+</div><div class="room-header"><h3 data-i18n="room.linenn.name">Linenn</h3><a class="price-tag" data-i18n="price.linenn" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE" data-transition="">à partir de 100€ / nuit</a></div>
 <!-- Updated name and description for Le Cocon -->
 <p data-i18n="room.linenn.desc">Intimiste et apaisante, Le Cocon porte bien son nom. Une chambre cosy, idéale pour une halte confortable et reposante.</p>
+<div class="breakfast-info">
+  <img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/breakfast.svg"/>
+  <span data-i18n="amenity.breakfastIncluded">Petit déjeuner inclus</span>
+</div>
 <!-- Replace the features line with a bed icon and text -->
 <div class="bed-info">
 <img alt="" aria-hidden="true" decoding="async" loading="lazy" src="assets/icons/bed.svg"/>
@@ -421,10 +406,6 @@
 </div>
 </div>
 </footer>
-<script src="script.js"></script>
-<!-- Page turn transition script: applies a 3D flip when navigating
-       between pages via links marked with data‑transition -->
-<script src="transition.js"></script>
 <!-- Room Details Overlay: Hidden by default, shown when a room card is clicked -->
         <div aria-hidden="true" class="room-overlay" id="roomOverlay">
           <div class="overlay-content">

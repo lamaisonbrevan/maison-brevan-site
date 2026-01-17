@@ -1,418 +1,163 @@
 <!DOCTYPE html>
-
 <html lang="fr">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Galerie – Chambres et maison d’hôtes La Maison Brevan à Châteaulin</title><meta name="description" content="Parcourez la galerie photo de La Maison Brevan : découvrez nos chambres, les espaces communs et l’atmosphère unique de notre maison d’hôtes à Châteaulin.">
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;family=Playfair+Display:wght@400;600&amp;display=swap" rel="stylesheet"/>
-<link href="style.css" rel="stylesheet"/>
-<script defer="" src="lang.js"></script>
-  <!-- Load core site behaviours (slider, overlay, mobile nav toggle).  This script is required on all pages for the menu and other interactive features. -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galerie – Chambres et maison d’hôtes La Maison Brevan à Châteaulin</title>
+  <meta name="description" content="Parcourez la galerie photo de La Maison Brevan : découvrez nos chambres, les espaces communs et l’atmosphère unique de notre maison d’hôtes à Châteaulin." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;family=Playfair+Display:wght@400;600&amp;display=swap" />
+  <link rel="stylesheet" href="style.css" />
+
+  <script defer src="lang.js"></script>
   <script defer src="script.js"></script>
-<script defer="" src="gallery.js"></script>
-<!-- Page turn transition script: triggers the 3D flip effect when navigating
-       between pages via links with data‑transition.  Loaded after the
-       gallery script. -->
-<script src="transition.js"></script>
-<link href="assets/images/logo-symbol.png" rel="icon"/><meta content="La Maison Brevan – Galerie" property="og:title"/><meta content="La Maison Brevan vous invite à parcourir sa galerie photo : découvrez nos chambres, les espaces communs et l'atmosphère de notre maison d'hôtes." property="og:description"/><meta content="website" property="og:type"/><meta content="assets/images/logo-symbol.png" property="og:image"/><meta content="fr_FR" property="og:locale"/><meta content="summary_large_image" name="twitter:card"/><meta content="La Maison Brevan – Galerie" name="twitter:title"/><meta content="La Maison Brevan vous invite à parcourir sa galerie photo : découvrez nos chambres, les espaces communs et l'atmosphère de notre maison d'hôtes." name="twitter:description"/><meta content="assets/images/logo-symbol.png" name="twitter:image"/>
-<link rel="canonical" href="https://lamaisonbrevan.fr/gallery.html">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BedAndBreakfast",
-  "@id": "https://lamaisonbrevan.fr/#maison-brevan",
-  "name": "La Maison Brevan",
-  "url": "https://lamaisonbrevan.fr/",
-  "telephone": "+33 7 62 57 69 58",
-  "email": "contact@lamaisonbrevan.fr",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "29 Grand Rue",
-    "addressLocality": "Châteaulin",
-    "postalCode": "29150",
-    "addressRegion": "Bretagne",
-    "addressCountry": "FR"
-  },
-  "image": [
-    "https://lamaisonbrevan.fr/assets/images/logo-symbol.png"
-  ],
-  "sameAs": [
-    "https://www.instagram.com/maisonbrevan/",
-    "https://www.facebook.com/profile.php?id=61585826054527"
-  ]
-}
-</script>
+  <script defer src="gallery.js"></script>
+  <script defer src="transition.js"></script>
+
+  <link rel="icon" href="assets/images/logo-symbol.png" />
+
+  <!-- Social sharing metadata -->
+  <meta property="og:title" content="La Maison Brevan – Galerie" />
+  <meta property="og:description" content="La Maison Brevan vous invite à parcourir sa galerie photo : chambres, espaces communs et ambiance à Châteaulin." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/images/logo-symbol.png" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="La Maison Brevan – Galerie" />
+  <meta name="twitter:description" content="La Maison Brevan vous invite à parcourir sa galerie photo : chambres, espaces communs et ambiance à Châteaulin." />
+  <meta name="twitter:image" content="assets/images/logo-symbol.png" />
+
+  <link rel="canonical" href="https://lamaisonbrevan.fr/gallery.html" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BedAndBreakfast",
+    "@id": "https://lamaisonbrevan.fr/#maison-brevan",
+    "name": "La Maison Brevan",
+    "url": "https://lamaisonbrevan.fr/",
+    "telephone": "+33 7 62 57 69 58",
+    "email": "contact@lamaisonbrevan.fr",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "29 Grand Rue",
+      "addressLocality": "Châteaulin",
+      "postalCode": "29150",
+      "addressRegion": "Bretagne",
+      "addressCountry": "FR"
+    },
+    "image": [
+      "https://lamaisonbrevan.fr/assets/images/logo-symbol.png"
+    ],
+    "sameAs": [
+      "https://www.instagram.com/maisonbrevan/",
+      "https://www.facebook.com/profile.php?id=61585826054527"
+    ]
+  }
+  </script>
 </head>
-<body class="debug-show-hamburger">
-<!-- Header -->
-<header class="site-header">
-  <!-- Removed hidden checkbox.  Mobile navigation is now controlled via
-       JavaScript and the `.open` class on the `.mobile-nav` element. -->
-<div class="nav-row">
-<div class="nav-left">
-<!-- Link to dedicated pages.  Use data-transition on links that
-             trigger a full page change so the script can fade out the
-             current page gracefully.  Use absolute paths for cross-page
-             navigation; anchor links remain unchanged. -->
-<!-- Reordered navigation and inserted "Autour de la maison" link -->
-<a data-i18n="nav.reserve" data-transition="" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE">réserver</a>
-<a data-i18n="nav.rooms" href="index.html#chambres">chambres</a>
-<a data-i18n="nav.around" data-transition="" href="autour.html">autour de la maison</a>
-<a data-i18n="nav.gallery" data-transition="" href="gallery.html">galerie</a>
-<a data-i18n="nav.contact" href="index.html#contact">contact</a>
-</div>
-      <!-- Badge linking back to the home page (#home).  Inserted between the left and right nav sections for proper centering on mobile. -->
+
+<body class="gallery-page">
+  <header class="site-header">
+    <div class="nav-row">
+      <div class="nav-left">
+        <a href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE" data-i18n="nav.reserve" data-transition="">réserver</a>
+        <a href="index.html#chambres" data-i18n="nav.rooms">chambres</a>
+        <a href="autour.html" data-i18n="nav.around" data-transition="">autour de la maison</a>
+        <a href="gallery.html" data-i18n="nav.gallery" data-transition="">galerie</a>
+        <a href="index.html#contact" data-i18n="nav.contact">contact</a>
+      </div>
+
       <a class="site-title-badge" href="index.html#home" onclick="scrollToTop(event)">
-        <img alt="Logo Maison Brevan" class="logo-symbol" decoding="async" loading="lazy" src="assets/images/logo-symbol.png"/>
-        <span>LA MAISON BREVAN</span>
+        <img class="logo-symbol" src="assets/images/logo-symbol.png" alt="Logo Maison Brevan" decoding="async" loading="eager" />
+        <span>LA&nbsp;MAISON&nbsp;BREVAN</span>
       </a>
+
       <div class="nav-right">
-      <!-- Mobile navigation toggle for small screens.  This button calls the
-           global `toggleMobileNav()` helper defined in script.js to toggle
-           the `.open` class on the `.mobile-nav` element. -->
-      <button class="hamburger" aria-label="Menu" onclick="toggleMobileNav(event)">MENU</button>
-      <div class="lang-selector">
-        <!-- Dropdown language selector: show current language flag and reveal the list on click -->
-        <button id="current-lang" aria-label="Sélection de langue"><img src="assets/images/flags/fr.png" alt="FR"/></button>
-        <div id="lang-menu" class="lang-menu">
-          <button data-lang="fr" aria-label="Français"><img src="assets/images/flags/fr.png" alt="FR"/></button>
-          <button data-lang="en" aria-label="English"><img src="assets/images/flags/en.png" alt="EN"/></button>
-          <button data-lang="es" aria-label="Español"><img src="assets/images/flags/es.png" alt="ES"/></button>
-          <button data-lang="de" aria-label="Deutsch"><img src="assets/images/flags/de.png" alt="DE"/></button>
+        <button class="hamburger" aria-label="Menu" onclick="toggleMobileNav(event)">MENU</button>
+        <div class="lang-selector">
+          <button id="current-lang" aria-label="Sélection de langue"><img src="assets/images/flags/fr.png" alt="FR" /></button>
+          <div id="lang-menu" class="lang-menu">
+            <button data-lang="fr" aria-label="Français"><img src="assets/images/flags/fr.png" alt="FR" /></button>
+            <button data-lang="en" aria-label="English"><img src="assets/images/flags/en.png" alt="EN" /></button>
+            <button data-lang="es" aria-label="Español"><img src="assets/images/flags/es.png" alt="ES" /></button>
+            <button data-lang="de" aria-label="Deutsch"><img src="assets/images/flags/de.png" alt="DE" /></button>
+          </div>
         </div>
       </div>
     </div>
+
+    <nav class="mobile-nav">
+      <a data-i18n="nav.reserve" data-transition="" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE">réserver</a>
+      <a data-i18n="nav.rooms" href="index.html#chambres">chambres</a>
+      <a data-i18n="nav.around" data-transition="" href="autour.html">autour de la maison</a>
+      <a data-i18n="nav.gallery" data-transition="" href="gallery.html">galerie</a>
+      <a data-i18n="nav.contact" href="index.html#contact">contact</a>
+      <a data-i18n="nav.access" href="https://www.google.com/maps/place/29+Grand+Rue+29150+Châteaulin" target="_blank" rel="noopener noreferrer">plan d'accès</a>
+    </nav>
+  </header>
+
+  <div class="page-wrapper">
+    <main id="main-content">
+      <!-- Keep an accessible page title for SEO/a11y without showing text above the grid -->
+      <h1 class="visually-hidden">La Maison Brevan – galerie photos</h1>
+
+      <!-- Gallery grid is built by gallery.js (no static text at the top). -->
+      <section class="gallery-section" id="galerie">
+        <div class="gallery-grid"></div>
+      </section>
+    </main>
   </div>
-  <nav class="mobile-nav">
-    <a data-i18n="nav.reserve" data-transition="" href="https://maison-brevan.amenitiz.io/fr/booking/room#DatesGuests-BE">réserver</a>
-    <a data-i18n="nav.rooms" href="index.html#chambres">chambres</a>
-    <a data-i18n="nav.around" data-transition="" href="autour.html">autour de la maison</a>
-    <a data-i18n="nav.gallery" data-transition="" href="gallery.html">galerie</a>
-    <a data-i18n="nav.contact" href="index.html#contact">contact</a>
-    <a data-i18n="nav.access" href="https://www.google.com/maps/place/29+Grand+Rue+29150+Châteaulin" target="_blank" rel="noopener noreferrer">plan d'accès</a>
-  </nav>
-<!-- The site title badge is now inserted inside .nav-row for proper alignment. -->
-</header>
-<!-- Page wrapper for page-turn effect.  This wrapper contains all
-       gallery content so that the 3D rotation applies only to the
-       central area, leaving the header and footer fixed. -->
-<div class="page-wrapper">
-<main id="main-content"><h1 class="visually-hid
-                              <section class="gallery-intro">
-      <p>La Maison Brevan vous propose de découvrir en images l'atmosphère chaleureuse de notre maison d'hôtes à Châteaulin.</p>
-      <p>Dans cette galerie, vous pourrez admirer les différentes chambres, les matériaux naturels qui composent la décoration et les espaces communs comme le salon ou le jardin.</p>
-      <p>Chaque photo reflète l'esprit authentique de notre maison et la qualité des prestations que nous offrons à nos hôtes.</p>
-      <p>Notre demeure bretonne marie harmonieusement le charme d'autrefois et le confort moderne.</p>
-      <p>Parcourez ces images pour vous imprégner de la quiétude et de la convivialité des lieux avant de réserver votre séjour.</p>
-    </section>
-    <h1 class="visually-hidden">La Maison Brevan – galerie photos</h1>
 
-<!-- Gallery Section -->
-<section class="gallery-section" id="galerie">
-<div class="gallery-grid">
-<!-- Duplicate the eight base photos to create 42 gallery items.  The
-           pattern of class names repeats (big, tall, wide, default, default,
-           wide, tall, big) to form a dynamic mosaic.  Photo sources cycle
-           through the eight unsplash URLs used in the original grid. -->
-<!-- Group 1 -->
-<div class="gallery-item big scroll-fade-up" data-index="0">
-<!-- Photo de la chambre baignoire 1 -->
-<img alt="Chambre baignoire 1" decoding="async" loading="lazy" src="assets/images/gallery/gallery-01.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item tall scroll-fade-up" data-index="1">
-<!-- Photo de la chambre baignoire 2 -->
-<img alt="Chambre baignoire 2" decoding="async" loading="lazy" src="assets/images/gallery/gallery-02.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item wide scroll-fade-up" data-index="2">
-<!-- Photo de la chambre baignoire 3 -->
-<img alt="Chambre baignoire 3" decoding="async" loading="lazy" src="assets/images/gallery/gallery-03.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item scroll-fade-up" data-index="3">
-<!-- Photo de la chambre baignoire 4 -->
-<img alt="Chambre baignoire 4" decoding="async" loading="lazy" src="assets/images/gallery/gallery-04.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item scroll-fade-up" data-index="4">
-<!-- Photo de la chambre baignoire 5 -->
-<img alt="Chambre baignoire 5" decoding="async" loading="lazy" src="assets/images/gallery/gallery-05.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item wide scroll-fade-up" data-index="5">
-<!-- Photo de la chambre baignoire 6 -->
-<img alt="Chambre baignoire 6" decoding="async" loading="lazy" src="assets/images/gallery/gallery-06.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item tall scroll-fade-up" data-index="6">
-<!-- Photo de la chambre baignoire 7 -->
-<img alt="Chambre baignoire 7" decoding="async" loading="lazy" src="assets/images/gallery/gallery-07.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item big scroll-fade-up" data-index="7">
-<!-- Photo de la chambre baignoire 8 -->
-<img alt="Chambre baignoire 8" decoding="async" loading="lazy" src="assets/images/gallery/gallery-08.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<!-- Group 2 -->
-<div class="gallery-item big scroll-fade-up" data-index="8">
-<!-- Photo de la chambre baignoire 9 -->
-<img alt="Chambre baignoire 9" decoding="async" loading="lazy" src="assets/images/gallery/gallery-09.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item tall scroll-fade-up" data-index="9">
-<!-- Photo de la chambre baignoire 10 -->
-<img alt="Chambre baignoire 10" decoding="async" loading="lazy" src="assets/images/gallery/gallery-01.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item wide scroll-fade-up" data-index="10">
-<img alt="Photo 11" decoding="async" loading="lazy" src="assets/images/gallery/gallery-10.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item scroll-fade-up" data-index="11">
-<img alt="Photo 12" decoding="async" loading="lazy" src="assets/images/gallery/gallery-11.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item scroll-fade-up" data-index="12">
-<img alt="Photo 13" decoding="async" loading="lazy" src="assets/images/gallery/gallery-12.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item wide scroll-fade-up" data-index="13">
-<img alt="Photo 14" decoding="async" loading="lazy" src="assets/images/gallery/gallery-13.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item tall scroll-fade-up" data-index="14">
-<img alt="Photo 15" decoding="async" loading="lazy" src="assets/images/gallery/gallery-14.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item big scroll-fade-up" data-index="15">
-<img alt="Photo 16" decoding="async" loading="lazy" src="assets/images/gallery/gallery-15.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<!-- Group 3 -->
-<div class="gallery-item big scroll-fade-up" data-index="16">
-<img alt="Photo 17" decoding="async" loading="lazy" src="assets/images/gallery/gallery-16.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item tall scroll-fade-up" data-index="17">
-<img alt="Photo 18" decoding="async" loading="lazy" src="assets/images/gallery/gallery-17.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item wide scroll-fade-up" data-index="18">
-<img alt="Photo 19" decoding="async" loading="lazy" src="assets/images/gallery/gallery-18.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item scroll-fade-up" data-index="19">
-<img alt="Photo 20" decoding="async" loading="lazy" src="assets/images/gallery/gallery-19.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item scroll-fade-up" data-index="20">
-<img alt="Photo 21" decoding="async" loading="lazy" src="assets/images/gallery/gallery-20.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item wide scroll-fade-up" data-index="21">
-<img alt="Photo 22" decoding="async" loading="lazy" src="assets/images/gallery/gallery-21.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item tall scroll-fade-up" data-index="22">
-<img alt="Photo 23" decoding="async" loading="lazy" src="assets/images/gallery/gallery-22.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item big scroll-fade-up" data-index="23">
-<img alt="Photo 24" decoding="async" loading="lazy" src="assets/images/gallery/gallery-23.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<!-- Group 4 -->
-<div class="gallery-item big scroll-fade-up" data-index="24">
-<img alt="Photo 25" decoding="async" loading="lazy" src="assets/images/gallery/gallery-24.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item tall scroll-fade-up" data-index="25">
-<img alt="Photo 26" decoding="async" loading="lazy" src="assets/images/gallery/gallery-25.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item wide scroll-fade-up" data-index="26">
-<img alt="Photo 27" decoding="async" loading="lazy" src="assets/images/gallery/gallery-26.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item scroll-fade-up" data-index="27">
-<img alt="Photo 28" decoding="async" loading="lazy" src="assets/images/gallery/gallery-27.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item scroll-fade-up" data-index="28">
-<img alt="Photo 29" decoding="async" loading="lazy" src="assets/images/gallery/gallery-28.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item wide scroll-fade-up" data-index="29">
-<img alt="Photo 30" decoding="async" loading="lazy" src="assets/images/gallery/gallery-29.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item tall scroll-fade-up" data-index="30">
-<img alt="Photo 31" decoding="async" loading="lazy" src="assets/images/gallery/gallery-30.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item big scroll-fade-up" data-index="31">
-<img alt="Photo 32" decoding="async" loading="lazy" src="assets/images/gallery/gallery-31.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<!-- Group 5 -->
-<div class="gallery-item big scroll-fade-up" data-index="32">
-<img alt="Photo 33" decoding="async" loading="lazy" src="assets/images/gallery/gallery-32.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item tall scroll-fade-up" data-index="33">
-<img alt="Photo 34" decoding="async" loading="lazy" src="assets/images/gallery/gallery-33.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item wide scroll-fade-up" data-index="34">
-<img alt="Photo 35" decoding="async" loading="lazy" src="assets/images/gallery/gallery-34.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item scroll-fade-up" data-index="35">
-<img alt="Photo 36" decoding="async" loading="lazy" src="assets/images/gallery/gallery-35.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item scroll-fade-up" data-index="36">
-<img alt="Photo 37" decoding="async" loading="lazy" src="assets/images/gallery/gallery-36.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item wide scroll-fade-up" data-index="37">
-<img alt="Photo 38" decoding="async" loading="lazy" src="assets/images/gallery/gallery-37.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item tall scroll-fade-up" data-index="38">
-<img alt="Photo 39" decoding="async" loading="lazy" src="assets/images/gallery/gallery-38.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item big scroll-fade-up" data-index="39">
-<img alt="Photo 40" decoding="async" loading="lazy" src="assets/images/gallery/gallery-39.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<!-- Remaining 2 items to reach 42 photos -->
-<div class="gallery-item big scroll-fade-up" data-index="40">
-<img alt="Photo 41" decoding="async" loading="lazy" src="assets/images/gallery/gallery-40.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-<div class="gallery-item tall scroll-fade-up" data-index="41">
-<img alt="Photo 42" decoding="async" loading="lazy" src="assets/images/gallery/gallery-41.jpg"/>
-<div class="plus-icon">+</div>
-</div>
-</div>
-</section>
-</main></div><!-- end of .page-wrapper -->
-<!-- Gallery full-screen overlay
-       
-       The overlay must sit outside of the page wrapper to ensure
-       position: fixed is relative to the viewport.  When a parent
-       element has a transform applied (as the .page-wrapper does for
-       page-turn animations), descendants with position: fixed become
-       fixed relative to that transformed parent instead of the
-       viewport.  Moving the overlay out of the .page-wrapper avoids
-       this problem so the full‑screen gallery appears centered in the
-       viewport without requiring the user to scroll. -->
-<div aria-hidden="true" class="gallery-overlay" id="galleryOverlay">
-<div class="gallery-overlay-content">
-<button aria-label="Fermer" class="gallery-close">×</button>
-<div class="gallery-slider"></div>
-<div class="gallery-arrows">
-<button aria-label="Précédent" class="prev">‹</button>
-<button aria-label="Suivant" class="next">›</button>
-</div>
-<div class="gallery-dots"></div>
-</div>
-</div>
-<!-- Footer -->
+  <!-- Lightbox overlay -->
+  <div aria-hidden="true" class="gallery-overlay" id="galleryOverlay">
+    <div class="gallery-overlay-content">
+      <button aria-label="Fermer" class="gallery-close">×</button>
+      <div class="gallery-slider"></div>
+      <div class="gallery-arrows">
+        <button aria-label="Précédent" class="prev">‹</button>
+        <button aria-label="Suivant" class="next">›</button>
+      </div>
+      <div class="gallery-dots"></div>
+    </div>
+  </div>
 
-<footer id="contact">
-<div class="footer-content">
-<!-- Left column: follow us and social icons -->
-<div class="footer-left">
-<p data-i18n="footer.followTitle">Nous suivre</p>
-<div class="social-icons">
-<a aria-label="Instagram" href="https://www.instagram.com/maisonbrevan/" target="_blank" rel="noopener">
-<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"></path></svg>
-</a>
-<a aria-label="Facebook" href="https://www.facebook.com/profile.php?id=61585826054527" target="_blank" rel="noopener">
-<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z"></path></svg>
-</a>
-</div>
-</div>
-<!-- Right column: contact details -->
-<div class="footer-right">
-<p class="phone">+33 07 62 57 69 58</p>
-<a class="email" href="mailto:contact@lamaisonbrevan.fr">contact@lamaisonbrevan.fr</a>
-</div>
-</div>
-<!-- Base row with logo and address / plan access -->
-<div class="footer-base">
-<div class="footer-base-logo"><img alt="Logo Maison Brevan" decoding="async" loading="lazy" src="assets/images/logo-symbol.png"/></div>
-<div class="footer-base-address">
-<p class="address">29 Grand Rue 29150 Châteaulin</p>
-<a class="access-btn" data-i18n="footer.planAccess" href="https://www.google.com/maps/place/29+Grand+Rue+29150+Châteaulin" rel="noopener noreferrer" target="_blank">Plan d'accès</a>
-</div>
-</div>
-<!-- Consolidated footer row: brand, follow us and contact details -->
-<div class="footer-main">
-<div class="footer-brand">
-<img alt="Logo Maison Brevan" decoding="async" loading="lazy" src="assets/images/logo-symbol.png"/>
-<div class="brand-info">
-<p class="address">29 Grand Rue 29150 Châteaulin</p>
-<a class="access-btn" data-i18n="footer.planAccess" href="https://www.google.com/maps/place/29+Grand+Rue+29150+Châteaulin" rel="noopener noreferrer" target="_blank">Plan d'accès</a>
-</div>
-</div>
-<div class="footer-follow">
-<p data-i18n="footer.followTitle">Nous suivre</p>
-<div class="social-icons">
-<a aria-label="Instagram" href="#">
-<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5 74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"></path></svg>
-</a>
-<a aria-label="Facebook" href="#">
-<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z"></path></svg>
-</a>
-</div>
-</div>
-<div class="footer-contact">
-<p class="phone">+33 07 62 57 69 58</p>
-<a class="email" href="mailto:contact@lamaisonbrevan.fr">contact@lamaisonbrevan.fr</a>
-</div>
-</div>
-<!-- New footer layout appended to existing footer.  Old footer rows will be hidden via CSS. -->
-<div class="footer-main-new">
-<div class="footer-col footer-address">
-<p class="address">29 Grand Rue 29150 Châteaulin</p>
-<a class="access-btn" data-i18n="footer.planAccess" href="https://www.google.com/maps/place/29+Grand+Rue+29150+Châteaulin" rel="noopener noreferrer" target="_blank">Plan d'accès</a>
-</div>
-<div class="footer-col footer-follow">
-<p data-i18n="footer.followTitle">Nous suivre</p>
-<div class="social-icons">
-<a aria-label="Instagram" href="#">
-<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8z"></path></svg>
-</a>
-<a aria-label="Facebook" href="#">
-<svg viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z"></path></svg>
-</a>
-</div>
-</div>
-<div class="footer-col footer-contact">
-<p class="phone">+33 07 62 57 69 58</p>
-<a class="email" href="mailto:contact@lamaisonbrevan.fr">contact@lamaisonbrevan.fr</a>
-</div>
-</div>
-<div class="footer-bottom">
-<div class="footer-legal">
-<a data-i18n="footer.legal" data-transition="" href="mentions.html">Mentions légales</a>
-<span class="separator">|</span>
-<a data-i18n="footer.confidentialite" data-transition="" href="confidentialite.html">Confidentialité</a>
-<span class="separator">|</span>
-<a data-i18n="footer.cookies" data-transition="" href="cookies.html">Gestion des cookies</a>
-<span class="separator">|</span>
-<a data-i18n="footer.cgv" data-transition="" href="cgv.html">CGV</a>
-</div>
-</div>
-</footer>
+  <footer class="footer" id="contact">
+    <div class="footer-main-new">
+      <div class="footer-col footer-address">
+        <p class="address">29&nbsp;Grand&nbsp;Rue&nbsp;29150&nbsp;Châteaulin</p>
+        <a class="access-btn" href="https://www.google.com/maps/place/29+Grand+Rue+29150+Châteaulin" target="_blank" rel="noopener noreferrer" data-i18n="footer.planAccess">Plan d'accès</a>
+      </div>
+      <div class="footer-col footer-follow">
+        <p data-i18n="footer.followTitle">Nous suivre</p>
+        <div class="social-icons">
+          <a aria-label="Instagram" href="https://www.instagram.com/maisonbrevan/" target="_blank" rel="noopener">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8z"/></svg>
+          </a>
+          <a aria-label="Facebook" href="https://www.facebook.com/profile.php?id=61585826054527" target="_blank" rel="noopener">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col footer-contact">
+        <p class="phone">+33&nbsp;07&nbsp;62&nbsp;57&nbsp;69&nbsp;58</p>
+        <a class="email" href="mailto:contact@lamaisonbrevan.fr">contact@lamaisonbrevan.fr</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-legal">
+        <a href="mentions.html" data-i18n="footer.legal" data-transition="">Mentions&nbsp;légales</a>
+        <span class="separator">|</span>
+        <a href="confidentialite.html" data-i18n="footer.confidentialite" data-transition="">Confidentialité</a>
+        <span class="separator">|</span>
+        <a href="cookies.html" data-i18n="footer.cookies" data-transition="">Gestion&nbsp;des&nbsp;cookies</a>
+        <span class="separator">|</span>
+        <a href="cgv.html" data-i18n="footer.cgv" data-transition="">CGV</a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

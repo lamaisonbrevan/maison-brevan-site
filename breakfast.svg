@@ -1,0 +1,16 @@
+<!--
+  Outline breakfast icon (cup) for "Petit déjeuner inclus".
+  24×24 viewBox, stroke width 2, uses currentColor.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- Steam -->
+  <path d="M8 3c1 1 1 2 0 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <path d="M12 3c1 1 1 2 0 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <path d="M16 3c1 1 1 2 0 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <!-- Cup body -->
+  <path d="M5 9h9v6a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5V9z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  <!-- Handle -->
+  <path d="M14 10h2a2.5 2.5 0 0 1 0 5h-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Saucer -->
+  <line x1="4" y1="21" x2="16" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+</svg>

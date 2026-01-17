@@ -394,6 +394,8 @@ to { opacity: 0; }
   height: 100vh;
   position: relative;
   overflow: hidden;
+  /* Helps mobile browsers distinguish vertical scroll from horizontal swipe */
+  touch-action: pan-y;
 }
 
 .hero img {
@@ -606,6 +608,8 @@ body.around-page .around-section p {
   position: relative;
   height: 340px;
   overflow: hidden;
+  /* Helps mobile browsers distinguish vertical scroll from horizontal swipe */
+  touch-action: pan-y;
 }
 
 .room-image img {
@@ -636,7 +640,23 @@ body.around-page .around-section p {
   color: var(--text-color);
 }
 
+.room-card .breakfast-info {
+  display: flex;
+  align-items: center;
+  padding: 0 0.8rem;
+  margin: 0.1rem 0 0.2rem 0;
+  font-size: 0.85rem;
+  color: var(--text-color);
+}
+
 .room-card .bed-info img {
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-right: 0.4rem;
+  flex-shrink: 0;
+}
+
+.room-card .breakfast-info img {
   width: 1.2rem;
   height: 1.2rem;
   margin-right: 0.4rem;
@@ -1508,6 +1528,7 @@ header .site-title-badge {
   overflow: hidden;
   background: var(--cream-bg2);
   z-index: 2;
+  touch-action: pan-y;
 }
 
 .room-overlay.full-photo-mode .overlay-watermark {
@@ -2047,6 +2068,7 @@ body.around-page::before {
   max-height: 600px;
   overflow: hidden;
   background: var(--cream-bg2);
+  touch-action: pan-y;
 }
 
 .gallery-slider img {
@@ -2458,8 +2480,10 @@ footer .footer-main + .footer-main {
 
 .room-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
   margin-top: 0.5rem;
 }
 
@@ -2725,7 +2749,8 @@ footer .footer-main + .footer-main {
     top: 50% !important;
     transform: translate(-50%, -50%) !important;
     margin: 0 !important;
-    padding: 0 0.5rem 0 1.5rem !important;
+    /* Symmetric padding so the text is visually centered inside the pill */
+    padding: 0 1.1rem !important;
     font-size: 1rem !important;
     letter-spacing: 0.15em !important;
     gap: 0.4rem !important;
@@ -2735,6 +2760,7 @@ footer .footer-main + .footer-main {
 
   .site-title-badge img.logo-symbol {
     height: 2rem !important;
+    margin-right: 0 !important;
   }
 
   .nav-right {
@@ -2783,10 +2809,14 @@ footer .footer-main + .footer-main {
     background: var(--cream-bg2) !important;
     color: var(--accent) !important;
     border-radius: 2rem !important;
-    margin-right: 1rem !important;
+    margin-right: 0 !important;
     gap: 0.35rem !important;
     padding-left: 1.1rem !important;
     padding-right: 1.1rem !important;
+  }
+
+  .site-title-badge img.logo-symbol {
+    margin-right: 0 !important;
   }
 
   .hamburger {
@@ -2963,7 +2993,10 @@ footer .footer-main + .footer-main {
   display: inline-block;
   background: linear-gradient(135deg, var(--accent-light), var(--accent-dark));
   padding: 0.15rem 0.6rem;
-  margin-left: 0.5rem;
+  /* Keep the full price statement on a single line (no "nui" + "t" splits) */
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: auto;
   text-decoration: none;
   border: none;
 }
