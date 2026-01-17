@@ -2739,7 +2739,7 @@ footer .footer-main + .footer-main {
   .nav-row {
     flex-direction: row !important;
     align-items: center !important;
-    justify-content: space-between !important;
+    justify-content: flex-end !important;
     position: relative;
   }
 
@@ -2765,12 +2765,45 @@ footer .footer-main + .footer-main {
 
   .nav-right {
     flex-direction: row !important;
+    margin-top: 0 !important;
+    position: relative !important;
+    z-index: 3 !important;
   }
 
   .hamburger {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
+
+    /* Icon-only on mobile/tablet */
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+
+    width: 44px !important;
+    height: 44px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+
+    /* Hide the 'MENU' label (prevents the old pill/text from showing) */
+    font-size: 0 !important;
+    line-height: 0 !important;
+    letter-spacing: 0 !important;
+    color: transparent !important;
+
+    position: relative !important;
+  }
+
+  .hamburger::before {
+    content: "";
+    display: block;
+    width: 26px;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 2px;
+    /* 3 lines, perfectly centered */
+    box-shadow: 0 -7px 0 #ffffff, 0 7px 0 #ffffff;
   }
 
   .nav-left {
@@ -2792,8 +2825,7 @@ footer .footer-main + .footer-main {
 }
 
 @media (max-width: 600px) {
-  .site-title-badge,
-  .hamburger {
+  .site-title-badge {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -2819,14 +2851,6 @@ footer .footer-main + .footer-main {
 
   .site-title-badge img.logo-symbol {
     margin-right: 0 !important;
-  }
-
-  .hamburger {
-    background: var(--cream-bg2) !important;
-    color: var(--accent) !important;
-    border-radius: 2rem !important;
-    margin-left: 1rem !important;
-    font-weight: normal !important;
   }
 
   .footer-main-new {
@@ -3144,23 +3168,52 @@ footer:has(.footer-main-new) .address-group {
    -------------------------------------------------------------------------- */
 
 @media (max-width: 900px) {
+  /* Keep nav actions on the right on mobile (the title badge is absolutely
+     positioned, so without this the nav-right block can end up on the left). */
+  .nav-row {
+    justify-content: flex-end !important;
+  }
+
+  .nav-right {
+    margin-top: 0 !important;
+    position: relative;
+    z-index: 3;
+  }
+
   /* Keep the same button (same click/JS), only change its look */
   .hamburger {
+    /* Remove the old pill "MENU" look entirely */
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+
+    /* Comfortable tap target without showing the old label */
+    width: 44px !important;
+    height: 44px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+
     font-size: 0 !important;          /* hide the MENU text */
     letter-spacing: 0 !important;
     line-height: 0 !important;
+    color: transparent !important;    /* extra safety: text never shows */
+
     position: relative;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
   .hamburger::before {
     content: "";
     display: block;
-    width: 18px;
+    width: 26px;
     height: 2px;
-    background: currentColor;
+    background: #ffffff;
     border-radius: 2px;
     /* 3 lines */
-    box-shadow: 0 6px 0 currentColor, 0 12px 0 currentColor;
+    box-shadow: 0 -7px 0 #ffffff, 0 7px 0 #ffffff;
   }
 }
 
