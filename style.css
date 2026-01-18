@@ -3663,3 +3663,44 @@ footer:has(.footer-main-new) .address-group {
     margin-top: 3.65rem !important;
   }
 }
+
+/* --------------------------------------------------------------------------
+   MOBILE HERO + FOOTER (v12)
+   - Hero: move the social icons to the bottom-right on small screens
+   - Footer: reduce vertical footprint on mobile while keeping the same layout
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 600px) {
+  /* HERO: socials bottom-right (instead of mid-right) */
+  .hero .social-icons {
+    bottom: 1rem !important;
+    right: 1rem !important;
+  }
+
+  /* FOOTER: reduce overall height on mobile */
+  footer {
+    padding: 1.75rem 1rem !important;
+  }
+
+  footer .footer-main-new {
+    grid-row-gap: 0.75rem !important;
+  }
+
+  .footer-follow,
+  .footer-contact {
+    margin-bottom: 0.5rem !important;
+  }
+
+  footer .footer-bottom {
+    margin-top: 0.25rem !important;
+  }
+
+  footer .footer-legal {
+    gap: 0.35rem !important;
+  }
+
+  footer .footer-legal a,
+  footer .footer-legal .separator {
+    line-height: 1.2 !important;
+  }
+}
