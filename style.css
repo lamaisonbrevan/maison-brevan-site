@@ -3388,3 +3388,186 @@ footer:has(.footer-main-new) .address-group {
     padding-top: 5.5rem !important;
   }
 }
+
+/* --------------------------------------------------------------------------
+   MOBILE HEADER MICRO-ALIGNMENT (small screens only)
+   - Optical balance: slightly reduce the bottom padding of the header so the
+     badge sits perfectly centered (top/bottom gaps look equal)
+   - Ensure hamburger + flag are vertically centered with the badge
+   - Fix iOS/Safari "stuck hover" on the title badge (it should not stay brown)
+   IMPORTANT: Desktop is untouched.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 600px) {
+  /* Slightly reduce ONLY the bottom space of the bandeau for optical centering */
+  .nav-row {
+    padding-top: 0.7rem !important;
+    padding-bottom: 0.6rem !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  /* Keep the hero perfectly aligned under the fixed header */
+  .hero {
+    margin-top: 4rem !important;
+  }
+
+  /* "Autour" page: keep the same spacing logic after the header height change */
+  body.around-page .page-wrapper {
+    padding-top: 5.2rem !important;
+  }
+
+  /* Align right-side controls (hamburger + language) to the badge center */
+  .nav-right {
+    align-items: center !important;
+  }
+
+  /* Give the flag button the same tap box height as the hamburger */
+  #current-lang {
+    width: 2.7rem !important;
+    height: 2.7rem !important;
+    min-width: 2.7rem !important;
+    min-height: 2.7rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  #current-lang img {
+    display: block;
+    width: 1.2rem !important;
+    height: auto !important;
+  }
+}
+
+@media (max-width: 900px) and (hover: none) and (pointer: coarse) {
+  /* iOS/Safari can keep :hover on tap. Force the badge back to its normal state
+     after touch (no sticky brown background). */
+  .site-title-badge:hover,
+  .site-title-badge:focus {
+    background: var(--cream-bg2) !important;
+    color: var(--accent) !important;
+  }
+
+  .site-title-badge:hover span,
+  .site-title-badge:focus span {
+    color: var(--accent) !important;
+  }
+
+  .site-title-badge:hover::after,
+  .site-title-badge:focus::after {
+    opacity: 0 !important;
+  }
+
+  .site-title-badge:hover img.logo-symbol,
+  .site-title-badge:focus img.logo-symbol {
+    filter: none !important;
+  }
+
+  /* Keep a short, normal feedback ONLY while pressing */
+  .site-title-badge:active {
+    color: #ffffff !important;
+  }
+
+  .site-title-badge:active span {
+    color: #ffffff !important;
+  }
+
+  .site-title-badge:active::after {
+    opacity: 1 !important;
+  }
+
+  .site-title-badge:active img.logo-symbol {
+    filter: brightness(0) saturate(0) invert(1) !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   MOBILE HEADER (iPhone) - FINAL OVERRIDES
+   Fixes requested:
+   1) Equal top/bottom breathing room inside the bandeau around the title badge
+   2) Perfect vertical alignment: hamburger + flag centered on the badge
+   3) iOS Safari "sticky hover": after a tap, the badge must go back to cream
+
+   Desktop is not affected (rules are limited to <= 600px).
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 600px) {
+  /* 1) Equalize the vertical padding so the badge looks visually centered */
+  .nav-row {
+    /* Same top/bottom padding: avoids the "more space at the bottom" effect */
+    padding-top: 0.6rem !important;
+    padding-bottom: 0.6rem !important;
+  }
+
+  /* 2) Ensure hamburger + flag share the same box size and align to center */
+  .nav-right {
+    margin-top: 0 !important; /* cancel the 1200px breakpoint margin */
+    align-items: center !important;
+  }
+
+  .nav-right .hamburger,
+  #current-lang {
+    width: 2.7rem !important;
+    height: 2.7rem !important;
+    min-width: 2.7rem !important;
+    min-height: 2.7rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* 3) iOS Safari: prevent the hover gradient from sticking after a tap.
+        On small screens we keep the badge stable (cream) in hover/focus.
+        A short feedback remains on :active only (while pressing).
+  */
+  .site-title-badge,
+  .site-title-badge:hover,
+  .site-title-badge:focus,
+  .site-title-badge:focus-visible {
+    background: var(--cream-bg2) !important;
+    color: var(--accent) !important;
+  }
+
+  .site-title-badge span,
+  .site-title-badge:hover span,
+  .site-title-badge:focus span,
+  .site-title-badge:focus-visible span {
+    color: var(--accent) !important;
+  }
+
+  /* Kill the gradient overlay in hover/focus states (this is what was sticking) */
+  .site-title-badge::after,
+  .site-title-badge:hover::after,
+  .site-title-badge:focus::after,
+  .site-title-badge:focus-visible::after {
+    opacity: 0 !important;
+  }
+
+  .site-title-badge img.logo-symbol,
+  .site-title-badge:hover img.logo-symbol,
+  .site-title-badge:focus img.logo-symbol,
+  .site-title-badge:focus-visible img.logo-symbol {
+    filter: none !important;
+  }
+
+  /* Keep a normal pressed feedback only while the finger is down */
+  .site-title-badge:active {
+    color: #ffffff !important;
+  }
+
+  .site-title-badge:active span {
+    color: #ffffff !important;
+  }
+
+  .site-title-badge:active::after {
+    opacity: 1 !important;
+  }
+
+  .site-title-badge:active img.logo-symbol {
+    filter: brightness(0) saturate(0) invert(1) !important;
+  }
+}
