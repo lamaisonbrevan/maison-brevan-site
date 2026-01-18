@@ -3571,3 +3571,95 @@ footer:has(.footer-main-new) .address-group {
     filter: brightness(0) saturate(0) invert(1) !important;
   }
 }
+
+/* --------------------------------------------------------------------------
+   MOBILE HEADER v11 (iPhone) - HARD FIX
+   The previous padding/align tweaks were not enough because the mobile header
+   still relied on an absolutely-positioned badge (rule at <=900px uses !important).
+   On real iPhone Safari this can create subtle optical offsets.
+
+   Fix strategy (<=600px only):
+   - Force a 3-column GRID layout (1fr / auto / 1fr)
+   - Bring the badge back into normal flow (override position/left/top/transform)
+   - Make hamburger + flag share the exact same 2.7rem tap box
+   - Slightly reduce ONLY the bottom padding to visually equalize top/bottom gaps
+
+   Desktop/tablet layout is NOT affected.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 600px) {
+  /* Use a stable layout system for iOS: grid prevents flex + absolute quirks */
+  header.site-header .nav-row {
+    display: grid !important;
+    grid-template-columns: 1fr auto 1fr !important;
+    align-items: center !important;
+
+    /* Remove leftover flex intent from wider breakpoints */
+    justify-content: initial !important;
+
+    /* Optical balance: bottom was slightly larger than top on iPhone */
+    padding-top: 0.6rem !important;
+    padding-bottom: 0.35rem !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  /* Center badge in the middle column (override the <=900px absolute rule) */
+  header.site-header .site-title-badge {
+    grid-column: 2 !important;
+    justify-self: center !important;
+
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+
+    margin: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  /* Right controls in the 3rd column, vertically centered */
+  header.site-header .nav-right {
+    grid-column: 3 !important;
+    justify-self: end !important;
+
+    margin: 0 !important;
+    margin-top: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  /* Keep left nav hidden on mobile (safety) */
+  header.site-header .nav-left {
+    display: none !important;
+  }
+
+  /* Match tap-box sizes and ensure perfect vertical centering */
+  header.site-header .nav-right .hamburger,
+  header.site-header #current-lang {
+    width: 2.7rem !important;
+    height: 2.7rem !important;
+    min-width: 2.7rem !important;
+    min-height: 2.7rem !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  header.site-header #current-lang img {
+    display: block !important;
+    width: 1.2rem !important;
+    height: auto !important;
+  }
+
+  /* Keep hero perfectly snug under the now-precise header height
+     Header height ~= badge(2.7rem) + padding(0.6 + 0.35 = 0.95rem) = 3.65rem */
+  .hero {
+    margin-top: 3.65rem !important;
+  }
+}
