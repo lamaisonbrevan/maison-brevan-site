@@ -3704,3 +3704,71 @@ footer:has(.footer-main-new) .address-group {
     line-height: 1.2 !important;
   }
 }
+
+/* --------------------------------------------------------------------------
+   MOBILE ORIENTATION TUNING (v13)
+   Requests:
+   - On PORTRAIT mobile (<=600px), make the "LA MAISON BREVAN" badge height match
+     the LANDSCAPE look (landscape uses no vertical padding on the pill).
+   - On LANDSCAPE phone screens (<=900px), reduce the bandeau/header height so it
+     matches the portrait mobile header height.
+
+   Desktop is NOT affected.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 600px) {
+  /* Match the landscape pill height: remove vertical padding (keep side padding) */
+  header.site-header .site-title-badge {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+  /* Match the portrait header height by using the same mobile paddings */
+  header.site-header .nav-row {
+    padding-top: 0.6rem !important;
+    padding-bottom: 0.35rem !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  /* Remove the extra down-shift that was used on some small layouts */
+  header.site-header .site-title-badge {
+    margin-top: 0 !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   MOBILE ORIENTATION TUNING (v13)
+   - Portrait (<=600px): match the title pill height to the landscape/tablet look
+     by removing the extra vertical padding.
+   - Landscape (phones <=900px): reduce the header (bandeau) height to match the
+     portrait mobile header height.
+
+   Desktop is not affected.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 600px) {
+  /* The landscape/tablet pill has no vertical padding (height driven by the 2rem logo).
+     On portrait mobile we remove the extra top/bottom padding so the pill height matches. */
+  header.site-header .site-title-badge {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+  /* Match the portrait mobile header height by reducing the nav-row vertical padding. */
+  header.site-header .nav-row {
+    padding-top: 0.6rem !important;
+    padding-bottom: 0.35rem !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  /* Prevent any residual offset pushing the centered badge down. */
+  header.site-header .site-title-badge {
+    margin-top: 0 !important;
+  }
+}
