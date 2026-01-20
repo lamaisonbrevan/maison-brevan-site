@@ -14,6 +14,28 @@
 (() => {
   'use strict';
 
+  // Viewport height helper (iOS Safari 100vh fix)
+  const setVhVar = () => {
+    const h = window.innerHeight || document.documentElement.clientHeight;
+    document.documentElement.style.setProperty('--vh', `${h * 0.01}px`);
+  };
+
+  // Set immediately
+  setVhVar();
+
+  // Update on viewport changes (iOS address bar / orientation)
+  window.addEventListener('resize', setVhVar, { passive: true });
+  window.addEventListener('orientationchange', () => {
+    setVhVar();
+    setTimeout(setVhVar, 150);
+    setTimeout(setVhVar, 500);
+  }, { passive: true });
+  window.addEventListener('pageshow', () => {
+    setVhVar();
+    setTimeout(setVhVar, 50);
+  });
+
+
   // ---------------------------------------------------------------------------
   // Tiny helpers
   // ---------------------------------------------------------------------------
@@ -628,7 +650,7 @@
     if (isHomePath()) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      window.location.href = 'index.html#home';
+      window.location.href = 'index.html';
     }
   };
 
@@ -702,7 +724,9 @@
     // Small delay to let layout settle (images/fonts/etc.)
     setTimeout(() => {
       if (id === 'home') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Use an instant scroll here; smooth scrolling on initial load can trigger
+        // iOS Safari viewport/address-bar adjustments and lead to inconsistent hero sizing.
+        window.scrollTo({ top: 0, behavior: 'auto' });
         return;
       }
 

@@ -3962,3 +3962,110 @@ footer:has(.footer-main-new) .address-group {
     }
   }
 }
+
+/* =========================================================
+   v17 – Room overlay: same controls as Galerie + restore title/CTA
+   ========================================================= */
+
+/* Ensure the room modal keeps the title + "Réserver" button under the photo (mobile included) */
+.room-overlay .overlay-description {
+  display: block !important;
+  background: #fff !important;
+  padding: 1.25rem 1.5rem !important;
+}
+
+/* Keep only the title + CTA in the modal footer (hide long description text) */
+.room-overlay .overlay-description p {
+  display: none !important;
+}
+
+.room-overlay .overlay-description a.room-reserve-btn {
+  display: inline-flex !important;
+  align-items: center;
+}
+
+.room-overlay .overlay-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 1rem !important;
+}
+
+/* Match Galerie close button (black cross) */
+.room-overlay .overlay-close {
+  background: none !important;
+  border: none !important;
+  font-size: 2rem !important;
+  line-height: 1 !important;
+  color: var(--text-color) !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  position: absolute !important;
+  top: 1rem !important;
+  right: 1rem !important;
+  z-index: 6 !important;
+}
+
+.room-overlay .overlay-close:hover {
+  color: var(--accent) !important;
+}
+
+/* Match Galerie arrows */
+.room-overlay .overlay-arrows {
+  position: absolute !important;
+  top: 50% !important;
+  left: 0 !important;
+  width: 100% !important;
+  transform: translateY(-50%) !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  padding: 0 1rem !important;
+  pointer-events: none !important;
+  z-index: 5 !important;
+}
+
+.room-overlay .overlay-arrows button {
+  pointer-events: auto !important;
+  background: rgba(255, 255, 255, 0.7) !important;
+  border: none !important;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 1rem !important;
+  line-height: 1 !important;
+  color: var(--text-color) !important;
+  cursor: pointer !important;
+  transition: background-color 0.2s ease, color 0.2s ease !important;
+}
+
+.room-overlay .overlay-arrows button:hover {
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: var(--accent) !important;
+}
+
+/* Dots: keep them on the photo, at the very bottom */
+.room-overlay .overlay-viewer {
+  position: relative !important;
+}
+
+.room-overlay .overlay-dots {
+  position: absolute !important;
+  bottom: 0.75rem !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 4 !important;
+}
+
+/* =========================================================
+   v17 – iOS Safari 100vh fallback for mobile landscape (no scroll required)
+   ========================================================= */
+@supports not (height: 100svh) {
+  @media (hover: none) and (pointer: coarse) and (orientation: landscape) {
+    .hero {
+      height: calc(var(--vh, 1vh) * 100) !important;
+    }
+  }
+}
