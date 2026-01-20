@@ -3772,3 +3772,86 @@ footer:has(.footer-main-new) .address-group {
     margin-top: 0 !important;
   }
 }
+
+/* --------------------------------------------------------------------------
+   MOBILE HEADER + ROOMS + LANDSCAPE ROOM-HEADER ALIGNMENT (v14)
+
+   Requests (iPhone):
+   - Portrait: "LA MAISON BREVAN" badge, hamburger and flag must be perfectly
+     centered vertically inside the bandeau.
+   - Portrait: hamburger should be better centered between the title badge and
+     the flag.
+   - Portrait: bring "Nos chambres" slightly higher under the hero.
+
+   Request (Landscape phone):
+   - Room header alignment: ensure price stays aligned with the room name
+     (fix observed on "Suite Brévan" where the price drops / misaligns).
+
+   Desktop is NOT affected.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 600px) {
+  /* Keep the SAME total header height as v11 (0.95rem total padding),
+     but distribute it evenly to center the whole row vertically. */
+  header.site-header .nav-row {
+    padding-top: 0.475rem !important;
+    padding-bottom: 0.475rem !important;
+  }
+
+  /* Make the right area fill its grid column so we can truly center the
+     hamburger between the badge and the flag. */
+  header.site-header .nav-right {
+    justify-self: stretch !important;
+    width: 100% !important;
+
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    align-items: center !important;
+
+    gap: 0 !important;
+  }
+
+  /* Hamburger centered in the available space (between badge and flag) */
+  header.site-header .nav-right .hamburger {
+    justify-self: center !important;
+  }
+
+  /* Flag stays pinned to the far right */
+  header.site-header .nav-right .lang-selector {
+    justify-self: end !important;
+  }
+
+  /* "Nos chambres" starts a bit higher under the hero */
+  .rooms-section {
+    padding-top: 2.1rem !important;
+  }
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+  /* Match the portrait mobile header height (and vertical centering) */
+  header.site-header .nav-row {
+    padding-top: 0.475rem !important;
+    padding-bottom: 0.475rem !important;
+  }
+
+  /* Fix room header alignment in landscape (Suite Brévan case).
+     Using grid avoids wrap/baseline quirks and keeps the price aligned
+     with the room name even if the title wraps. */
+  .room-header {
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    align-items: start !important;
+    column-gap: 0.75rem !important;
+    row-gap: 0.35rem !important;
+  }
+
+  .room-header h3 {
+    min-width: 0 !important;
+  }
+
+  .room-header .price-tag {
+    margin-left: 0 !important;
+    justify-self: end !important;
+    align-self: start !important;
+  }
+}
