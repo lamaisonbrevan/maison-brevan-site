@@ -3855,3 +3855,110 @@ footer:has(.footer-main-new) .address-group {
     align-self: start !important;
   }
 }
+
+/* -------------------------------------------------------------------------- */
+/* v16 – Room overlay: make controls match Gallery + keep dots on the photo     */
+/* -------------------------------------------------------------------------- */
+
+/* Positioning context so arrows/dots are anchored to the photo area */
+.room-overlay .overlay-viewer {
+  position: relative;
+}
+
+/* Match Gallery close button style */
+.room-overlay .overlay-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-color);
+  padding: 0.2rem;
+  z-index: 5;
+  transition: color 0.2s;
+}
+
+.room-overlay .overlay-close:hover {
+  color: var(--accent);
+}
+
+/* Match Gallery arrows style */
+.room-overlay .overlay-arrows {
+  left: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+.room-overlay .overlay-arrows button {
+  pointer-events: auto;
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  padding: 0;
+}
+
+.room-overlay .overlay-arrows button:hover {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--accent);
+}
+
+/* Dots anchored to the bottom of the photo (like Gallery) */
+.room-overlay .overlay-dots {
+  bottom: 12px;
+  right: 12px;
+  left: auto;
+  transform: none;
+  display: flex;
+  gap: 6px;
+  z-index: 5;
+}
+
+.room-overlay .overlay-dots button {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.room-overlay .overlay-dots button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* -------------------------------------------------------------------------- */
+/* v16 – Hero (mobile landscape): avoid scroll + keep social icons fully visible */
+/* -------------------------------------------------------------------------- */
+
+@media (hover: none) and (pointer: coarse) and (orientation: landscape) {
+  /* Prevent extra vertical overflow in iOS landscape.
+     In landscape we prefer a full-viewport hero (header overlays it). */
+  .hero {
+    margin-top: 0 !important;
+  }
+
+  /* iOS notch safe-area: keep the social icons fully visible */
+  .hero .social-icons {
+    right: calc(1rem + env(safe-area-inset-right));
+    bottom: calc(1rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* Use the new viewport units when available to prevent iOS 100vh overscroll */
+@supports (height: 100svh) {
+  @media (hover: none) and (pointer: coarse) and (orientation: landscape) {
+    .hero {
+      height: 100svh;
+    }
+  }
+}

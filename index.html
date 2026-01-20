@@ -413,21 +413,21 @@
         <div aria-hidden="true" class="room-overlay" id="roomOverlay">
           <div class="overlay-content">
             <button aria-label="Fermer" class="overlay-close">×</button>
-            <!-- Slider container.  Images will be injected dynamically via script.js. -->
-            <div class="overlay-slider" id="overlaySlider">
-              <!-- Images will be injected dynamically via script.js -->
+            <!-- Media viewer (slider + arrows + dots). This wrapper is the positioning
+                 context so dots stay at the bottom of the photo (not in the text area). -->
+            <div class="overlay-viewer">
+              <!-- Slider container. Images will be injected dynamically via script.js. -->
+              <div class="overlay-slider" id="overlaySlider">
+                <!-- Images will be injected dynamically via script.js -->
+              </div>
+              <!-- Navigation arrows flank the slider to allow moving between photos. -->
+              <div class="overlay-arrows">
+                <button aria-label="Précédent" class="overlay-prev">‹</button>
+                <button aria-label="Suivant" class="overlay-next">›</button>
+              </div>
+              <!-- Dot navigation (generated dynamically in script.js) -->
+              <div class="overlay-dots" id="overlayDots"></div>
             </div>
-            <!-- Navigation arrows flank the slider to allow moving between photos, just
-                 like in the gallery overlay.  These buttons are positioned on top of
-                 the image and will be wired up in script.js. -->
-            <div class="overlay-arrows">
-              <button aria-label="Précédent" class="overlay-prev">‹</button>
-              <button aria-label="Suivant" class="overlay-next">›</button>
-            </div>
-            <!-- Dot navigation is still used for room photo navigation.  The dots
-                 will be generated dynamically in script.js and overlaid on the
-                 bottom right of the image via CSS positioning. -->
-            <div class="overlay-dots" id="overlayDots"></div>
 
             <!-- Watermark element for full-photo mode.  This element remains hidden until the
                  user enters the full-photo view by clicking on an image.  It displays the
