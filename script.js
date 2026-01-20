@@ -66,6 +66,170 @@
 
   const useNativeCarousels = () => isCoarsePointer() && isSmallScreen();
 
+
+  // ---------------------------------------------------------------------------
+  // Carousel image warmup + infinite loop (native scroll-snap mode)
+  //
+  // Why:
+  // - On iOS/Safari, images marked as loading="lazy" inside a horizontal
+  //   scroll container often load only when the user starts swiping.
+  //   That causes a janky *first* swipe, then becomes smooth once images are in cache.
+  // - Also, native scroll-snap carousels do not loop by default.
+  //
+  // What we do:
+  // - Warm up (preload + decode) the carousel images shortly before the user interacts.
+  // - Add an optional "infinite" loop by jumping from last->first (and first->last)
+  //   when the user swipes past the edge.
+  // ---------------------------------------------------------------------------
+
+  const _preloadedSrc = new Set();
+
+  /** @param {string} src */
+  const preloadSrc = (src) => {
+    if (!src || _preloadedSrc.has(src)) return;
+    _preloadedSrc.add(src);
+    const img = new Image();
+    img.decoding = 'async';
+    img.src = src;
+  };
+
+  /**
+   * Ensure carousel images are fetched and decoded ahead of the first swipe.
+   *
+   * @param {Element|null} keyEl Used as a cache key (warmup happens once per key unless force=true)
+   * @param {Iterable<HTMLImageElement>|Array<HTMLImageElement>} imgs
+   * @param {{ force?: boolean }} opts
+   */
+  const warmUpCarouselImages = (keyEl, imgs, opts = {}) => {
+    const force = !!(opts && opts.force);
+
+    if (!force) {
+      // Cache per-element so we do the network work only once per carousel.
+      if (!warmUpCarouselImages._done) warmUpCarouselImages._done = new WeakSet();
+      const done = warmUpCarouselImages._done;
+      if (keyEl && done.has(keyEl)) return;
+      if (keyEl) done.add(keyEl);
+    }
+
+    const list = Array.from(imgs || []).filter(Boolean);
+    if (!list.length) return;
+
+    list.forEach((imgEl, i) => {
+      // Decode asynchronously to reduce main-thread stalls.
+      try {
+        imgEl.decoding = 'async';
+      } catch (_) {
+        // ignore
+      }
+
+      // Force eager loading so offscreen horizontal slides fetch before swiping.
+      try {
+        imgEl.loading = 'eager';
+      } catch (_) {
+        imgEl.setAttribute('loading', 'eager');
+      }
+
+      // Hint: prioritize the first slide.
+      if (i == 0) {
+        try {
+          if ('fetchPriority' in imgEl) imgEl.fetchPriority = 'high';
+        } catch (_) {
+          // ignore
+        }
+      }
+
+      const src = imgEl.currentSrc || imgEl.src;
+      preloadSrc(src);
+
+      // Decode in background to avoid decode jank on the first swipe.
+      const decode = () => {
+        if (typeof imgEl.decode === 'function') {
+          imgEl.decode().catch(() => {});
+        }
+      };
+
+      if (imgEl.complete) decode();
+      else imgEl.addEventListener('load', decode, { once: true });
+    });
+  };
+
+  /**
+   * Add an "infinite loop" for native scroll-snap carousels.
+   * When the swipe starts on the last slide and the user swipes forward again,
+   * jump to the first slide (and vice-versa).
+   *
+   * @param {Element|null} el
+   * @param {() => number} getIndex
+   * @param {() => number} getCount
+   * @param {(idx: number) => void} jumpTo
+   */
+
+  const installInfiniteLoopSwipe = (el, getIndex, getCount, jumpTo) => {
+    if (!el) return;
+
+    // Install only once per element.
+    if (!installInfiniteLoopSwipe._done) installInfiniteLoopSwipe._done = new WeakSet();
+    const done = installInfiniteLoopSwipe._done;
+    if (done.has(el)) return;
+    done.add(el);
+
+    let startX = 0;
+    let startY = 0;
+    let startIndex = 0;
+    let startTime = 0;
+    let tracking = false;
+
+    on(el, 'touchstart', (ev) => {
+      const t = ev.touches && ev.touches[0];
+      if (!t) return;
+      tracking = true;
+      startX = t.clientX;
+      startY = t.clientY;
+      startIndex = Number(getIndex()) || 0;
+      startTime = Date.now();
+    }, { passive: true });
+
+    const end = (ev) => {
+      if (!tracking) return;
+      tracking = false;
+
+      const t = (ev.changedTouches && ev.changedTouches[0]) || null;
+      if (!t) return;
+
+      const count = Number(getCount()) || 0;
+      if (count < 2) return;
+
+      const dx = t.clientX - startX;
+      const dy = t.clientY - startY;
+
+      const absX = Math.abs(dx);
+      const absY = Math.abs(dy);
+
+      // Horizontal intent only.
+      if (absX < absY) return;
+
+      const width = el.clientWidth || 1;
+      const elapsed = Math.max(1, Date.now() - startTime);
+      const velocity = dx / elapsed; // px/ms
+
+      // Distance OR velocity (fast flick) should trigger the loop.
+      const distanceThreshold = Math.max(36, width * 0.16);
+      const velocityThreshold = 0.45;
+
+      if (absX < distanceThreshold && Math.abs(velocity) < velocityThreshold) return;
+
+      // If the swipe started on an edge slide, loop.
+      if (startIndex === count - 1 && dx < 0) {
+        jumpTo(0);
+      } else if (startIndex === 0 && dx > 0) {
+        jumpTo(count - 1);
+      }
+    };
+
+    on(el, 'touchend', end, { passive: true });
+    on(el, 'touchcancel', () => { tracking = false; }, { passive: true });
+  };
+
   // ---------------------------------------------------------------------------
   // Swipe utility (exported globally for other scripts)
   // ---------------------------------------------------------------------------
@@ -700,6 +864,32 @@
       }
     };
 
+
+    // Preload room carousel images *before* the first swipe (native mobile mode)
+    // so the first swipe is as fluid as the following ones.
+    let roomPreloadObserver = null;
+    if (native && 'IntersectionObserver' in window) {
+      roomPreloadObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const cardEl = entry.target;
+            const sliderEl = cardEl.querySelector('.room-slider');
+            if (sliderEl) {
+              warmUpCarouselImages(sliderEl, sliderEl.querySelectorAll('img'));
+            }
+            roomPreloadObserver.unobserve(cardEl);
+          });
+        },
+        {
+          // Start preloading well before the section reaches the viewport.
+          // This gives iOS enough time to fetch+decode the next slides.
+          rootMargin: '1400px 0px',
+          threshold: 0.01
+        }
+      );
+    }
+
     // Touch drag flag to avoid opening the overlay when the user swipes
     const installDragFlag = (el) => {
       if (!el) return;
@@ -787,6 +977,20 @@
         });
 
         installDragFlag(slider);
+
+        // Warm up images when the carousel is close to the viewport.
+        if (roomPreloadObserver) roomPreloadObserver.observe(card);
+
+        // Fallback: warm up on first touch (in case IntersectionObserver is unavailable).
+        on(slider, 'touchstart', () => warmUpCarouselImages(slider, images), { passive: true });
+
+        // Infinite loop: when swiping past the last slide, jump back to the first (and vice-versa).
+        installInfiniteLoopSwipe(
+          slider,
+          () => index,
+          () => images.length,
+          (idx) => scrollToIndex(idx, 'auto')
+        );
 
         // Start on the first slide without animation
         scrollToIndex(0, 'auto');
@@ -1044,6 +1248,16 @@
       }, { passive: true });
     }
 
+    // Infinite loop on swipe (native scroll-snap mode)
+    if (native) {
+      installInfiniteLoopSwipe(
+        overlaySlider,
+        () => current,
+        () => images.length,
+        (idx) => scrollToIndex(idx, 'auto')
+      );
+    }
+
     const open = (card) => {
       // Build image list from the card
       images = Array.from(card.querySelectorAll('.room-slider img')).map((img) => ({
@@ -1062,6 +1276,9 @@
         if (idx === 0) el.classList.add('active');
         overlaySlider.appendChild(el);
       });
+
+      // Warm up images immediately so the *first* swipe is fluid too (mobile)
+      if (native) warmUpCarouselImages(overlaySlider, getOverlayImgs(), { force: true });
 
       // Title
       const titleEl = card.querySelector('h3');
