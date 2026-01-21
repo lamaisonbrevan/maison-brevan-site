@@ -90,6 +90,121 @@
 
 
   // ---------------------------------------------------------------------------
+  // Scroll helpers
+  //
+  // Note: the site sets `html { scroll-behavior: smooth; }`.
+  // On iOS/Safari, that can make programmatic "jumps" animate even when we
+  // request `behavior: 'auto'`. For seamless looping we need *true* instant
+  // jumps, so we temporarily override the inline scroll-behavior.
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Scroll an element horizontally.
+   * @param {HTMLElement} el
+   * @param {number} left
+   * @param {'auto'|'smooth'} behavior
+   */
+  const scrollXTo = (el, left, behavior = 'auto') => {
+    if (!el) return;
+    const wantSmooth = behavior === 'smooth';
+
+    // Force a *true* jump, regardless of `scroll-behavior: smooth` on <html>
+    if (!wantSmooth) {
+      const prev = el.style.scrollBehavior;
+      el.style.scrollBehavior = 'auto';
+      el.scrollLeft = left;
+      requestAnimationFrame(() => {
+        el.style.scrollBehavior = prev;
+      });
+      return;
+    }
+
+    try {
+      el.scrollTo({ left, behavior: 'smooth' });
+    } catch (_) {
+      el.scrollLeft = left;
+    }
+  };
+
+
+  // ---------------------------------------------------------------------------
+  // Seamless infinite loop for scroll-snap carousels
+  //
+  // Technique:
+  // - Clone last slide to the beginning and first slide to the end.
+  // - Start on the first *real* slide (index 1).
+  // - When the user snaps onto a clone, instantly jump to the matching real
+  //   slide. Because clone and real are identical, the user perceives no jump.
+  // ---------------------------------------------------------------------------
+
+  /**
+   * @param {HTMLElement} slider
+   * @param {string} slideSelector
+   */
+  const ensureSeamlessLoopClones = (slider, slideSelector = 'img') => {
+    if (!slider) return null;
+
+    // If already initialised, return config.
+    if (slider.dataset.seamlessLoop === '1') {
+      const realCount = parseInt(slider.dataset.seamlessRealCount || '0', 10) || 0;
+      if (!realCount) return null;
+      return {
+        realCount,
+        startRaw: 1,
+        endRaw: realCount,
+        toRaw: (realIdx) => realIdx + 1,
+        toReal: (rawIdx) => {
+          if (rawIdx === 0) return realCount - 1;
+          if (rawIdx === realCount + 1) return 0;
+          return rawIdx - 1;
+        }
+      };
+    }
+
+    const realSlides = Array.from(slider.querySelectorAll(slideSelector)).filter((el) => !el.dataset.clone);
+    const realCount = realSlides.length;
+
+    if (realCount < 2) return null;
+
+    const first = realSlides[0];
+    const last = realSlides[realCount - 1];
+
+    const firstClone = first.cloneNode(true);
+    const lastClone = last.cloneNode(true);
+    firstClone.dataset.clone = '1';
+    lastClone.dataset.clone = '1';
+
+    // Clones should not carry state/animation classes.
+    ['active', 'slide-in-right', 'slide-in-left', 'slide-out-left', 'slide-out-right'].forEach((c) => {
+      firstClone.classList.remove(c);
+      lastClone.classList.remove(c);
+    });
+
+    // Clones must be ready by the time we reach the edge.
+    firstClone.loading = 'eager';
+    lastClone.loading = 'eager';
+
+    slider.insertBefore(lastClone, first);
+    slider.appendChild(firstClone);
+
+    slider.dataset.seamlessLoop = '1';
+    slider.dataset.seamlessRealCount = String(realCount);
+
+    return {
+      realCount,
+      startRaw: 1,
+      endRaw: realCount,
+      toRaw: (realIdx) => realIdx + 1,
+      toReal: (rawIdx) => {
+        if (rawIdx === 0) return realCount - 1;
+        if (rawIdx === realCount + 1) return 0;
+        return rawIdx - 1;
+      }
+    };
+  };
+
+
+  // ---------------------------------------------------------------------------
   // Carousel image warmup + infinite loop (native scroll-snap mode)
   //
   // Why:
@@ -773,6 +888,102 @@
     const hero = qs('.hero');
     if (!hero) return;
 
+    // ---------------------------------------------------------------
+    // Mobile (touch) hero: use the same native scroll-snap swipe as
+    // the room & gallery carousels for maximum smoothness.
+    // ---------------------------------------------------------------
+    if (useNativeCarousels()) {
+      // Wrap hero images into a dedicated scroll container, so overlays/icons
+      // can stay fixed while the images swipe underneath.
+      let slider = hero.querySelector('.hero-slider');
+      if (!slider) {
+        slider = document.createElement('div');
+        slider.className = 'hero-slider';
+
+        // Only move the direct child images of the hero.
+        const directImgs = Array.from(hero.querySelectorAll(':scope > img'));
+        directImgs.forEach((img) => slider.appendChild(img));
+        hero.insertBefore(slider, hero.firstChild);
+      }
+
+      const realSlides = Array.from(slider.querySelectorAll('img')).filter((img) => !img.dataset.clone);
+      if (realSlides.length === 0) return;
+
+      // Keep one image marked as active as a safe fallback if breakpoints change.
+      realSlides.forEach((img, i) => img.classList.toggle('active', i === 0));
+
+      const dots = Array.from(hero.querySelectorAll('.dots button'));
+      let current = 0;
+
+      const setActive = (i) => {
+        const idx = Math.max(0, Math.min(realSlides.length - 1, i));
+        realSlides.forEach((img, sIdx) => img.classList.toggle('active', sIdx === idx));
+        dots.forEach((btn, dIdx) => btn.classList.toggle('active', dIdx === idx));
+        current = idx;
+      };
+
+      // Warm up a few hero images so the first swipes feel instant.
+      warmUpCarouselImages(slider, realSlides.slice(0, Math.min(3, realSlides.length)), { force: true });
+
+      const loop = ensureSeamlessLoopClones(slider, 'img');
+
+      const getW = () => slider.clientWidth || 1;
+
+      const scrollToReal = (i, behavior = 'smooth') => {
+        const w = getW();
+        const raw = loop ? loop.toRaw(i) : i;
+        scrollXTo(slider, raw * w, behavior === 'smooth' ? 'smooth' : 'auto');
+        setActive(i);
+      };
+
+      // Sync active state while swiping + normalize at the edges for a seamless loop.
+      let raf = 0;
+      let endTimer = 0;
+
+      const normalizeIfNeeded = () => {
+        if (!loop || loop.realCount < 2) return;
+        const w = getW();
+        const raw = Math.round(slider.scrollLeft / w);
+        if (raw === 0) {
+          scrollXTo(slider, loop.endRaw * w, 'auto');
+        } else if (raw === loop.endRaw + 1) {
+          scrollXTo(slider, loop.startRaw * w, 'auto');
+        }
+      };
+
+      const scheduleNormalize = () => {
+        if (!loop || loop.realCount < 2) return;
+        clearTimeout(endTimer);
+        endTimer = setTimeout(normalizeIfNeeded, 80);
+      };
+
+      on(slider, 'scroll', () => {
+        scheduleNormalize();
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          raf = 0;
+          const w = getW();
+          const raw = Math.round(slider.scrollLeft / w);
+          const idx = loop ? loop.toReal(raw) : raw;
+          if (idx !== current) setActive(idx);
+        });
+      }, { passive: true });
+
+      dots.forEach((btn, i) => {
+        on(btn, 'click', (ev) => {
+          ev.preventDefault();
+          scrollToReal(i, 'smooth');
+        });
+      });
+
+      requestAnimationFrame(() => {
+        scrollToReal(0, 'auto');
+        setActive(0);
+      });
+
+      return;
+    }
+
     const slides = Array.from(hero.querySelectorAll('img'));
     if (slides.length === 0) return;
 
@@ -879,15 +1090,6 @@
 
     const native = useNativeCarousels();
 
-    const safeScrollTo = (el, left, behavior) => {
-      if (!el) return;
-      try {
-        el.scrollTo({ left, behavior });
-      } catch (_) {
-        el.scrollLeft = left;
-      }
-    };
-
 
     // Preload room carousel images *before* the first swipe (native mobile mode)
     // so the first swipe is as fluid as the following ones.
@@ -900,7 +1102,10 @@
             const cardEl = entry.target;
             const sliderEl = cardEl.querySelector('.room-slider');
             if (sliderEl) {
-              warmUpCarouselImages(sliderEl, sliderEl.querySelectorAll('img'));
+              warmUpCarouselImages(
+                sliderEl,
+                sliderEl.querySelectorAll('img:not([data-clone="1"])')
+              );
             }
             roomPreloadObserver.unobserve(cardEl);
           });
@@ -966,6 +1171,8 @@
       // Native (Instagram-like) mode on touch mobiles: use scroll-snap + scrollLeft
       // ------------------------------------------------------------------
       if (native) {
+        const loop = ensureSeamlessLoopClones(slider, 'img');
+
         let index = 0;
 
         const setActiveDot = (i) => {
@@ -973,20 +1180,46 @@
           index = i;
         };
 
+        const getW = () => slider.clientWidth || imgContainer.offsetWidth || 1;
+
         const scrollToIndex = (i, behavior = 'smooth') => {
-          const w = slider.clientWidth || imgContainer.offsetWidth || 1;
-          safeScrollTo(slider, i * w, behavior);
+          const w = getW();
+          const rawIdx = loop ? loop.toRaw(i) : i;
+          scrollXTo(slider, rawIdx * w, behavior === 'smooth' ? 'smooth' : 'auto');
           setActiveDot(i);
         };
 
         // rAF-throttled scroll handler (keeps dots synced while swiping)
         let raf = 0;
+        let endTimer = 0;
+
+        const normalizeIfNeeded = () => {
+          if (!loop) return;
+          const w = getW();
+          const raw = Math.round(slider.scrollLeft / w);
+
+          // If we snapped onto a clone, jump to the matching real slide (instant).
+          if (raw === 0) {
+            scrollXTo(slider, loop.endRaw * w, 'auto');
+          } else if (raw === loop.endRaw + 1) {
+            scrollXTo(slider, loop.startRaw * w, 'auto');
+          }
+        };
+
+        const scheduleNormalize = () => {
+          if (!loop) return;
+          clearTimeout(endTimer);
+          endTimer = setTimeout(normalizeIfNeeded, 80);
+        };
+
         const onScroll = () => {
+          scheduleNormalize();
           if (raf) return;
           raf = requestAnimationFrame(() => {
             raf = 0;
-            const w = slider.clientWidth || imgContainer.offsetWidth || 1;
-            const newIndex = Math.round(slider.scrollLeft / w);
+            const w = getW();
+            const raw = Math.round(slider.scrollLeft / w);
+            const newIndex = loop ? loop.toReal(raw) : raw;
             if (newIndex !== index) setActiveDot(newIndex);
           });
         };
@@ -1008,17 +1241,11 @@
         // Fallback: warm up on first touch (in case IntersectionObserver is unavailable).
         on(slider, 'touchstart', () => warmUpCarouselImages(slider, images), { passive: true });
 
-        // Infinite loop: when swiping past the last slide, jump back to the first (and vice-versa).
-        installInfiniteLoopSwipe(
-          slider,
-          () => index,
-          () => images.length,
-          (idx) => scrollToIndex(idx, 'auto')
-        );
-
-        // Start on the first slide without animation
-        scrollToIndex(0, 'auto');
-        setActiveDot(0);
+        // Start on the first *real* slide without animation
+        requestAnimationFrame(() => {
+          scrollToIndex(0, 'auto');
+          setActiveDot(0);
+        });
         return;
       }
 
@@ -1140,14 +1367,7 @@
 
     const native = useNativeCarousels();
 
-    const safeScrollTo = (el, left, behavior) => {
-      if (!el) return;
-      try {
-        el.scrollTo({ left, behavior });
-      } catch (_) {
-        el.scrollLeft = left;
-      }
-    };
+    // (use global scrollXTo)
 
     // Prevent accidental "tap" actions right after a swipe
     const installDragFlag = (el) => {
@@ -1192,24 +1412,44 @@
     if (native) installDragFlag(overlaySlider);
 
     let images = [];
+    let realCount = 0;
+    let loop = null;
     let current = 0;
 
     const getOverlayImgs = () => overlaySlider.querySelectorAll('img');
 
+    const clampIndex = (i) => {
+      if (!realCount) return 0;
+      return ((i % realCount) + realCount) % realCount;
+    };
+
     const updateActive = (i) => {
-      const imgs = Array.from(getOverlayImgs());
-      imgs.forEach((img, idx) => img.classList.toggle('active', idx === i));
+      const idx = clampIndex(i);
+
+      // Only required in non-native mode (desktop animation uses .active)
+      if (!native) {
+        const imgs = Array.from(getOverlayImgs());
+        imgs.forEach((img, sIdx) => img.classList.toggle('active', sIdx === idx));
+      }
 
       const dots = Array.from(overlayDots.querySelectorAll('button'));
-      dots.forEach((btn, idx) => btn.classList.toggle('active', idx === i));
+      dots.forEach((btn, dIdx) => btn.classList.toggle('active', dIdx === idx));
 
-      current = i;
+      current = idx;
+    };
+
+    const getW = () => overlaySlider.clientWidth || 1;
+
+    const scrollToRaw = (rawIdx, behavior = 'smooth') => {
+      const w = getW();
+      scrollXTo(overlaySlider, rawIdx * w, behavior === 'smooth' ? 'smooth' : 'auto');
     };
 
     const scrollToIndex = (idx, behavior = 'smooth') => {
-      const w = overlaySlider.clientWidth || 1;
-      safeScrollTo(overlaySlider, idx * w, behavior);
-      updateActive(idx);
+      const target = clampIndex(idx);
+      const rawIdx = loop ? loop.toRaw(target) : target;
+      scrollToRaw(rawIdx, behavior);
+      updateActive(target);
     };
 
     // Desktop animation (kept for non-touch / non-native mode)
@@ -1248,49 +1488,88 @@
     };
 
     const goTo = (idx, direction = +1) => {
-      if (images.length < 2) return;
-      if (idx === current) return;
+      if (realCount < 2) return;
 
       if (native) {
-        scrollToIndex(idx, 'smooth');
-      } else {
-        animateTo(idx, direction);
+        const target = clampIndex(idx);
+
+        // Wrap without visible rewind: go to the clone in the swipe direction,
+        // then normalize to the corresponding real slide.
+        if (loop && loop.realCount > 1) {
+          if (direction > 0 && current === realCount - 1 && target === 0) {
+            scrollToRaw(loop.endRaw + 1, 'smooth');
+            return;
+          }
+          if (direction < 0 && current === 0 && target === realCount - 1) {
+            scrollToRaw(0, 'smooth');
+            return;
+          }
+        }
+
+        scrollToIndex(target, 'smooth');
+        return;
       }
+
+      // Desktop animation
+      if (idx === current) return;
+      animateTo(idx, direction);
     };
 
-    // Native mode: keep dots synced while the user swipes (scroll-snap).
+    // Native mode: keep dots synced while the user swipes (scroll-snap)
+    // + normalize clone positions for a seamless loop.
     if (native) {
       let raf = 0;
+      let endTimer = 0;
+
+      const normalizeIfNeeded = () => {
+        if (!loop || loop.realCount < 2) return;
+        const w = getW();
+        const raw = Math.round(overlaySlider.scrollLeft / w);
+        if (raw === 0) {
+          scrollToRaw(loop.endRaw, 'auto');
+        } else if (raw === loop.endRaw + 1) {
+          scrollToRaw(loop.startRaw, 'auto');
+        }
+      };
+
+      const scheduleNormalize = () => {
+        if (!loop || loop.realCount < 2) return;
+        clearTimeout(endTimer);
+        endTimer = setTimeout(normalizeIfNeeded, 80);
+      };
+
       on(overlaySlider, 'scroll', () => {
+        scheduleNormalize();
         if (raf) return;
         raf = requestAnimationFrame(() => {
           raf = 0;
-          const w = overlaySlider.clientWidth || 1;
-          const idx = Math.round(overlaySlider.scrollLeft / w);
+          const w = getW();
+          const raw = Math.round(overlaySlider.scrollLeft / w);
+          const idx = loop ? loop.toReal(raw) : raw;
           if (idx !== current) updateActive(idx);
         });
       }, { passive: true });
     }
 
-    // Infinite loop on swipe (native scroll-snap mode)
-    if (native) {
-      installInfiniteLoopSwipe(
-        overlaySlider,
-        () => current,
-        () => images.length,
-        (idx) => scrollToIndex(idx, 'auto')
-      );
-    }
-
     const open = (card) => {
       // Build image list from the card
-      images = Array.from(card.querySelectorAll('.room-slider img')).map((img) => ({
+      images = Array.from(card.querySelectorAll('.room-slider img'))
+        // Ignore loop clones (if the card carousel is in seamless-loop mode)
+        .filter((img) => !img.dataset.clone)
+        .map((img) => ({
         src: img.src,
         alt: img.alt || ''
       }));
 
+      realCount = images.length;
+      loop = null;
+      current = 0;
+
       // Render slides
       overlaySlider.innerHTML = '';
+      // Overlay is rebuilt each time → reset loop flags
+      delete overlaySlider.dataset.seamlessLoop;
+      delete overlaySlider.dataset.seamlessRealCount;
       images.forEach((data, idx) => {
         const el = document.createElement('img');
         el.src = data.src;
@@ -1303,6 +1582,10 @@
 
       // Warm up images immediately so the *first* swipe is fluid too (mobile)
       if (native) warmUpCarouselImages(overlaySlider, getOverlayImgs(), { force: true });
+
+      // Seamless infinite loop (native mobile mode): clone the edges.
+      // This removes the visible "rewind" when moving from last → first.
+      if (native) loop = ensureSeamlessLoopClones(overlaySlider, 'img');
 
       // Title
       const titleEl = card.querySelector('h3');
