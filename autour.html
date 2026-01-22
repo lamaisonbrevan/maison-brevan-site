@@ -18,9 +18,8 @@
   <script defer src="script.js"></script>
   <!-- Page transition effects -->
   <script defer src="transition.js"></script>
+  <link rel="icon" href="assets/images/logo-symbol.png" />
   <link rel="icon" href="favicon.ico" sizes="any"/>
-  <link rel="icon" type="image/png" href="assets/images/logo-symbol.png"/>
-  <link rel="apple-touch-icon" href="assets/images/logo-symbol.png"/>
   <!-- Open Graph and Twitter metadata for social sharing -->
   <meta property="og:title" content="La Maison Brevan – Autour de la Maison" />
   <meta property="og:description" content="Découvrez la région autour de La Maison Brévan : nature, plages et villages du Finistère." />
@@ -60,7 +59,7 @@
 }
 </script>
 </head>
-<body class="around-page debug-show-hamburger">
+<body class="around-page">
   <!-- Site header with navigation and language selector -->
 <header class="site-header">
   <!-- Removed hidden checkbox.  Mobile navigation is now controlled via
@@ -74,7 +73,7 @@
         <a href="index.html#contact" data-i18n="nav.contact">contact</a>
       </div>
       <!-- Badge linking back to the home page.  Inserted between the left and right nav sections so it stays centred on mobile. -->
-      <a class="site-title-badge" href="index.html" onclick="scrollToTop(event)">
+      <a class="site-title-badge" href="index.html#home" onclick="scrollToTop(event)">
         <img class="logo-symbol" src="assets/images/logo-symbol.png" alt="Logo Maison Brevan" decoding="async" loading="lazy" />
         <span>LA MAISON BREVAN</span>
       </a>
@@ -476,6 +475,8 @@
        via the `file://` protocol or in older browsers. -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // Only run this fallback when IntersectionObserver is not available.
+      if ('IntersectionObserver' in window) return;
       // Fallback scroll reveal for local testing and browsers without IntersectionObserver.
       // Unlike the original implementation, this version toggles the `in-view` class both
       // when elements enter and leave the viewport so animations can be replayed when
@@ -497,7 +498,7 @@
       }
       // Reveal items that are visible on load
       reveal();
-      window.addEventListener('scroll', reveal);
+      window.addEventListener('scroll', reveal, { passive: true });
       window.addEventListener('resize', reveal);
     });
   </script>
