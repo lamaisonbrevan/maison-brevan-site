@@ -650,7 +650,7 @@
     if (isHomePath()) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      window.location.href = 'index.html';
+      window.location.href = '/';
     }
   };
 
